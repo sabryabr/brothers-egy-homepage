@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brothers EGY — Egypt, on Your Own Terms | Private Car Hire Since 2007</title>
+<meta name="description" content="A family-run Egyptian car rental, trusted since 2007. Chauffeur delivery, zero deposit, pay on arrival. Hurghada · Cairo · Alexandria · Rosetta.">
+<link rel="icon" href="https://brothersegy.com/wp-content/uploads/2026/02/12345.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ======================================================================
+   BROTHERS EGY — CONCEPT A · "EDITORIAL DESERT LUXURY"
+   Light-first, warm sand/ivory palette, Nile-teal accent, gold hairlines.
+   Fraunces (display serif) + Outfit (sans body). Single self-contained file.
+   ====================================================================== */
+:root{
+  --ivory:#f6f1e7;      /* page base */
+  --sand:#e8dcc8;       /* warm panels */
+  --sand-deep:#ddceb3;  /* deeper sand */
+  --paper:#fffdf8;      /* cards */
+  --ink:#1a1a1a;        /* primary text */
+  --ink-soft:#4b453b;   /* secondary text */
+  --muted:#8a8172;      /* tertiary text */
+  --teal:#0e7c7b;       /* THE accent (Nile teal) */
+  --teal-deep:#0a5f5e;
+  --teal-wash:rgba(14,124,123,.08);
+  --gold:#b8933f;       /* gold hairline / luxury detail */
+  --gold-soft:rgba(184,147,63,.35);
+  --line:rgba(26,26,26,.12);
+  --line-soft:rgba(26,26,26,.07);
+  --wa:#1d8a4e;
+  --shadow-sm:0 1px 3px rgba(40,30,15,.06),0 6px 20px rgba(40,30,15,.06);
+  --shadow-md:0 10px 40px rgba(40,30,15,.10),0 2px 8px rgba(40,30,15,.05);
+  --shadow-lg:0 24px 70px rgba(40,30,15,.16);
+  --r:16px;--r-lg:24px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden;background:var(--ivory)}
+body{font-family:'Outfit',system-ui,sans-serif;background:var(--ivory);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+img{max-width:100%;height:auto;display:block}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font-family:inherit;font-size:inherit}
+::selection{background:var(--teal);color:#fff}
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:var(--sand)}
+::-webkit-scrollbar-thumb{background:var(--teal);border-radius:5px}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px;border-radius:4px}
+
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-.01em}
+.wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 clamp(1.1rem,4vw,2.6rem)}
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--teal)}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--gold)}
+.gold-rule{height:1px;background:linear-gradient(90deg,transparent,var(--gold-soft) 20%,var(--gold-soft) 80%,transparent)}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;border:none;cursor:pointer;font-weight:600;letter-spacing:.02em;border-radius:50px;padding:.92rem 1.7rem;font-size:.92rem;transition:transform .25s,box-shadow .25s,background .25s,color .25s;white-space:nowrap}
+.btn-primary{background:var(--teal);color:#fff;box-shadow:0 6px 20px rgba(14,124,123,.28)}
+.btn-primary:hover{background:var(--teal-deep);transform:translateY(-2px);box-shadow:0 12px 30px rgba(14,124,123,.36)}
+.btn-ink{background:var(--ink);color:var(--ivory)}
+.btn-ink:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(29,138,78,.4)}
+.btn-sm{padding:.62rem 1.15rem;font-size:.82rem}
+.link-u{color:var(--teal);font-weight:600;border-bottom:1px solid var(--gold-soft);padding-bottom:1px;transition:border-color .25s}
+.link-u:hover{border-color:var(--teal)}
+
+/* ── NAV ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem clamp(1.1rem,4vw,2.6rem);transition:padding .3s,background .3s,box-shadow .3s,border-color .3s;border-bottom:1px solid transparent}
+#nav.scrolled{background:rgba(246,241,231,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 2px 24px rgba(40,30,15,.07);border-bottom-color:var(--line-soft);padding-top:.75rem;padding-bottom:.75rem}
+.nav-logo{display:flex;align-items:center;gap:.6rem}
+.nav-logo img{height:38px;width:auto}
+.nav-logo b{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;letter-spacing:-.01em}
+.nav-logo b span{color:var(--teal)}
+.nav-links{display:flex;gap:.3rem;align-items:center}
+.nav-links a{color:var(--ink-soft);font-size:.86rem;font-weight:500;padding:.5rem .85rem;border-radius:50px;transition:color .25s,background .25s}
+.nav-links a:hover{color:var(--teal);background:var(--teal-wash)}
+.nav-right{display:flex;align-items:center;gap:.6rem}
+.curr-sw{display:flex;background:var(--paper);border:1px solid var(--line);border-radius:50px;padding:3px}
+.curr-btn{background:none;border:none;color:var(--muted);font-size:.74rem;font-weight:600;padding:.3rem .62rem;border-radius:50px;cursor:pointer;transition:.25s}
+.curr-btn.active{background:var(--teal);color:#fff}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.4rem}
+.hamburger span{display:block;width:24px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+#mobile-menu{position:fixed;inset:0;z-index:999;background:var(--ivory);display:none;flex-direction:column;align-items:center;justify-content:center;gap:1.6rem}
+#mobile-menu.open{display:flex}
+#mobile-menu a{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--ink)}
+#mobile-menu a:hover{color:var(--teal)}
+
+/* ── HERO ── */
+#hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;padding:7rem 0 3rem;overflow:hidden}
+.hero-photo{position:absolute;inset:0;background:url('https://brothersegy.com/wp-content/uploads/2025/11/giza-pyramids-cairo-egypt-with-palm.jpg') center 38%/cover no-repeat;z-index:0}
+.hero-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(20,16,8,.72) 0%,rgba(20,16,8,.42) 42%,rgba(20,16,8,.12) 70%,rgba(20,16,8,.3) 100%),linear-gradient(0deg,rgba(20,16,8,.5),transparent 46%)}
+.hero-inner{position:relative;z-index:2;width:100%}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:2.5rem;align-items:end}
+.hero-copy{max-width:620px;color:var(--ivory)}
+.hero-eyebrow{color:#f0e4c8}
+.hero-eyebrow::before{background:var(--gold)}
+.hero-h1{font-size:clamp(2.9rem,6.4vw,5.6rem);font-weight:400;color:#fff;margin:1.3rem 0 1.1rem;text-shadow:0 2px 30px rgba(0,0,0,.4)}
+.hero-h1 em{font-style:italic;color:#f3e6c4}
+.hero-sub{font-size:clamp(1rem,1.5vw,1.18rem);color:rgba(255,255,255,.9);max-width:490px;font-weight:300;line-height:1.7}
+.hero-sub b{font-weight:600;color:#fff}
+.hero-pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.7rem}
+.hero-pill{display:inline-flex;align-items:center;gap:.45rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);color:#fff;padding:.42rem .9rem;border-radius:50px;font-size:.76rem;font-weight:500}
+.hero-pill i{color:#f3e6c4;font-size:.72rem}
+.hero-scroll{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);z-index:3;color:rgba(255,255,255,.65);font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.hero-scroll i{animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* ── Floating boutique booking bar ── */
+.hero-widget{background:rgba(255,253,248,.96);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);padding:1.5rem;position:relative}
+.hero-widget::before{content:'';position:absolute;inset:0;border-radius:var(--r-lg);padding:1px;background:linear-gradient(135deg,var(--gold-soft),transparent 55%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.hw-title{font-family:'Fraunces',serif;font-size:1.18rem;font-weight:600;display:flex;align-items:center;gap:.55rem;margin-bottom:.25rem}
+.hw-title i{color:var(--teal)}
+.hw-note{font-size:.76rem;color:var(--muted);margin-bottom:1.1rem}
+.hw-field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.8rem}
+.hw-field label{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hw-field .ipt,.ipt{background:var(--ivory);border:1px solid var(--line);border-radius:11px;padding:.72rem .9rem;color:var(--ink);font-weight:500;width:100%;transition:border-color .25s,box-shadow .25s}
+.ipt:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-wash)}
+select.ipt{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%230e7c7b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .85rem center;padding-right:2.3rem}
+.hw-two{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.hw-dt{display:grid;grid-template-columns:1.5fr 1fr;gap:.4rem}
+.hero-widget .btn{width:100%;margin-top:.5rem}
+
+/* ── TRUST BAND ── */
+#trust{background:var(--ink);color:var(--ivory);padding:1.4rem 0}
+.trust-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.9rem 2.2rem;text-align:center}
+.trust-item{display:flex;align-items:center;gap:.6rem;font-size:.84rem;color:rgba(246,241,231,.82)}
+.trust-item i{color:var(--gold)}
+.trust-stars{display:flex;align-items:center;gap:.5rem}
+.trust-stars .stars{color:#f3c04a;letter-spacing:1px}
+.trust-stars b{font-family:'Fraunces',serif;font-size:1.05rem}
+.trust-sep{width:1px;height:20px;background:rgba(246,241,231,.2)}
+
+/* ── SECTION base ── */
+section.band{padding:clamp(3.5rem,7vw,6rem) 0}
+.sec-head{max-width:680px;margin-bottom:2.6rem}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.sec-head.center .eyebrow{justify-content:center}
+.sec-title{font-size:clamp(2rem,4.2vw,3.2rem);font-weight:400;margin:.9rem 0 .7rem}
+.sec-title em{font-style:italic;color:var(--teal)}
+.sec-lead{font-size:1.04rem;color:var(--ink-soft);font-weight:300;line-height:1.75}
+
+/* ── BOOKING WIZARD ── */
+#book{background:linear-gradient(180deg,var(--ivory),var(--sand) 100%)}
+.wiz{display:grid;grid-template-columns:1fr 360px;gap:1.8rem;align-items:start}
+.wiz-main{background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r-lg);box-shadow:var(--shadow-md);overflow:hidden}
+.wiz-steps{display:flex;border-bottom:1px solid var(--line-soft);background:var(--paper)}
+.wiz-step{flex:1;display:flex;align-items:center;gap:.6rem;padding:1.1rem 1rem;font-size:.82rem;color:var(--muted);font-weight:500;border-bottom:2px solid transparent;transition:.3s;min-width:0}
+.wiz-step .num{width:26px;height:26px;flex:0 0 26px;border-radius:50%;background:var(--sand);color:var(--ink-soft);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;transition:.3s}
+.wiz-step .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wiz-step.active{color:var(--ink);border-bottom-color:var(--teal)}
+.wiz-step.active .num{background:var(--teal);color:#fff}
+.wiz-step.done .num{background:var(--teal-deep);color:#fff}
+.wiz-body{padding:clamp(1.3rem,3vw,2.2rem)}
+.wiz-pane{display:none;animation:fade .4s ease}
+.wiz-pane.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.pane-title{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;margin-bottom:.35rem}
+.pane-note{font-size:.86rem;color:var(--muted);margin-bottom:1.5rem}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fgrid .hw-field{margin-bottom:0}
+.wiz-nav{display:flex;justify-content:space-between;gap:.8rem;margin-top:1.8rem;padding-top:1.4rem;border-top:1px solid var(--line-soft)}
+
+/* class picker */
+.pick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.9rem}
+.pick-card{position:relative;background:var(--ivory);border:1px solid var(--line);border-radius:var(--r);padding:1rem;cursor:pointer;transition:.28s;text-align:left}
+.pick-card:hover{border-color:var(--teal);transform:translateY(-3px);box-shadow:var(--shadow-sm)}
+.pick-card.sel{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal-wash),var(--shadow-sm)}
+.pick-card.sel::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:.7rem;right:.7rem;width:24px;height:24px;background:var(--teal);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem}
+.pick-img{height:92px;display:flex;align-items:center;justify-content:center;margin-bottom:.6rem}
+.pick-img img{max-height:92px;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(40,30,15,.2))}
+.pick-mono{height:92px;display:flex;align-items:center;justify-content:center;margin-bottom:.6rem;font-family:'Fraunces',serif;font-size:2rem;font-weight:600;color:var(--sand-deep);letter-spacing:.04em;border:1px dashed var(--line);border-radius:12px;background:var(--paper)}
+.pick-cat{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.pick-name{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600;margin:.1rem 0 .4rem}
+.pick-price{font-size:.84rem;color:var(--ink-soft)}
+.pick-price b{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--ink)}
+
+/* extras */
+.ex-row{display:flex;align-items:flex-start;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--line-soft)}
+.ex-row:last-child{border-bottom:none}
+.ex-info{flex:1}
+.ex-info h4{font-weight:600;font-size:.98rem;display:flex;align-items:center;gap:.5rem}
+.ex-info p{font-size:.82rem;color:var(--muted);margin-top:.2rem}
+.ex-price{font-weight:600;color:var(--teal);white-space:nowrap;font-size:.9rem}
+.tag-ind{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-soft);padding:.1rem .4rem;border-radius:5px;font-weight:700}
+.switch{position:relative;width:46px;height:26px;flex:0 0 46px;cursor:pointer}
+.switch input{opacity:0;width:0;height:0}
+.slider-tog{position:absolute;inset:0;background:var(--sand-deep);border-radius:50px;transition:.3s}
+.slider-tog::before{content:'';position:absolute;height:20px;width:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.switch input:checked+.slider-tog{background:var(--teal)}
+.switch input:checked+.slider-tog::before{transform:translateX(20px)}
+
+/* review pane */
+.rev-line{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;font-size:.92rem;border-bottom:1px dashed var(--line-soft)}
+.rev-line .k{color:var(--ink-soft)}
+.rev-line .v{font-weight:600;text-align:right}
+.rev-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:1rem;padding-top:1rem;border-top:2px solid var(--ink)}
+.rev-total .k{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:600}
+.rev-total .v{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:600;color:var(--teal)}
+.rev-actions{display:grid;grid-template-columns:1fr;gap:.7rem;margin-top:1.4rem}
+.rev-actions .alt{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+
+/* summary rail */
+.summary{position:sticky;top:92px;background:var(--ink);color:var(--ivory);border-radius:var(--r-lg);padding:1.6rem;box-shadow:var(--shadow-lg)}
+.summary-eyebrow{font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.summary-car{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:600;margin:.3rem 0 .1rem}
+.summary-cat{font-size:.74rem;color:rgba(246,241,231,.6);letter-spacing:.08em;text-transform:uppercase}
+.summary-pic{height:110px;display:flex;align-items:center;justify-content:center;margin:1rem 0}
+.summary-pic img{max-height:110px;object-fit:contain;filter:drop-shadow(0 14px 22px rgba(0,0,0,.5))}
+.summary-mono{font-family:'Fraunces',serif;font-size:2.4rem;color:rgba(246,241,231,.35);letter-spacing:.05em}
+.sum-line{display:flex;justify-content:space-between;font-size:.86rem;padding:.4rem 0;color:rgba(246,241,231,.82)}
+.sum-line b{color:var(--ivory);font-weight:600}
+.sum-div{height:1px;background:rgba(246,241,231,.14);margin:.6rem 0}
+.sum-now{background:rgba(14,124,123,.22);border:1px solid rgba(14,124,123,.5);border-radius:12px;padding:.8rem 1rem;margin-top:.9rem;display:flex;justify-content:space-between;align-items:center}
+.sum-now small{display:block;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(246,241,231,.6)}
+.sum-now .nowv{font-family:'Fraunces',serif;font-size:1.35rem;color:#fff;font-weight:600}
+.sum-rest{font-size:.72rem;color:rgba(246,241,231,.6);text-align:right;margin-top:.5rem}
+.guarantee-chip{display:flex;gap:.6rem;align-items:flex-start;background:rgba(246,241,231,.06);border:1px solid var(--gold-soft);border-radius:12px;padding:.75rem .85rem;margin-top:1rem;font-size:.74rem;color:rgba(246,241,231,.85);line-height:1.5}
+.guarantee-chip i{color:var(--gold);margin-top:2px}
+
+/* ── FLEET COLLECTION ── */
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;justify-content:center}
+.filter-btn{background:var(--paper);border:1px solid var(--line);color:var(--ink-soft);padding:.5rem 1.05rem;border-radius:50px;font-size:.82rem;font-weight:500;cursor:pointer;transition:.25s}
+.filter-btn:hover{border-color:var(--teal);color:var(--teal)}
+.filter-btn.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+.fleet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem}
+.fcard{background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
+.fcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.fcard-media{position:relative;height:190px;background:radial-gradient(circle at 50% 120%,var(--sand) 0%,var(--paper) 70%);display:flex;align-items:center;justify-content:center;padding:1rem}
+.fcard-media img{max-height:150px;object-fit:contain;filter:drop-shadow(0 16px 24px rgba(40,30,15,.22))}
+.fcard-mono{font-family:'Fraunces',serif;font-size:2.6rem;font-weight:600;color:var(--sand-deep);letter-spacing:.04em}
+.fcard-ribbon{position:absolute;top:1rem;left:1rem;background:var(--ink);color:var(--ivory);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:.3rem .7rem;border-radius:50px}
+.fcard-makelogo{position:absolute;top:1rem;right:1rem;height:26px;width:auto;opacity:.9}
+.fcard-body{padding:1.3rem;display:flex;flex-direction:column;flex:1}
+.fcard-cat{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.fcard-name{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:600;margin:.2rem 0 .5rem}
+.fcard-guarantee{font-size:.76rem;color:var(--ink-soft);display:flex;gap:.5rem;align-items:flex-start;line-height:1.5;margin-bottom:.9rem}
+.fcard-guarantee i{color:var(--gold);margin-top:3px;font-size:.72rem}
+.fcard-branches{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1rem}
+.branch-chip{font-size:.64rem;color:var(--muted);background:var(--ivory);border:1px solid var(--line-soft);padding:.2rem .55rem;border-radius:50px;letter-spacing:.03em}
+.fcard-foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:.8rem;padding-top:.9rem;border-top:1px solid var(--line-soft)}
+.fcard-price small{display:block;font-size:.66rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.fcard-price b{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600}
+.fcard-price span{font-size:.74rem;color:var(--muted)}
+
+/* ── WHY ── */
+#why{background:var(--sand)}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.5rem}
+.why-card{background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r-lg);padding:1.8rem 1.6rem;box-shadow:var(--shadow-sm);transition:transform .3s}
+.why-card:hover{transform:translateY(-5px)}
+.why-ico{width:54px;height:54px;border-radius:14px;background:var(--teal-wash);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.1rem}
+.why-card h3{font-size:1.18rem;font-weight:600;margin-bottom:.5rem}
+.why-card p{font-size:.88rem;color:var(--ink-soft);font-weight:300;line-height:1.65}
+
+/* ── STORY ── */
+.story-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
+.story-photo{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-lg);position:relative}
+.story-photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5}
+.story-photo .badge{position:absolute;bottom:1.3rem;left:1.3rem;right:1.3rem;background:rgba(255,253,248,.94);backdrop-filter:blur(8px);border-radius:14px;padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;box-shadow:var(--shadow-md)}
+.story-photo .badge .yr{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:600;color:var(--teal);line-height:1}
+.story-photo .badge p{font-size:.82rem;color:var(--ink-soft)}
+.story-copy p{font-size:1.02rem;color:var(--ink-soft);font-weight:300;line-height:1.85;margin-bottom:1.1rem}
+.story-copy p.lead{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:400;font-style:italic;color:var(--ink);line-height:1.5}
+.story-route{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:1.4rem;font-size:.84rem;font-weight:600;color:var(--teal)}
+.story-route i{color:var(--gold);font-size:.7rem}
+
+/* ── REVIEWS ── */
+#reviews{background:var(--ink);color:var(--ivory)}
+#reviews .eyebrow{color:#f3e6c4}
+#reviews .sec-title{color:#fff}
+#reviews .sec-title em{color:#f3e6c4}
+.rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.review{background:rgba(246,241,231,.05);border:1px solid rgba(246,241,231,.12);border-radius:var(--r-lg);padding:1.8rem}
+.review .stars{color:#f3c04a;letter-spacing:2px;margin-bottom:.9rem}
+.review blockquote{font-family:'Fraunces',serif;font-size:1.08rem;font-style:italic;font-weight:400;line-height:1.6;color:#fff;margin-bottom:1.2rem}
+.review .who{display:flex;align-items:center;gap:.8rem}
+.review .av{width:42px;height:42px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600}
+.review .nm{font-weight:600;font-size:.9rem}
+.review .src{font-size:.72rem;color:rgba(246,241,231,.55)}
+.review .src i{color:#f3c04a}
+
+/* ── CITIES ── */
+.city-grid{display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:1fr 1fr;gap:1.2rem;min-height:520px}
+.city{position:relative;border-radius:var(--r-lg);overflow:hidden;color:#fff;display:flex;align-items:flex-end;padding:1.6rem;box-shadow:var(--shadow-sm);transition:transform .35s}
+.city:hover{transform:scale(1.012)}
+.city::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(20,16,8,.78),rgba(20,16,8,.1) 60%);z-index:1}
+.city img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .5s}
+.city:hover img{transform:scale(1.06)}
+.city-txt{position:relative;z-index:2}
+.city-txt .k{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#f3e6c4;font-weight:600}
+.city-txt h3{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:600;margin:.2rem 0 .3rem}
+.city-txt p{font-size:.84rem;color:rgba(255,255,255,.85);font-weight:300}
+.city-lg{grid-row:span 2}
+
+/* ── TEASERS ── */
+.teaser-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.teaser{position:relative;border-radius:var(--r-lg);overflow:hidden;min-height:260px;display:flex;align-items:flex-end;padding:2rem;color:#fff}
+.teaser::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,rgba(10,95,94,.85),rgba(20,16,8,.5));z-index:1}
+.teaser img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.teaser-txt{position:relative;z-index:2;max-width:380px}
+.teaser-txt .eyebrow{color:#f3e6c4}
+.teaser-txt h3{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:600;margin:.7rem 0 .5rem}
+.teaser-txt p{font-size:.9rem;color:rgba(255,255,255,.88);font-weight:300;margin-bottom:1.1rem}
+
+/* ── FINAL CTA ── */
+#final{background:linear-gradient(135deg,var(--teal-deep),var(--teal));color:#fff;text-align:center}
+#final .sec-title{color:#fff}
+#final .sec-title em{color:#f3e6c4}
+#final p{color:rgba(255,255,255,.9);font-weight:300;max-width:540px;margin:0 auto 2rem;font-size:1.05rem}
+#final .ctas{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+#final .btn-ghost{border-color:rgba(255,255,255,.5);color:#fff}
+#final .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:#fff;color:#fff}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);color:rgba(246,241,231,.75);padding:3.5rem 0 2rem}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2.5rem}
+.foot-logo{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
+.foot-logo img{height:40px}
+.foot-logo b{font-family:'Fraunces',serif;color:#fff;font-size:1.2rem}
+.foot-logo b span{color:var(--teal)}
+.foot-brand p{font-size:.86rem;font-weight:300;line-height:1.7;max-width:300px}
+.foot-social{display:flex;gap:.6rem;margin-top:1.1rem}
+.foot-social a{width:38px;height:38px;border-radius:10px;background:rgba(246,241,231,.08);display:flex;align-items:center;justify-content:center;color:var(--ivory);transition:.25s}
+.foot-social a:hover{background:var(--teal);transform:translateY(-2px)}
+.foot-col h4{font-family:'Fraunces',serif;color:#fff;font-size:1rem;margin-bottom:1rem;font-weight:600}
+.foot-col a,.foot-col p{display:block;font-size:.86rem;color:rgba(246,241,231,.7);margin-bottom:.6rem;font-weight:300}
+.foot-col a:hover{color:var(--teal)}
+.foot-bottom{border-top:1px solid rgba(246,241,231,.12);padding-top:1.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-size:.78rem;color:rgba(246,241,231,.5)}
+
+/* ── FAB ── */
+#wa-fab{position:fixed;right:1.2rem;bottom:1.2rem;z-index:900;display:flex;align-items:center;gap:.6rem;background:var(--wa);color:#fff;padding:.8rem 1.3rem .8rem .9rem;border-radius:50px;font-weight:600;box-shadow:0 8px 28px rgba(29,138,78,.45);transition:transform .25s}
+#wa-fab:hover{transform:translateY(-3px)}
+#wa-fab i{font-size:1.3rem}
+
+/* ── reveal ── */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:980px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero-grid{grid-template-columns:1fr;gap:2rem}
+  .hero-widget{max-width:460px}
+  .wiz{grid-template-columns:1fr}
+  .summary{position:static}
+  .story-grid{grid-template-columns:1fr;gap:2rem}
+  .story-photo{max-width:440px}
+  .city-grid{grid-template-columns:1fr;grid-template-rows:none}
+  .city-lg{grid-row:auto}
+  .city{min-height:220px}
+  .teaser-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .hw-two{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr}
+  .wiz-step .lbl{display:none}
+  .wiz-step{justify-content:center}
+  .rev-actions .alt{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .trust-sep{display:none}
+  #wa-fab span{display:none}
+  #wa-fab{padding:.9rem;border-radius:50%}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav" aria-label="Primary">
+  <a href="#hero" class="nav-logo" aria-label="Brothers EGY home">
+    <img src="https://brothersegy.com/wp-content/uploads/2026/02/Logo.png" alt="Brothers EGY logo">
+    <b>Brothers<span>EGY</span></b>
+  </a>
+  <div class="nav-links">
+    <a href="#book">Reserve</a>
+    <a href="#fleet">The Collection</a>
+    <a href="#why">Why Brothers</a>
+    <a href="#story">Our Story</a>
+    <a href="#cities">Where We Are</a>
+  </div>
+  <div class="nav-right">
+    <div class="curr-sw" role="group" aria-label="Currency">
+      <button class="curr-btn active" data-curr="EGP">EGP</button>
+      <button class="curr-btn" data-curr="USD">USD</button>
+      <button class="curr-btn" data-curr="EUR">EUR</button>
+    </div>
+    <a href="#book" class="btn btn-ink btn-sm">Reserve a Car</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div id="mobile-menu" aria-hidden="true">
+  <a href="#book">Reserve</a>
+  <a href="#fleet">The Collection</a>
+  <a href="#why">Why Brothers</a>
+  <a href="#story">Our Story</a>
+  <a href="#cities">Where We Are</a>
+  <a href="https://wa.me/201554446744" class="btn btn-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<header id="hero">
+  <div class="hero-photo" role="img" aria-label="The Pyramids of Giza at golden hour with palm trees"></div>
+  <div class="hero-scrim"></div>
+  <div class="hero-inner wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow hero-eyebrow">Family-run in Egypt since 2007</span>
+        <h1 class="hero-h1">Egypt, on <em>your</em> own terms.</h1>
+        <p class="hero-sub">A quietly dependable car, delivered to your door by the family that owns it. <b>No credit card. No deposit. You pay when we meet.</b></p>
+        <div class="hero-pills">
+          <span class="hero-pill"><i class="fa-solid fa-location-dot"></i> Chauffeur delivery</span>
+          <span class="hero-pill"><i class="fa-solid fa-shield-halved"></i> Zero deposit</span>
+          <span class="hero-pill"><i class="fa-solid fa-hand-holding-dollar"></i> Pay on arrival</span>
+          <span class="hero-pill"><i class="fa-solid fa-clock-rotate-left"></i> 12-hour free cancellation</span>
+        </div>
+      </div>
+
+      <!-- Boutique reservation bar -->
+      <div class="hero-widget" role="form" aria-label="Quick reservation">
+        <div class="hw-title"><i class="fa-solid fa-key"></i> Begin your reservation</div>
+        <p class="hw-note">What you see is what you pay — real rates, no surprises.</p>
+        <div class="hw-field">
+          <label for="h-branch">Pick-up branch</label>
+          <select id="h-branch" class="ipt" aria-label="Pick-up branch">
+            <option value="hurghada">Hurghada</option>
+            <option value="cairo">Cairo</option>
+            <option value="alexandria">Alexandria</option>
+            <option value="rashid">Rashid (Rosetta)</option>
+          </select>
+        </div>
+        <div class="hw-field">
+          <label for="h-from">Pick-up</label>
+          <div class="hw-dt">
+            <input type="date" id="h-from" class="ipt" aria-label="Pick-up date">
+            <input type="time" id="h-from-t" class="ipt" value="10:00" aria-label="Pick-up time">
+          </div>
+        </div>
+        <div class="hw-field">
+          <label for="h-to">Return</label>
+          <div class="hw-dt">
+            <input type="date" id="h-to" class="ipt" aria-label="Return date">
+            <input type="time" id="h-to-t" class="ipt" value="10:00" aria-label="Return time">
+          </div>
+        </div>
+        <button class="btn btn-primary" id="h-search"><i class="fa-solid fa-magnifying-glass"></i> Find my car</button>
+      </div>
+    </div>
+  </div>
+  <a href="#trust" class="hero-scroll" aria-label="Scroll down"><span>Discover</span><i class="fa-solid fa-chevron-down"></i></a>
+</header>
+
+<!-- ══ TRUST BAND ══ -->
+<section id="trust" aria-label="Trust and ratings">
+  <div class="wrap">
+    <div class="trust-row">
+      <div class="trust-stars"><span class="stars">★★★★★</span><b>4.9</b><span style="color:rgba(246,241,231,.6);font-size:.8rem">Google reviews</span></div>
+      <div class="trust-sep"></div>
+      <div class="trust-item"><i class="fa-solid fa-house-chimney"></i> Family-run since 2007</div>
+      <div class="trust-sep"></div>
+      <div class="trust-item"><i class="fa-solid fa-credit-card"></i> No credit card · Pay on arrival</div>
+      <div class="trust-sep"></div>
+      <div class="trust-item"><i class="fa-solid fa-shield-halved"></i> Full insurance · Zero deposit</div>
+      <div class="trust-sep"></div>
+      <div class="trust-item"><i class="fa-solid fa-clock-rotate-left"></i> 12-hour free cancellation</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BOOKING WIZARD ══ -->
+<section id="book" class="band">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">A calm, four-step reservation</span>
+      <h2 class="sec-title">Reserve in <em>minutes</em>, not hours.</h2>
+      <p class="sec-lead">Choose your branch and dates, pick a class, add the extras you want, and review a clear, honest total — the price updates live as you go.</p>
+    </div>
+
+    <div class="wiz reveal">
+      <div class="wiz-main">
+        <div class="wiz-steps" role="tablist" aria-label="Booking steps">
+          <div class="wiz-step active" data-step="1" role="tab" aria-selected="true"><span class="num">1</span><span class="lbl">Branch &amp; dates</span></div>
+          <div class="wiz-step" data-step="2" role="tab" aria-selected="false"><span class="num">2</span><span class="lbl">Choose your class</span></div>
+          <div class="wiz-step" data-step="3" role="tab" aria-selected="false"><span class="num">3</span><span class="lbl">Protection &amp; extras</span></div>
+          <div class="wiz-step" data-step="4" role="tab" aria-selected="false"><span class="num">4</span><span class="lbl">Review &amp; reserve</span></div>
+        </div>
+        <div class="wiz-body">
+
+          <!-- STEP 1 -->
+          <div class="wiz-pane active" data-pane="1" role="tabpanel">
+            <h3 class="pane-title">Where and when?</h3>
+            <p class="pane-note">Tell us your branch and travel dates. We deliver to airports and hotels across the branch area.</p>
+            <div class="hw-field">
+              <label for="w-branch">Pick-up &amp; return branch</label>
+              <select id="w-branch" class="ipt">
+                <option value="hurghada">Hurghada</option>
+                <option value="cairo">Cairo</option>
+                <option value="alexandria">Alexandria</option>
+                <option value="rashid">Rashid (Rosetta)</option>
+              </select>
+            </div>
+            <div class="fgrid" style="margin-top:1rem">
+              <div class="hw-field">
+                <label for="w-from">Pick-up</label>
+                <div class="hw-dt"><input type="date" id="w-from" class="ipt"><input type="time" id="w-from-t" class="ipt" value="10:00"></div>
+              </div>
+              <div class="hw-field">
+                <label for="w-to">Return</label>
+                <div class="hw-dt"><input type="date" id="w-to" class="ipt"><input type="time" id="w-to-t" class="ipt" value="10:00"></div>
+              </div>
+            </div>
+            <div class="wiz-nav">
+              <span></span>
+              <button class="btn btn-primary" data-go="2">Continue <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="wiz-pane" data-pane="2" role="tabpanel">
+            <h3 class="pane-title">Choose your class</h3>
+            <p class="pane-note">Reserve a <b>class</b>, not a single car. Showing classes available at your branch for <b id="w-daycount">your dates</b>.</p>
+            <div class="pick-grid" id="pick-grid"></div>
+            <div class="wiz-nav">
+              <button class="btn btn-ghost" data-go="1"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <button class="btn btn-primary" data-go="3">Continue <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="wiz-pane" data-pane="3" role="tabpanel">
+            <h3 class="pane-title">Protection &amp; extras</h3>
+            <p class="pane-note">Add only what you need. Everything is priced transparently.</p>
+            <div class="ex-row">
+              <div class="ex-info">
+                <h4><i class="fa-solid fa-shield-halved" style="color:var(--teal)"></i> Full Protection <span id="fc-ind" class="tag-ind" hidden>confirmed at pickup</span></h4>
+                <p>Zero-deposit peace of mind — collision &amp; theft cover for the whole trip.</p>
+              </div>
+              <div style="text-align:right">
+                <div class="ex-price" id="fc-price">—</div>
+                <label class="switch" style="margin-top:.4rem;display:inline-block"><input type="checkbox" id="ex-fc"><span class="slider-tog"></span></label>
+              </div>
+            </div>
+            <div class="ex-row">
+              <div class="ex-info">
+                <h4><i class="fa-solid fa-user-plus" style="color:var(--teal)"></i> Additional driver <span class="tag-ind">indicative</span></h4>
+                <p>Share the wheel. Final fee confirmed with your reservation.</p>
+              </div>
+              <div style="text-align:right">
+                <div class="ex-price">EGP 500 / day</div>
+                <label class="switch" style="margin-top:.4rem;display:inline-block"><input type="checkbox" id="ex-driver"><span class="slider-tog"></span></label>
+              </div>
+            </div>
+            <div class="ex-row">
+              <div class="ex-info">
+                <h4><i class="fa-solid fa-baby-carriage" style="color:var(--teal)"></i> Child seat <span class="tag-ind">indicative</span></h4>
+                <p>Safe and secure for little travellers.</p>
+              </div>
+              <div style="text-align:right">
+                <div class="ex-price">EGP 250 / day</div>
+                <label class="switch" style="margin-top:.4rem;display:inline-block"><input type="checkbox" id="ex-seat"><span class="slider-tog"></span></label>
+              </div>
+            </div>
+            <div class="wiz-nav">
+              <button class="btn btn-ghost" data-go="2"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <button class="btn btn-primary" data-go="4">Review <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- STEP 4 -->
+          <div class="wiz-pane" data-pane="4" role="tabpanel">
+            <h3 class="pane-title">Review &amp; reserve</h3>
+            <p class="pane-note">Here is your transparent total. Reserve online, or send it straight to us on WhatsApp.</p>
+            <div id="review-lines"></div>
+            <div class="rev-total"><span class="k">Total</span><span class="v" id="rev-total">—</span></div>
+            <div class="rev-actions">
+              <a class="btn btn-primary" id="rev-online" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-calendar-check"></i> Reserve online</a>
+              <div class="alt">
+                <a class="btn btn-wa" id="rev-wa" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                <a class="btn btn-ghost" id="rev-fb" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-messenger"></i> Messenger</a>
+              </div>
+            </div>
+            <div class="wiz-nav">
+              <button class="btn btn-ghost" data-go="3"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <span></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SUMMARY RAIL -->
+      <aside class="summary" aria-label="Live price summary">
+        <span class="summary-eyebrow">Your reservation</span>
+        <div class="summary-car" id="sum-name">Select a class</div>
+        <div class="summary-cat" id="sum-cat">—</div>
+        <div class="summary-pic" id="sum-pic"></div>
+        <div class="sum-line"><span>Branch</span><b id="sum-branch">Hurghada</b></div>
+        <div class="sum-line"><span>Duration</span><b id="sum-days">— days</b></div>
+        <div class="sum-line"><span>Daily rate</span><b id="sum-rate">—</b></div>
+        <div class="sum-div"></div>
+        <div class="sum-line"><span>Car subtotal</span><b id="sum-sub">—</b></div>
+        <div class="sum-line" id="sum-fc-line" hidden><span>Full Protection</span><b id="sum-fc">—</b></div>
+        <div class="sum-line" id="sum-extra-line" hidden><span>Extras</span><b id="sum-extra">—</b></div>
+        <div class="sum-now">
+          <div><small>Pay now · 30% deposit</small><div class="nowv" id="sum-now">—</div></div>
+          <i class="fa-solid fa-lock" style="color:var(--gold)"></i>
+        </div>
+        <div class="sum-rest">Remaining 70% (<span id="sum-rest">—</span>) on pick-up</div>
+        <div class="guarantee-chip"><i class="fa-solid fa-award"></i><span><b style="color:#fff">Our promise:</b> reserve a class — receive that model, or an upgrade. Never less.</span></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FLEET COLLECTION ══ -->
+<section id="fleet" class="band" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">The collection</span>
+      <h2 class="sec-title">Eleven classes, <em>honestly</em> priced.</h2>
+      <p class="sec-lead">From a dependable city sedan to a flagship seven-seater. Every "from" price below is a real lowest-tier rate pulled straight from our fleet — never invented.</p>
+    </div>
+    <div class="filters reveal" id="fleet-filters" role="group" aria-label="Filter the collection"></div>
+    <div class="fleet-grid reveal" id="fleet-grid"></div>
+  </div>
+</section>
+
+<!-- ══ WHY ══ -->
+<section id="why" class="band">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Why travellers choose Brothers</span>
+      <h2 class="sec-title">The quiet <em>luxuries</em> of a family firm.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal"><div class="why-ico"><i class="fa-solid fa-car-side"></i></div><h3>Chauffeur delivery</h3><p>We bring the car to your airport, hotel, or doorstep — keys handed over with a handshake, wherever you land.</p></div>
+      <div class="why-card reveal"><div class="why-ico"><i class="fa-solid fa-shield-halved"></i></div><h3>Zero deposit</h3><p>No cards held hostage, no blocked funds. Choose Full Protection and your deposit drops to nothing.</p></div>
+      <div class="why-card reveal"><div class="why-ico"><i class="fa-solid fa-receipt"></i></div><h3>Transparent pricing</h3><p>What you see is what you pay. Tiered daily rates that get better the longer you stay — no hidden fees.</p></div>
+      <div class="why-card reveal"><div class="why-ico"><i class="fa-solid fa-id-card"></i></div><h3>EU licences welcome</h3><p>Travelling from Europe? Your licence is fine with us. Clear paperwork, no fuss, friendly guidance.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STORY ══ -->
+<section id="story" class="band" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-photo reveal">
+        <img src="https://brothersegy.com/wp-content/uploads/2025/11/hurghada-costal-destiantion-near-the-red-sea.jpg" alt="The Red Sea coastline at Hurghada">
+        <div class="badge"><span class="yr">2007</span><p>A single car in Hurghada, one promise: treat every traveller like family.</p></div>
+      </div>
+      <div class="story-copy reveal">
+        <span class="eyebrow">Our story</span>
+        <p class="lead">What began as one car on the Red Sea coast grew — slowly, carefully — into a trusted name across Egypt.</p>
+        <p>Brothers EGY has stayed a family business on purpose. We answer our own phones, we deliver our own cars, and we remember the people we drive. That is why travellers come back, and why they send their friends.</p>
+        <p>Today you will find us wherever you need to be — on the Red Sea, along the Mediterranean, in the heart of the capital, and in the quiet streets of Rosetta.</p>
+        <div class="story-route">
+          <span>Hurghada</span><i class="fa-solid fa-arrow-right"></i><span>Alexandria</span><i class="fa-solid fa-arrow-right"></i><span>Cairo</span><i class="fa-solid fa-arrow-right"></i><span>Rosetta</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ REVIEWS ══ -->
+<section id="reviews" class="band">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">In their words</span>
+      <h2 class="sec-title">Rated <em>4.9</em> by travellers like you.</h2>
+    </div>
+    <div class="rev-grid">
+      <div class="review reveal">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Excellent service, the car was clean and delivered right to our hotel. The brothers are honest and kind — exactly what you want abroad."</blockquote>
+        <div class="who"><span class="av">G</span><div><div class="nm">Gert Halop</div><div class="src"><i class="fa-brands fa-google"></i> Google review</div></div></div>
+      </div>
+      <div class="review reveal">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Smooth from start to finish. No credit card drama, no hidden costs. Fair price and a great car. Highly recommended for Egypt."</blockquote>
+        <div class="who"><span class="av">D</span><div><div class="nm">Dzianis Pomazau</div><div class="src"><i class="fa-brands fa-google"></i> Google review</div></div></div>
+      </div>
+      <div class="review reveal">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Trustworthy and professional. They delivered on every promise and treated us like family. I will rent from Brothers again."</blockquote>
+        <div class="who"><span class="av">A</span><div><div class="nm">Ahmad El Awad</div><div class="src"><i class="fa-brands fa-google"></i> Google review</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CITIES ══ -->
+<section id="cities" class="band" style="background:var(--sand)">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Where we are</span>
+      <h2 class="sec-title">Four cities, <em>one</em> family.</h2>
+      <p class="sec-lead">Pick up where your journey begins — we are ready on the Red Sea, the Mediterranean, and in between.</p>
+    </div>
+    <div class="city-grid reveal">
+      <a href="#book" class="city city-lg">
+        <img src="https://brothersegy.com/wp-content/uploads/2025/11/giza-pyramids-cairo-egypt-with-palm.jpg" alt="The Pyramids at Giza near Cairo">
+        <div class="city-txt"><div class="k">The capital</div><h3>Cairo</h3><p>Airport delivery, the Pyramids on your doorstep, and the pulse of Egypt.</p></div>
+      </a>
+      <a href="#book" class="city">
+        <img src="https://brothersegy.com/wp-content/uploads/2025/11/hurghada-costal-destiantion-near-the-red-sea.jpg" alt="Hurghada on the Red Sea">
+        <div class="city-txt"><div class="k">Red Sea · our home</div><h3>Hurghada</h3><p>Where it all began, in 2007.</p></div>
+      </a>
+      <a href="#book" class="city">
+        <img src="https://brothersegy.com/wp-content/uploads/2025/11/A-picture-from-above-of-the-city-of-Alexandria-in-Egypt.jpg" alt="Alexandria on the Mediterranean coast">
+        <div class="city-txt"><div class="k">The Mediterranean</div><h3>Alexandria &amp; Rosetta</h3><p>Coastal drives and historic streets.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TEASERS ══ -->
+<section class="band" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="teaser-grid">
+      <div class="teaser reveal">
+        <img src="https://brothersegy.com/wp-content/uploads/2025/11/giza-pyramids-cairo-egypt-with-palm.jpg" alt="Airport transfer in Egypt">
+        <div class="teaser-txt">
+          <span class="eyebrow">Arrive relaxed</span>
+          <h3>Airport transfers</h3>
+          <p>A friendly face at arrivals, your name on the sign, and a smooth ride to where you are staying.</p>
+          <a href="https://wa.me/201554446744" class="btn btn-wa btn-sm"><i class="fa-brands fa-whatsapp"></i> Ask about transfers</a>
+        </div>
+      </div>
+      <div class="teaser reveal">
+        <img src="https://brothersegy.com/wp-content/uploads/2025/11/hurghada-costal-destiantion-near-the-red-sea.jpg" alt="Guided tours in Egypt">
+        <div class="teaser-txt">
+          <span class="eyebrow">See more of Egypt</span>
+          <h3>Private tours</h3>
+          <p>From desert escapes to Red Sea days — let a local driver show you the Egypt beyond the guidebook.</p>
+          <a href="https://wa.me/201554446744" class="btn btn-ghost btn-sm" style="border-color:rgba(255,255,255,.5);color:#fff"><i class="fa-solid fa-map-location-dot"></i> Plan a tour</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FINAL CTA ══ -->
+<section id="final" class="band">
+  <div class="wrap">
+    <span class="eyebrow" style="justify-content:center;color:#f3e6c4">Ready when you are</span>
+    <h2 class="sec-title">Your Egypt, <em>your</em> way.</h2>
+    <p>Reserve in minutes with no credit card and nothing to pay until we meet. We will take it from there.</p>
+    <div class="ctas">
+      <a href="#book" class="btn btn-ink"><i class="fa-solid fa-calendar-check"></i> Start your reservation</a>
+      <a href="https://wa.me/201554446744" class="btn btn-ghost"><i class="fa-brands fa-whatsapp"></i> Message the family</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="foot-logo"><img src="https://brothersegy.com/wp-content/uploads/2026/02/Logo.png" alt="Brothers EGY"><b>Brothers<span>EGY</span></b></div>
+        <p>A family-run car rental, trusted across Egypt since 2007. Chauffeur delivery, zero deposit, and prices you can trust.</p>
+        <div class="foot-social">
+          <a href="https://wa.me/201554446744" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://m.me/BrothersEGY" aria-label="Messenger"><i class="fa-brands fa-facebook-messenger"></i></a>
+          <a href="https://brothersegy.com" aria-label="Website"><i class="fa-solid fa-globe"></i></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Explore</h4>
+        <a href="#book">Reserve a car</a>
+        <a href="#fleet">The collection</a>
+        <a href="#why">Why Brothers</a>
+        <a href="#story">Our story</a>
+      </div>
+      <div class="foot-col">
+        <h4>Branches</h4>
+        <p>Hurghada</p>
+        <p>Cairo</p>
+        <p>Alexandria</p>
+        <p>Rashid (Rosetta)</p>
+      </div>
+      <div class="foot-col">
+        <h4>Talk to us</h4>
+        <a href="https://wa.me/201554446744"><i class="fa-brands fa-whatsapp"></i> +20 155 444 6744</a>
+        <a href="https://m.me/BrothersEGY"><i class="fa-brands fa-facebook-messenger"></i> m.me/BrothersEGY</a>
+        <a href="https://brothersegy.com">brothersegy.com</a>
+      </div>
+    </div>
+    <div class="gold-rule"></div>
+    <div class="foot-bottom">
+      <span>© <span id="yr"></span> Brothers EGY. Family-run since 2007.</span>
+      <span>No credit card · Pay on arrival · 12-hour free cancellation</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/201554446744" id="wa-fab" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i><span>Chat with us</span></a>
+
+<script src="fleet-data.js"></script>
+<script>
+(function(){
+"use strict";
+var FLEET = window.BEGY_FLEET || {};
+var FK = Object.keys(FLEET);
+
+/* ======================================================================
+   ERP-EXACT PRICING + DAY COUNT  (reproduced faithfully from the prototype
+   at website/homepage/index.html — DO NOT change the maths)
+   DAYS = Math.ceil((dropoff - pickup)/86400000): any part-day rounds UP to a
+   full day. Full pickup/dropoff date+time. Clamp min 1.
+   DAILY RATE = first tier band (ascending min_days) where min_days<=DAYS<=max_days
+   (open-ended top band when max_days is null). No interpolation — real tiers.
+   ====================================================================== */
+function rentalDays(fromDate,fromTime,toDate,toTime){
+  if(!fromDate||!toDate)return 0;
+  var a=new Date(fromDate+'T'+(fromTime||'00:00')+':00');
+  var b=new Date(toDate+'T'+(toTime||'00:00')+':00');
+  if(isNaN(a)||isNaN(b))return 0;
+  var ms=b-a;
+  if(ms<=0)return 1;
+  return Math.max(1,Math.ceil(ms/86400000));
+}
+function calcRate(c,days){
+  if(!c)return 0;
+  var d=Math.max(1,parseInt(days)||1);
+  var tiers=c.tiers||[];
+  for(var i=0;i<tiers.length;i++){
+    var t=tiers[i];
+    var lo=t.min_days==null?1:t.min_days;
+    var hi=t.max_days==null?Infinity:t.max_days;
+    if(d>=lo&&d<=hi)return t.daily_rate;
+  }
+  return tiers.length?tiers[tiers.length-1].daily_rate:(c.pMin||0);
+}
+function fullCoverDaily(c){return (c&&c.fc!=null)?c.fc:0}
+function fullCoverIsAsk(c){return !c||c.fc==null}
+function productUrl(slug,hub){return 'https://brothersegy.com/product/rent-'+slug+'-'+hub+'/'}
+/* INDICATIVE add-on fees — NOT in the ERP export; placeholders to confirm. */
+var EXTRA_DRIVER_PER_DAY=500; // indicative
+var EXTRA_SEAT_PER_DAY=250;   // indicative
+
+/* ── Currency (EGP base; same approach as prototype) ── */
+var RATES={EGP:1,USD:0.020,EUR:0.018};
+var SYMS={EGP:'EGP ',USD:'$',EUR:'€'};
+var activeCurr='EGP';
+function fmt(n){return Math.round(n).toLocaleString('en-US')}
+function fC(n){return SYMS[activeCurr]+(activeCurr!=='EGP'?' ':'')+fmt(n*RATES[activeCurr])}
+
+/* Make-logo map (only those that EXIST). Kia/Toyota/Chery -> monogram fallback. */
+var LOGO_BASE='https://brothersegy.com/wp-content/uploads/2026/07/';
+var MAKE_LOGOS={
+  renault:'Renault-Logo.png', mg:'MG-Logo.png', hyundai:'Hyundai-Logo.png',
+  chevrolet:'Chevrolet-Logo.png', nissan:'Nissan-Logo.png',
+  jetour:'Jetour-Logo.jpg', haval:'Haval-Logo.png', soueast:'Soueast-Logo.png'
+};
+function makeKey(c){return (c.make||'').toLowerCase()}
+function makeLogo(c){var k=makeKey(c);return MAKE_LOGOS[k]?(LOGO_BASE+MAKE_LOGOS[k]):null}
+function monogram(c){return (c.name||'?').trim().charAt(0).toUpperCase()}
+var BRANCH_LABEL={hurghada:'Hurghada',cairo:'Cairo',alexandria:'Alexandria',rashid:'Rashid (Rosetta)'};
+var GUARANTEE='Reserve this class — receive this model or an upgrade, never less.';
+
+/* ========================= STATE ========================= */
+var state={branch:'hurghada',from:'',fromT:'10:00',to:'',toT:'10:00',days:7,classId:null,fc:false,driver:false,seat:false};
+
+/* ========================= HELPERS ========================= */
+function $(s,r){return (r||document).querySelector(s)}
+function $all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function classesForBranch(b){return FK.filter(function(k){return (FLEET[k].branches||[]).indexOf(b)>-1});}
+function carImgHtml(c,cls){
+  if(c.img)return '<img src="'+c.img+'" alt="'+c.name+'" loading="lazy">';
+  return '<div class="'+(cls||'pick-mono')+'">'+monogram(c)+'</div>';
+}
+
+/* ========================= DATES ========================= */
+function pad(n){return n<10?'0'+n:''+n}
+function iso(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function initDates(){
+  var t=new Date();var from=new Date(t);from.setDate(from.getDate()+2);
+  var to=new Date(from);to.setDate(to.getDate()+7);
+  var fs=iso(from),ts=iso(to);
+  ['h-from','w-from'].forEach(function(id){var e=$('#'+id);if(e){e.value=fs;e.min=iso(t)}});
+  ['h-to','w-to'].forEach(function(id){var e=$('#'+id);if(e){e.value=ts;e.min=fs}});
+  state.from=fs;state.to=ts;recalcDays();
+}
+function recalcDays(){
+  var d=rentalDays(state.from,state.fromT,state.to,state.toT);
+  state.days=d>0?d:1;
+}
+
+/* ========================= RENDER: SUMMARY ========================= */
+function render(){
+  recalcDays();
+  var c=state.classId?FLEET[state.classId]:null;
+  $('#sum-branch').textContent=BRANCH_LABEL[state.branch]||state.branch;
+  $('#sum-days').textContent=state.days+' day'+(state.days===1?'':'s');
+
+  if(!c){
+    $('#sum-name').textContent='Select a class';
+    $('#sum-cat').textContent='—';
+    $('#sum-pic').innerHTML='';
+    $('#sum-rate').textContent='—';$('#sum-sub').textContent='—';
+    $('#sum-now').textContent='—';$('#sum-rest').textContent='—';
+    $('#sum-fc-line').hidden=true;$('#sum-extra-line').hidden=true;
+    return;
+  }
+  var rate=calcRate(c,state.days);
+  var sub=rate*state.days;
+  var fcAsk=fullCoverIsAsk(c);
+  var fcCost=(state.fc&&!fcAsk)?fullCoverDaily(c)*state.days:0;
+  var extra=(state.driver?EXTRA_DRIVER_PER_DAY*state.days:0)+(state.seat?EXTRA_SEAT_PER_DAY*state.days:0);
+  var total=sub+fcCost+extra;
+  var now=total*0.30, rest=total*0.70;
+
+  $('#sum-name').textContent=c.name;
+  $('#sum-cat').textContent=c.cat||'';
+  $('#sum-pic').innerHTML=c.img?('<img src="'+c.img+'" alt="'+c.name+'">'):('<div class="summary-mono">'+monogram(c)+'</div>');
+  $('#sum-rate').textContent=fC(rate)+' / day';
+  $('#sum-sub').textContent=fC(sub);
+  if(state.fc){$('#sum-fc-line').hidden=false;$('#sum-fc').textContent=fcAsk?'at pickup':fC(fcCost);}else{$('#sum-fc-line').hidden=true;}
+  if(extra>0){$('#sum-extra-line').hidden=false;$('#sum-extra').textContent=fC(extra);}else{$('#sum-extra-line').hidden=true;}
+  $('#sum-now').textContent=fC(now);
+  $('#sum-rest').textContent=fC(rest);
+
+  // Full-cover row in step 3
+  if(fcAsk){$('#fc-price').textContent='confirmed at pickup';$('#fc-ind').hidden=false;}
+  else{$('#fc-price').textContent=fC(fullCoverDaily(c))+' / day';$('#fc-ind').hidden=true;}
+
+  renderReview(c,rate,sub,fcCost,fcAsk,extra,total,now,rest);
+}
+
+function renderReview(c,rate,sub,fcCost,fcAsk,extra,total,now,rest){
+  var lines='';
+  lines+='<div class="rev-line"><span class="k">'+c.name+' · '+(c.cat||'')+'</span><span class="v">'+BRANCH_LABEL[state.branch]+'</span></div>';
+  lines+='<div class="rev-line"><span class="k">'+fC(rate)+' × '+state.days+' day'+(state.days===1?'':'s')+'</span><span class="v">'+fC(sub)+'</span></div>';
+  if(state.fc)lines+='<div class="rev-line"><span class="k">Full Protection</span><span class="v">'+(fcAsk?'at pickup':fC(fcCost))+'</span></div>';
+  if(state.driver)lines+='<div class="rev-line"><span class="k">Additional driver (indicative)</span><span class="v">'+fC(EXTRA_DRIVER_PER_DAY*state.days)+'</span></div>';
+  if(state.seat)lines+='<div class="rev-line"><span class="k">Child seat (indicative)</span><span class="v">'+fC(EXTRA_SEAT_PER_DAY*state.days)+'</span></div>';
+  lines+='<div class="rev-line"><span class="k">Pay now · 30% deposit</span><span class="v">'+fC(now)+'</span></div>';
+  lines+='<div class="rev-line"><span class="k">On pick-up · 70%</span><span class="v">'+fC(rest)+'</span></div>';
+  $('#review-lines').innerHTML=lines;
+  $('#rev-total').textContent=fC(total);
+
+  // TODO Part-A cart hand-off: carry ERP-synced days + price + extras into the cart here.
+  var url=productUrl(c.slug,state.branch);
+  $('#rev-online').href=url;
+  var msg='Hello Brothers EGY! I would like to reserve a '+c.name+' ('+(c.cat||'')+') in '+BRANCH_LABEL[state.branch]
+    +' for '+state.days+' day'+(state.days===1?'':'s')+' ('+state.from+' '+state.fromT+' to '+state.to+' '+state.toT+').'
+    +' Estimated total '+fC(total)+' ('+fC(now)+' deposit now, '+fC(rest)+' on pick-up).';
+  if(state.fc)msg+=' With Full Protection.';
+  $('#rev-wa').href='https://wa.me/201554446744?text='+encodeURIComponent(msg);
+  $('#rev-fb').href='https://m.me/BrothersEGY';
+}
+
+/* ========================= PICK GRID (step 2) ========================= */
+function renderPick(){
+  var list=classesForBranch(state.branch);
+  if(!list.length){$('#pick-grid').innerHTML='<p style="color:var(--muted)">No classes listed for this branch yet — please message us and we will arrange one.</p>';return;}
+  $('#w-daycount').textContent=state.days+' day'+(state.days===1?'':'s');
+  var html=list.map(function(k){
+    var c=FLEET[k];var from=calcRate(c,c.tiers?c.tiers.length:1); // lowest-tier handled below
+    var low=lowestTier(c);
+    var sel=state.classId===k?' sel':'';
+    return '<button type="button" class="pick-card'+sel+'" data-pick="'+k+'" aria-pressed="'+(sel?'true':'false')+'">'
+      +'<div class="pick-img">'+carImgHtml(c,'pick-mono')+'</div>'
+      +'<span class="pick-cat">'+(c.cat||'')+'</span>'
+      +'<div class="pick-name">'+c.name+'</div>'
+      +'<div class="pick-price">from <b>'+fC(low)+'</b> / day</div>'
+      +'</button>';
+  }).join('');
+  $('#pick-grid').innerHTML=html;
+  $all('[data-pick]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      state.classId=btn.getAttribute('data-pick');
+      $all('.pick-card').forEach(function(x){x.classList.remove('sel');x.setAttribute('aria-pressed','false')});
+      btn.classList.add('sel');btn.setAttribute('aria-pressed','true');
+      render();
+    });
+  });
+}
+function lowestTier(c){
+  if(!c.tiers||!c.tiers.length)return c.pMin||0;
+  return c.tiers.reduce(function(m,t){return Math.min(m,t.daily_rate)},Infinity);
+}
+
+/* ========================= WIZARD NAV ========================= */
+function goStep(n){
+  $all('.wiz-pane').forEach(function(p){p.classList.toggle('active',p.getAttribute('data-pane')==String(n))});
+  $all('.wiz-step').forEach(function(s){
+    var sn=parseInt(s.getAttribute('data-step'));
+    s.classList.toggle('active',sn===n);
+    s.classList.toggle('done',sn<n);
+    s.setAttribute('aria-selected',sn===n?'true':'false');
+  });
+  if(n===2)renderPick();
+  if(n>=2&&!state.classId){var first=classesForBranch(state.branch)[0];if(first){state.classId=first;}}
+  render();
+}
+
+/* ========================= WIRE UP ========================= */
+function wire(){
+  // currency
+  $all('.curr-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      activeCurr=b.getAttribute('data-curr');
+      $all('.curr-btn').forEach(function(x){x.classList.toggle('active',x===b)});
+      renderFleet();render();renderPick();
+    });
+  });
+  // hero widget -> wizard
+  $('#h-branch').addEventListener('change',function(){state.branch=this.value;$('#w-branch').value=this.value;});
+  $('#h-from').addEventListener('change',function(){state.from=this.value;$('#w-from').value=this.value;$('#w-to').min=this.value;});
+  $('#h-from-t').addEventListener('change',function(){state.fromT=this.value;$('#w-from-t').value=this.value;});
+  $('#h-to').addEventListener('change',function(){state.to=this.value;$('#w-to').value=this.value;});
+  $('#h-to-t').addEventListener('change',function(){state.toT=this.value;$('#w-to-t').value=this.value;});
+  $('#h-search').addEventListener('click',function(){state.classId=null;goStep(2);$('#book').scrollIntoView({behavior:'smooth'});});
+  // wizard step 1 fields
+  $('#w-branch').addEventListener('change',function(){state.branch=this.value;$('#h-branch').value=this.value;state.classId=null;render();});
+  $('#w-from').addEventListener('change',function(){state.from=this.value;$('#w-to').min=this.value;render();});
+  $('#w-from-t').addEventListener('change',function(){state.fromT=this.value;render();});
+  $('#w-to').addEventListener('change',function(){state.to=this.value;render();});
+  $('#w-to-t').addEventListener('change',function(){state.toT=this.value;render();});
+  // extras
+  $('#ex-fc').addEventListener('change',function(){state.fc=this.checked;render();});
+  $('#ex-driver').addEventListener('change',function(){state.driver=this.checked;render();});
+  $('#ex-seat').addEventListener('change',function(){state.seat=this.checked;render();});
+  // step nav buttons
+  $all('[data-go]').forEach(function(b){b.addEventListener('click',function(){goStep(parseInt(b.getAttribute('data-go')));});});
+  $all('.wiz-step').forEach(function(s){s.addEventListener('click',function(){goStep(parseInt(s.getAttribute('data-step')));});});
+}
+
+/* ========================= FLEET COLLECTION ========================= */
+var fleetFilter='all';
+function buildFilters(){
+  var cats=['all'].concat(uniqueCats());
+  var branches=['hurghada','cairo','alexandria','rashid'];
+  var html='';
+  cats.forEach(function(cat){
+    var lbl=cat==='all'?'All classes':cat;
+    html+='<button class="filter-btn'+(cat==='all'?' active':'')+'" data-filter="cat:'+cat+'">'+lbl+'</button>';
+  });
+  branches.forEach(function(b){
+    html+='<button class="filter-btn" data-filter="branch:'+b+'">'+BRANCH_LABEL[b]+'</button>';
+  });
+  $('#fleet-filters').innerHTML=html;
+  $all('#fleet-filters .filter-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      fleetFilter=btn.getAttribute('data-filter');
+      $all('#fleet-filters .filter-btn').forEach(function(x){x.classList.toggle('active',x===btn)});
+      renderFleet();
+    });
+  });
+}
+function uniqueCats(){
+  var seen={},out=[];
+  FK.forEach(function(k){var cat=FLEET[k].cat;if(cat&&!seen[cat]){seen[cat]=1;out.push(cat);}});
+  return out;
+}
+function matchFilter(c){
+  if(fleetFilter==='all'||fleetFilter==='cat:all')return true;
+  var parts=fleetFilter.split(':');
+  if(parts[0]==='cat')return c.cat===parts[1];
+  if(parts[0]==='branch')return (c.branches||[]).indexOf(parts[1])>-1;
+  return true;
+}
+function renderFleet(){
+  var html=FK.filter(function(k){return matchFilter(FLEET[k])}).map(function(k){
+    var c=FLEET[k];var low=lowestTier(c);var lg=makeLogo(c);
+    var media=c.img
+      ? '<img src="'+c.img+'" alt="'+c.name+'" loading="lazy">'
+      : '<div class="fcard-mono">'+monogram(c)+'</div>';
+    var logoHtml=lg?'<img class="fcard-makelogo" src="'+lg+'" alt="'+c.make+' logo" loading="lazy" onerror="this.remove()">':'';
+    var ribbon=c.ribbon?'<span class="fcard-ribbon">'+c.ribbon+'</span>':'';
+    var branches=(c.branches||[]).map(function(b){return '<span class="branch-chip">'+(BRANCH_LABEL[b]||b)+'</span>'}).join('');
+    var hub=(c.branches&&c.branches[0])||'hurghada';
+    return '<article class="fcard">'
+      +'<div class="fcard-media">'+ribbon+logoHtml+media+'</div>'
+      +'<div class="fcard-body">'
+        +'<span class="fcard-cat">'+(c.cat||'')+'</span>'
+        +'<h3 class="fcard-name">'+c.name+'</h3>'
+        +'<p class="fcard-guarantee"><i class="fa-solid fa-award"></i> '+GUARANTEE+'</p>'
+        +'<div class="fcard-branches">'+branches+'</div>'
+        +'<div class="fcard-foot">'
+          +'<div class="fcard-price"><small>from</small><b>'+fC(low)+'</b> <span>/ day</span></div>'
+          +'<a class="btn btn-primary btn-sm" href="'+productUrl(c.slug,hub)+'" target="_blank" rel="noopener">Reserve</a>'
+        +'</div>'
+      +'</div>'
+    +'</article>';
+  }).join('');
+  $('#fleet-grid').innerHTML=html||'<p style="color:var(--muted);text-align:center;grid-column:1/-1">No classes match this filter.</p>';
+}
+
+/* ========================= MISC UI ========================= */
+function miscUI(){
+  $('#yr').textContent=new Date().getFullYear();
+  // nav scroll
+  window.addEventListener('scroll',function(){$('#nav').classList.toggle('scrolled',window.scrollY>24);},{passive:true});
+  // mobile menu
+  var hb=$('#hamburger'),mm=$('#mobile-menu');
+  hb.addEventListener('click',function(){var open=mm.classList.toggle('open');hb.classList.toggle('open',open);hb.setAttribute('aria-expanded',open?'true':'false');mm.setAttribute('aria-hidden',open?'false':'true');});
+  $all('#mobile-menu a').forEach(function(a){a.addEventListener('click',function(){mm.classList.remove('open');hb.classList.remove('open');hb.setAttribute('aria-expanded','false');});});
+  // reveal on scroll
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+    $all('.reveal').forEach(function(el){io.observe(el)});
+  }else{$all('.reveal').forEach(function(el){el.classList.add('in')});}
+}
+
+/* ========================= INIT ========================= */
+initDates();
+wire();
+buildFilters();
+renderFleet();
+render();
+miscUI();
+
+/* ========================= SELF-TEST (?selftest) ========================= */
+if(/[?&]selftest\b/.test(location.search)){
+  (function(){
+    var pass=0,fail=0;
+    function assert(cond,label){if(cond){pass++;console.log('PASS: '+label)}else{fail++;console.error('FAIL: '+label)}}
+    // 1) ERP-exact day count (Math.ceil, part-day rounds UP, full date+time, clamp 1).
+    assert(rentalDays('2026-01-01','09:00','2026-01-04','19:00')===4,'rentalDays 3d10h -> 4');
+    assert(rentalDays('2026-01-01','09:00','2026-01-05','05:00')===4,'rentalDays 3d20h -> 4 (part day up)');
+    assert(rentalDays('2026-01-01','09:00','2026-01-04','09:00')===3,'rentalDays exactly 3 days -> 3');
+    assert(rentalDays('2026-01-01','09:00','2026-01-01','10:00')===1,'rentalDays 1h -> clamp 1');
+    // 2) Tier scan returns the right band (MG ZS real tiers).
+    var zs=FLEET.mg_zs;
+    if(zs){
+      assert(calcRate(zs,1)===3200,'calcRate MG ZS 1 day -> 3200 (first band)');
+      assert(calcRate(zs,10)===2400,'calcRate MG ZS 10 days -> 2400 (7-12 band)');
+      assert(calcRate(zs,40)===1900,'calcRate MG ZS 40 days -> 1900 (26-45 band)');
+    }
+    // 3) productUrl shape.
+    assert(productUrl('mg-zs','cairo')==='https://brothersegy.com/product/rent-mg-zs-cairo/','productUrl shape');
+    // 4) Data hygiene — no misspellings leaked into class names.
+    var names=FK.map(function(k){return FLEET[k].name}).join(' | ');
+    assert(!/renualt/i.test(names)&&!/\bmegan\b/i.test(names)&&!/\bcherry\b/i.test(names),'no Renualt/Megan/Cherry typo');
+    console.log('SELFTEST DONE — '+pass+' passed, '+fail+' failed.');
+  })();
+}
+
+})();
+</script>
+</body>
+</html>

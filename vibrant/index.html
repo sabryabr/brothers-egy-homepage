@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brothers EGY — Rent a car in Egypt the easy way</title>
+<meta name="description" content="Rent a car in Egypt the friendly way. No credit card. Pay cash on arrival. Zero deposit with full cover. 24/7 delivery across Cairo, Hurghada, Alexandria & Rosetta.">
+<link rel="icon" href="https://brothersegy.com/wp-content/uploads/2026/02/12345.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============ CONCEPT C — SUNLIT RED SEA / FRIENDLY MODERN ============
+   Bright, airy, trustworthy and fun but premium. Light theme. */
+:root{
+  --turq:#0bb5c4;      /* Red Sea turquoise */
+  --turq-d:#0796a3;
+  --coral:#ff7a4d;     /* sunset coral */
+  --amber:#ffb020;     /* warm amber */
+  --navy:#122a3a;      /* deep navy text */
+  --ink:#2a4455;
+  --muted:#5e7686;
+  --bg:#fbfdfe;        /* off-white base */
+  --surface:#ffffff;
+  --soft:#eef7f9;      /* soft turquoise wash */
+  --soft2:#fff4ee;     /* soft coral wash */
+  --line:#e3edf1;
+  --ok:#12b886;
+  --shadow:0 18px 48px -22px rgba(18,42,58,.28);
+  --shadow-sm:0 8px 24px -14px rgba(18,42,58,.25);
+  --radius:22px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--navy);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4,.display{font-family:'Outfit',sans-serif;letter-spacing:-.01em}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 1.2rem}
+.eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-weight:800;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--turq-d);background:var(--soft);padding:.4rem .9rem;border-radius:999px}
+.section{padding:72px 0}
+.section-head{text-align:center;max-width:640px;margin:0 auto 2.6rem}
+.section-head h2{font-size:clamp(1.7rem,4.4vw,2.7rem);font-weight:800;color:var(--navy);line-height:1.1}
+.section-head h2 span{color:var(--turq)}
+.section-head p{color:var(--muted);margin-top:.8rem;font-size:1.02rem}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;border:none;cursor:pointer;border-radius:14px;padding:.9rem 1.4rem;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:linear-gradient(135deg,var(--coral),var(--amber));color:#fff;box-shadow:0 12px 26px -12px rgba(255,122,77,.7)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 32px -12px rgba(255,122,77,.75)}
+.btn-turq{background:linear-gradient(135deg,var(--turq),var(--turq-d));color:#fff;box-shadow:0 12px 26px -12px rgba(11,181,196,.65)}
+.btn-turq:hover{transform:translateY(-2px)}
+.btn-ghost{background:#fff;color:var(--navy);border:2px solid var(--line)}
+.btn-ghost:hover{border-color:var(--turq);color:var(--turq-d)}
+.btn-wa{background:#25D366;color:#fff}
+.btn-wa:hover{transform:translateY(-2px)}
+.btn-sm{padding:.6rem 1rem;font-size:.85rem;border-radius:11px}
+.btn-block{width:100%}
+
+/* nav */
+#nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:.3s;padding:1rem 0}
+#nav.scrolled{background:rgba(251,253,254,.92);backdrop-filter:blur(14px);box-shadow:0 6px 24px -18px rgba(18,42,58,.5);padding:.6rem 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.nav-logo{display:flex;align-items:center;gap:.6rem;font-family:'Outfit';font-weight:800;font-size:1.15rem;color:var(--navy)}
+.nav-logo img{height:40px;width:auto}
+.nav-links{display:flex;align-items:center;gap:1.6rem}
+.nav-links a{font-weight:600;font-size:.92rem;color:var(--ink);position:relative}
+.nav-links a:hover{color:var(--turq-d)}
+.nav-cta{display:flex;align-items:center;gap:.6rem}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px}
+.hamburger span{width:24px;height:2.5px;background:var(--navy);border-radius:2px;transition:.3s}
+.hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+#mobmenu{position:fixed;inset:0 0 0 auto;width:min(320px,84vw);background:#fff;z-index:59;transform:translateX(100%);transition:.35s;box-shadow:-20px 0 50px -30px rgba(18,42,58,.6);padding:5rem 1.6rem 2rem;display:flex;flex-direction:column;gap:1rem}
+#mobmenu.open{transform:translateX(0)}
+#mobmenu a{font-weight:700;font-size:1.05rem;padding:.6rem 0;border-bottom:1px solid var(--line)}
+
+/* HERO */
+#hero{position:relative;padding:120px 0 60px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://brothersegy.com/wp-content/uploads/2025/11/hurghada-costal-destiantion-near-the-red-sea.jpg') center 40%/cover no-repeat}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(251,253,254,.97) 0%,rgba(251,253,254,.9) 42%,rgba(11,181,196,.28) 100%)}
+.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:2.4rem;align-items:center}
+.hero-rating{display:inline-flex;align-items:center;gap:.6rem;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.45rem .9rem;box-shadow:var(--shadow-sm);font-weight:700;font-size:.86rem;margin-bottom:1.3rem}
+.hero-rating .stars{color:var(--amber);letter-spacing:1px}
+.hero-rating .g{color:var(--muted);font-weight:600}
+.hero h1{font-size:clamp(2.1rem,5.4vw,3.5rem);font-weight:900;line-height:1.04;color:var(--navy)}
+.hero h1 .hl{background:linear-gradient(120deg,var(--turq),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-size:1.12rem;color:var(--ink);margin:1.1rem 0 1.5rem;max-width:30rem}
+.trust-pills{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.6rem}
+.pill{display:inline-flex;align-items:center;gap:.4rem;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.42rem .85rem;font-size:.8rem;font-weight:700;color:var(--ink);box-shadow:var(--shadow-sm)}
+.pill i{color:var(--turq)}
+/* hero search widget */
+.search-card{background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:1.5rem;border:1px solid var(--line)}
+.search-card h3{font-size:1.15rem;font-weight:800;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+.search-card h3 i{color:var(--coral)}
+.search-card .sc-hint{color:var(--muted);font-size:.85rem;margin-bottom:1.1rem}
+.sc-field{margin-bottom:.9rem}
+.sc-field label{display:block;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.35rem}
+.sc-input,.sc-select{width:100%;border:2px solid var(--line);border-radius:13px;padding:.8rem .9rem;font-family:inherit;font-size:.95rem;font-weight:600;color:var(--navy);background:#fff;transition:.2s}
+.sc-input:focus,.sc-select:focus{outline:none;border-color:var(--turq);box-shadow:0 0 0 4px rgba(11,181,196,.14)}
+.sc-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+
+/* trust band */
+.trust-band{background:linear-gradient(135deg,var(--soft),#fff);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.badge-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem}
+.badge{text-align:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:1.1rem .7rem;box-shadow:var(--shadow-sm);transition:.25s}
+.badge:hover{transform:translateY(-4px);border-color:var(--turq)}
+.badge i{font-size:1.5rem;color:var(--turq);margin-bottom:.5rem}
+.badge span{display:block;font-weight:800;font-size:.82rem;color:var(--navy);line-height:1.25}
+
+/* WIZARD */
+#wizard{background:linear-gradient(180deg,#fff,var(--soft))}
+.wiz-shell{display:grid;grid-template-columns:1fr 340px;gap:1.6rem;align-items:start}
+.wiz-main{background:#fff;border-radius:24px;box-shadow:var(--shadow);border:1px solid var(--line);overflow:hidden}
+.wiz-steps{display:flex;background:var(--soft);padding:.5rem;gap:.4rem;flex-wrap:wrap}
+.wiz-step-tab{flex:1 1 0;min-width:120px;display:flex;align-items:center;gap:.5rem;padding:.6rem .7rem;border-radius:12px;font-weight:700;font-size:.82rem;color:var(--muted);background:transparent;border:none;cursor:pointer;transition:.2s}
+.wiz-step-tab .num{width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0}
+.wiz-step-tab.active{background:#fff;color:var(--navy);box-shadow:var(--shadow-sm)}
+.wiz-step-tab.active .num{background:var(--turq);border-color:var(--turq);color:#fff}
+.wiz-step-tab.done .num{background:var(--ok);border-color:var(--ok);color:#fff}
+.wiz-body{padding:1.6rem}
+.wiz-panel{display:none;animation:fade .35s ease}
+.wiz-panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.wiz-panel h3{font-size:1.3rem;font-weight:800;margin-bottom:.3rem}
+.wiz-panel .wiz-hint{color:var(--muted);font-size:.9rem;margin-bottom:1.3rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.4rem}
+.field input,.field select,.field textarea{width:100%;border:2px solid var(--line);border-radius:13px;padding:.85rem .9rem;font-family:inherit;font-size:.95rem;font-weight:600;color:var(--navy);background:#fff;transition:.2s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--turq);box-shadow:0 0 0 4px rgba(11,181,196,.14)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.dt-grid{display:grid;grid-template-columns:2fr 1fr;gap:.6rem}
+
+/* ride picker cards */
+.ride-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;max-height:none}
+.ride-card{border:2px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;transition:.22s;background:#fff;position:relative}
+.ride-card:hover{border-color:var(--turq);transform:translateY(-3px);box-shadow:var(--shadow-sm)}
+.ride-card.sel{border-color:var(--coral);box-shadow:0 0 0 4px rgba(255,122,77,.16)}
+.ride-card.sel::after{content:"\f00c";font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:.6rem;right:.6rem;background:var(--coral);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem}
+.ride-img{height:110px;background:var(--soft) center/cover no-repeat;display:flex;align-items:center;justify-content:center}
+.ride-mono{font-family:'Outfit';font-weight:900;font-size:1.5rem;color:var(--turq);opacity:.6}
+.ride-info{padding:.75rem .85rem}
+.ride-cat{font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--coral)}
+.ride-name{font-weight:800;font-size:.95rem;color:var(--navy);margin:.15rem 0}
+.ride-meta{font-size:.76rem;color:var(--muted);display:flex;gap:.7rem;margin-bottom:.4rem}
+.ride-price{font-weight:900;font-family:'Outfit';color:var(--navy)}
+.ride-price small{font-weight:600;color:var(--muted);font-size:.72rem}
+
+/* extras toggles */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;border:2px solid var(--line);border-radius:15px;padding:.9rem 1rem;margin-bottom:.7rem;cursor:pointer;transition:.2s}
+.toggle-row:hover{border-color:var(--turq)}
+.toggle-row.on{border-color:var(--turq);background:var(--soft)}
+.toggle-row .tr-txt h4{font-size:.96rem;font-weight:800}
+.toggle-row .tr-txt p{font-size:.8rem;color:var(--muted)}
+.switch{width:46px;height:26px;border-radius:999px;background:var(--line);position:relative;flex-shrink:0;transition:.2s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.2);transition:.2s}
+.toggle-row.on .switch{background:var(--turq)}
+.toggle-row.on .switch::after{transform:translateX(20px)}
+
+/* review step */
+.rev-line{display:flex;justify-content:space-between;gap:1rem;padding:.6rem 0;border-bottom:1px dashed var(--line);font-size:.92rem}
+.rev-line.big{font-weight:900;font-family:'Outfit';font-size:1.2rem;border:none;padding-top:1rem}
+.pay-split{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:1rem 0}
+.pay-box{border:2px solid var(--line);border-radius:15px;padding:1rem;text-align:center}
+.pay-box.now{border-color:var(--coral);background:var(--soft2)}
+.pay-box .pb-lbl{font-size:.74rem;font-weight:800;text-transform:uppercase;color:var(--muted)}
+.pay-box .pb-amt{font-family:'Outfit';font-weight:900;font-size:1.3rem;color:var(--navy);margin:.2rem 0}
+.pay-box .pb-sub{font-size:.74rem;color:var(--muted)}
+
+.wiz-nav{display:flex;justify-content:space-between;gap:.8rem;margin-top:1.4rem}
+
+/* sticky price summary */
+.price-rail{position:sticky;top:90px}
+.price-card{background:linear-gradient(160deg,var(--navy),#1d3b4e);color:#fff;border-radius:22px;padding:1.5rem;box-shadow:var(--shadow)}
+.price-card h4{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:#9fc5d1;font-weight:700;margin-bottom:.3rem}
+.price-car{font-family:'Outfit';font-weight:800;font-size:1.25rem;margin-bottom:.1rem}
+.price-sub{font-size:.82rem;color:#b7d4dd;margin-bottom:1rem}
+.price-line{display:flex;justify-content:space-between;font-size:.88rem;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.1);color:#dcebf0}
+.price-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:.9rem}
+.price-total .pt-lbl{font-size:.82rem;color:#b7d4dd}
+.price-total .pt-amt{font-family:'Outfit';font-weight:900;font-size:1.8rem}
+.price-now{background:rgba(255,122,77,.18);border:1px solid rgba(255,122,77,.4);border-radius:13px;padding:.7rem .9rem;margin-top:1rem;font-size:.82rem}
+.price-now b{color:var(--amber)}
+.price-promise{font-size:.74rem;color:#9fc5d1;margin-top:.9rem;line-height:1.5}
+
+/* FLEET */
+.fleet-filters{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:1.8rem}
+.fpill{background:#fff;border:2px solid var(--line);border-radius:999px;padding:.5rem 1rem;font-weight:700;font-size:.84rem;color:var(--ink);cursor:pointer;transition:.2s}
+.fpill:hover{border-color:var(--turq)}
+.fpill.active{background:var(--turq);border-color:var(--turq);color:#fff}
+.fleet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+.car-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-sm);transition:.25s;display:flex;flex-direction:column}
+.car-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.car-img{height:170px;background:var(--soft) center/cover no-repeat;position:relative;display:flex;align-items:center;justify-content:center}
+.car-mono{font-family:'Outfit';font-weight:900;font-size:2rem;color:var(--turq);opacity:.5}
+.car-ribbon{position:absolute;top:.8rem;left:.8rem;background:linear-gradient(135deg,var(--coral),var(--amber));color:#fff;font-size:.68rem;font-weight:800;padding:.3rem .7rem;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+.car-badge{position:absolute;top:.8rem;right:.8rem;background:rgba(18,42,58,.82);color:#fff;font-size:.64rem;font-weight:800;padding:.3rem .6rem;border-radius:999px;text-transform:uppercase}
+.car-body{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;flex:1}
+.car-name{font-family:'Outfit';font-weight:800;font-size:1.1rem}
+.car-meta{display:flex;gap:1rem;color:var(--muted);font-size:.82rem;margin:.4rem 0 .6rem}
+.car-guar{font-size:.78rem;color:var(--turq-d);background:var(--soft);border-radius:10px;padding:.5rem .7rem;margin-bottom:.8rem;font-weight:600}
+.car-price{display:flex;align-items:baseline;gap:.4rem;margin-bottom:.9rem}
+.car-price .cp-from{font-size:.76rem;color:var(--muted)}
+.car-price .cp-amt{font-family:'Outfit';font-weight:900;font-size:1.5rem;color:var(--navy)}
+.car-price .cp-day{font-size:.78rem;color:var(--muted)}
+.car-cta{display:flex;gap:.5rem;margin-top:auto}
+.car-cta .btn{flex:1}
+
+/* why / benefits */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.why-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:1.6rem;box-shadow:var(--shadow-sm);transition:.25s}
+.why-card:hover{transform:translateY(-5px)}
+.why-ico{width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;color:#fff;margin-bottom:1rem;background:linear-gradient(135deg,var(--turq),var(--turq-d))}
+.why-card:nth-child(2n) .why-ico{background:linear-gradient(135deg,var(--coral),var(--amber))}
+.why-card h3{font-size:1.1rem;font-weight:800;margin-bottom:.4rem}
+.why-card p{color:var(--muted);font-size:.9rem}
+
+/* story */
+#story{background:linear-gradient(135deg,var(--soft),#fff)}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;align-items:center}
+.story-img{border-radius:24px;overflow:hidden;box-shadow:var(--shadow);height:380px;background:url('https://brothersegy.com/wp-content/uploads/2025/11/giza-pyramids-cairo-egypt-with-palm.jpg') center/cover}
+.story-txt h2{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:800;line-height:1.1}
+.story-txt h2 span{color:var(--turq)}
+.story-txt p{color:var(--ink);margin:1rem 0;font-size:1rem}
+.story-stats{display:flex;gap:1.6rem;margin-top:1.4rem;flex-wrap:wrap}
+.story-stats div{text-align:center}
+.story-stats .ss-num{font-family:'Outfit';font-weight:900;font-size:2rem;color:var(--coral)}
+.story-stats .ss-lbl{font-size:.78rem;color:var(--muted);font-weight:600}
+
+/* reviews */
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+.review{background:#fff;border:1px solid var(--line);border-radius:20px;padding:1.5rem;box-shadow:var(--shadow-sm);position:relative}
+.review .stars{color:var(--amber);font-size:1rem;letter-spacing:1px;margin-bottom:.7rem}
+.review p{color:var(--ink);font-size:.92rem;font-style:italic;margin-bottom:1.1rem}
+.review .ra{display:flex;align-items:center;gap:.7rem}
+.review .ra img{width:42px;height:42px;border-radius:50%;background:var(--soft)}
+.review .ra h5{font-weight:800;font-size:.92rem}
+.review .ra span{font-size:.74rem;color:var(--muted)}
+
+/* cities */
+.city-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.city{position:relative;border-radius:22px;overflow:hidden;height:300px;display:flex;align-items:flex-end;color:#fff;box-shadow:var(--shadow-sm);transition:.3s}
+.city:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.city .cbg{position:absolute;inset:0;background-size:cover;background-position:center;transition:.5s}
+.city:hover .cbg{transform:scale(1.07)}
+.city .cov{position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(18,42,58,.85))}
+.city .cbody{position:relative;padding:1.4rem}
+.city .ctag{font-size:.7rem;font-weight:800;background:rgba(11,181,196,.9);padding:.25rem .6rem;border-radius:999px;text-transform:uppercase}
+.city h3{font-size:1.5rem;font-weight:800;margin:.5rem 0 .2rem}
+.city p{font-size:.84rem;opacity:.9}
+
+/* tours / transfers */
+.tt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
+.tt-card{border-radius:22px;overflow:hidden;position:relative;min-height:260px;display:flex;align-items:flex-end;color:#fff;box-shadow:var(--shadow-sm)}
+.tt-card .ttbg{position:absolute;inset:0;background-size:cover;background-position:center}
+.tt-card .ttov{position:absolute;inset:0;background:linear-gradient(120deg,rgba(18,42,58,.85),rgba(11,181,196,.5))}
+.tt-card .ttbody{position:relative;padding:1.8rem}
+.tt-card h3{font-size:1.5rem;font-weight:800}
+.tt-card p{opacity:.92;margin:.4rem 0 1rem;max-width:26rem}
+
+/* footer */
+footer{background:var(--navy);color:#cfe2e9;padding:60px 0 30px}
+.foot-cta{background:linear-gradient(135deg,var(--turq),var(--turq-d));border-radius:26px;padding:2.4rem;text-align:center;margin-bottom:3rem;color:#fff}
+.foot-cta h2{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:800;margin-bottom:.6rem}
+.foot-cta p{opacity:.95;margin-bottom:1.4rem}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+.foot-grid h4{color:#fff;font-size:1rem;margin-bottom:1rem;font-weight:800}
+.foot-grid a,.foot-grid p{display:block;color:#aecbd5;font-size:.88rem;margin-bottom:.5rem}
+.foot-grid a:hover{color:#fff}
+.foot-logo{display:flex;align-items:center;gap:.6rem;font-family:'Outfit';font-weight:800;font-size:1.3rem;color:#fff;margin-bottom:.8rem}
+.foot-logo img{height:40px}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.12);padding-top:1.4rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.82rem;color:#8fb2bd}
+
+/* floating whatsapp */
+#fab-wa{position:fixed;bottom:22px;right:22px;z-index:55;width:58px;height:58px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 10px 30px -8px rgba(37,211,102,.7);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.indic{font-size:.7rem;color:var(--muted);font-style:italic}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:.7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* currency switch */
+.cur-switch{display:inline-flex;background:var(--soft);border-radius:999px;padding:3px}
+.cur-switch button{border:none;background:none;padding:.35rem .7rem;border-radius:999px;font-weight:800;font-size:.78rem;color:var(--muted);cursor:pointer}
+.cur-switch button.active{background:#fff;color:var(--turq-d);box-shadow:var(--shadow-sm)}
+
+@media(max-width:980px){
+  .hero-inner{grid-template-columns:1fr;gap:1.6rem}
+  .wiz-shell{grid-template-columns:1fr}
+  .price-rail{position:static}
+  .badge-grid{grid-template-columns:repeat(3,1fr)}
+  .fleet-grid,.why-grid,.rev-grid,.city-grid{grid-template-columns:1fr 1fr}
+  .story-grid{grid-template-columns:1fr}
+  .story-img{height:260px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .nav-links,.nav-cta .btn{display:none}
+  .hamburger{display:flex}
+  .section{padding:52px 0}
+  .badge-grid{grid-template-columns:repeat(2,1fr)}
+  .fleet-grid,.why-grid,.rev-grid,.city-grid,.tt-grid{grid-template-columns:1fr}
+  .ride-grid{grid-template-columns:1fr}
+  .sc-row,.grid2{grid-template-columns:1fr}
+  .pay-split{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .wiz-step-tab span.lbl{display:none}
+  .wiz-step-tab{min-width:0;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header id="nav">
+  <div class="wrap nav-inner">
+    <a class="nav-logo" href="#top"><img src="https://brothersegy.com/wp-content/uploads/2026/02/Logo.png" alt="Brothers EGY">Brothers EGY</a>
+    <nav class="nav-links">
+      <a href="#wizard">Book</a>
+      <a href="#fleet">Fleet</a>
+      <a href="#why">Why Us</a>
+      <a href="#story">Our Story</a>
+      <a href="#cities">Cities</a>
+      <a href="#reviews">Reviews</a>
+    </nav>
+    <div class="nav-cta">
+      <span class="cur-switch" id="cur-switch">
+        <button data-cur="EGP" class="active">EGP</button>
+        <button data-cur="USD">USD</button>
+        <button data-cur="EUR">EUR</button>
+      </span>
+      <a class="btn btn-primary btn-sm" href="#wizard"><i class="fa-solid fa-calendar-check"></i> Book now</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<nav id="mobmenu" aria-label="Mobile menu">
+  <a href="#wizard" onclick="closeMenu()">Book</a>
+  <a href="#fleet" onclick="closeMenu()">Fleet</a>
+  <a href="#why" onclick="closeMenu()">Why Us</a>
+  <a href="#story" onclick="closeMenu()">Our Story</a>
+  <a href="#cities" onclick="closeMenu()">Cities</a>
+  <a href="#reviews" onclick="closeMenu()">Reviews</a>
+  <a class="btn btn-wa" href="https://wa.me/201554446744" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp us</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero" aria-label="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <span class="hero-rating"><span class="stars">★★★★★</span> <b>4.9</b> <span class="g">on Google · 500+ happy travellers</span></span>
+      <h1>Rent a car in Egypt<br>the <span class="hl">easy, friendly</span> way.</h1>
+      <p class="hero-sub">No credit card. Pay cash on arrival. Zero deposit with full cover, and a brother on the road 24/7. Pick your city and dates — we'll handle the rest.</p>
+      <div class="trust-pills">
+        <span class="pill"><i class="fa-solid fa-circle-check"></i> No credit card</span>
+        <span class="pill"><i class="fa-solid fa-money-bill-wave"></i> Pay cash on arrival</span>
+        <span class="pill"><i class="fa-solid fa-shield-heart"></i> Zero deposit with full cover</span>
+        <span class="pill"><i class="fa-solid fa-clock"></i> 12h free cancellation</span>
+      </div>
+    </div>
+    <!-- SEARCH WIDGET -->
+    <div class="search-card">
+      <h3><i class="fa-solid fa-magnifying-glass"></i> Find your car</h3>
+      <p class="sc-hint">Three quick taps and you're on the road.</p>
+      <div class="sc-field">
+        <label for="sc-hub">Pick-up city</label>
+        <select class="sc-select" id="sc-hub">
+          <option value="cairo">Cairo Airport (CAI)</option>
+          <option value="hurghada" selected>Hurghada (HRG)</option>
+          <option value="alexandria">Alexandria (ALX)</option>
+          <option value="rashid">Rosetta / Rashid (RSH)</option>
+        </select>
+      </div>
+      <div class="sc-row">
+        <div class="sc-field">
+          <label for="sc-from">Pick-up date</label>
+          <input class="sc-input" type="date" id="sc-from">
+        </div>
+        <div class="sc-field">
+          <label for="sc-from-t">Time</label>
+          <input class="sc-input" type="time" id="sc-from-t" value="10:00">
+        </div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-field">
+          <label for="sc-to">Drop-off date</label>
+          <input class="sc-input" type="date" id="sc-to">
+        </div>
+        <div class="sc-field">
+          <label for="sc-to-t">Time</label>
+          <input class="sc-input" type="time" id="sc-to-t" value="10:00">
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="startWizard()"><i class="fa-solid fa-car-side"></i> Search cars</button>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAND -->
+<section class="trust-band section" style="padding:40px 0" aria-label="trust badges">
+  <div class="wrap">
+    <div class="badge-grid reveal">
+      <div class="badge"><i class="fa-solid fa-credit-card"></i><span>No Credit Card</span></div>
+      <div class="badge"><i class="fa-solid fa-money-bill-wave"></i><span>Pay Cash on Arrival</span></div>
+      <div class="badge"><i class="fa-solid fa-shield-heart"></i><span>Zero Deposit, Full Cover</span></div>
+      <div class="badge"><i class="fa-solid fa-headset"></i><span>24/7 Chauffeur Delivery</span></div>
+      <div class="badge"><i class="fa-solid fa-rotate-left"></i><span>12h Free Cancellation</span></div>
+      <div class="badge"><i class="fa-solid fa-heart"></i><span>Family Since 2007</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WIZARD -->
+<section id="wizard" class="section" aria-label="booking wizard">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="fa-solid fa-wand-magic-sparkles"></i> The easiest booking in Egypt</span>
+      <h2>Book in four happy <span>steps</span></h2>
+      <p>Live, ERP-exact pricing updates as you go. No hidden fees, ever.</p>
+    </div>
+    <div class="wiz-shell reveal">
+      <div class="wiz-main">
+        <div class="wiz-steps" id="wiz-steps">
+          <button class="wiz-step-tab active" data-step="1" onclick="goStep(1)"><span class="num">1</span><span class="lbl">Where &amp; when</span></button>
+          <button class="wiz-step-tab" data-step="2" onclick="goStep(2)"><span class="num">2</span><span class="lbl">Pick your ride</span></button>
+          <button class="wiz-step-tab" data-step="3" onclick="goStep(3)"><span class="num">3</span><span class="lbl">Protection &amp; extras</span></button>
+          <button class="wiz-step-tab" data-step="4" onclick="goStep(4)"><span class="num">4</span><span class="lbl">Review &amp; book</span></button>
+        </div>
+        <div class="wiz-body">
+          <!-- STEP 1 -->
+          <div class="wiz-panel active" id="panel-1">
+            <h3>Where &amp; when? 🗺️</h3>
+            <p class="wiz-hint">Tell us your city and dates — we'll show every car ready for you.</p>
+            <div class="field">
+              <label for="bk-hub">Pick-up city</label>
+              <select id="bk-hub" onchange="syncHub(this.value);renderRides();bkCalc()">
+                <option value="cairo">Cairo Airport (CAI)</option>
+                <option value="hurghada">Hurghada (HRG)</option>
+                <option value="alexandria">Alexandria (ALX)</option>
+                <option value="rashid">Rosetta / Rashid (RSH)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Pick-up</label>
+              <div class="dt-grid">
+                <input type="date" id="bk-from" onchange="recalcDays()">
+                <input type="time" id="bk-from-t" value="10:00" onchange="recalcDays()">
+              </div>
+            </div>
+            <div class="field">
+              <label>Drop-off</label>
+              <div class="dt-grid">
+                <input type="date" id="bk-to" onchange="recalcDays()">
+                <input type="time" id="bk-to-t" value="10:00" onchange="recalcDays()">
+              </div>
+            </div>
+            <div class="field" style="background:var(--soft);border-radius:13px;padding:.9rem 1rem;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-weight:700;font-size:.9rem">Your trip length</span>
+              <span style="font-family:'Outfit';font-weight:900;color:var(--turq-d)"><span id="bk-days-lbl">7</span> days</span>
+            </div>
+            <div class="wiz-nav">
+              <span></span>
+              <button class="btn btn-turq" onclick="goStep(2)">Pick your ride <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+          <!-- STEP 2 -->
+          <div class="wiz-panel" id="panel-2">
+            <h3>Pick your ride 🚗</h3>
+            <p class="wiz-hint">Prices shown are for your dates. You book a class — you get that car or a free upgrade. Never less. Promise.</p>
+            <div class="ride-grid" id="ride-grid"></div>
+            <div class="wiz-nav">
+              <button class="btn btn-ghost" onclick="goStep(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <button class="btn btn-turq" onclick="goStep(3)">Protection &amp; extras <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+          <!-- STEP 3 -->
+          <div class="wiz-panel" id="panel-3">
+            <h3>Add protection &amp; extras 🛡️</h3>
+            <p class="wiz-hint">Travel relaxed. Full Protection means zero deposit and we cover the car.</p>
+            <div class="toggle-row" id="tg-ins" onclick="toggleIns()">
+              <div class="tr-txt"><h4>Full Protection <span class="indic" id="ins-ask" style="display:none">(fee confirmed with us)</span></h4><p>Zero deposit. We pay 100% on damage. <span id="ins-fee"></span></p></div>
+              <div class="switch"></div>
+            </div>
+            <div class="toggle-row" id="tg-driver" onclick="toggleDriver()">
+              <div class="tr-txt"><h4>Extra driver <span class="indic">(indicative)</span></h4><p>Share the wheel. 500 EGP / day.</p></div>
+              <div class="switch"></div>
+            </div>
+            <div class="toggle-row" id="tg-seat" onclick="toggleSeat()">
+              <div class="tr-txt"><h4>Child seat <span class="indic">(indicative)</span></h4><p>Keep little travellers safe. 250 EGP / day.</p></div>
+              <div class="switch"></div>
+            </div>
+            <div class="field" style="margin-top:1rem">
+              <label for="bk-notes">Anything we should know?</label>
+              <textarea id="bk-notes" rows="2" placeholder="Flight number, hotel, special requests…"></textarea>
+            </div>
+            <div class="wiz-nav">
+              <button class="btn btn-ghost" onclick="goStep(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <button class="btn btn-turq" onclick="goStep(4)">Review &amp; book <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+          <!-- STEP 4 -->
+          <div class="wiz-panel" id="panel-4">
+            <h3>Review &amp; book 🎉</h3>
+            <p class="wiz-hint">All clear and transparent. Reserve with just 30% now, pay the rest on arrival.</p>
+            <div id="review-lines"></div>
+            <div class="pay-split">
+              <div class="pay-box now">
+                <div class="pb-lbl">Pay now (30%)</div>
+                <div class="pb-amt" id="pay-now">—</div>
+                <div class="pb-sub">To reserve your car</div>
+              </div>
+              <div class="pay-box">
+                <div class="pb-lbl">Pay on arrival (70%)</div>
+                <div class="pb-amt" id="pay-later">—</div>
+                <div class="pb-sub">Cash, when we meet</div>
+              </div>
+            </div>
+            <p class="indic" style="margin-bottom:1rem"><i class="fa-solid fa-circle-info"></i> Pay 30% now to lock your dates, the rest on arrival. Deposit is waived entirely with Full Protection.</p>
+            <div class="field grid2">
+              <div><label for="bk-name">Your name</label><input id="bk-name" placeholder="e.g. Gert"></div>
+              <div><label for="bk-phone">Phone / WhatsApp</label><input id="bk-phone" placeholder="+20…"></div>
+            </div>
+            <div class="wiz-nav" style="flex-wrap:wrap">
+              <button class="btn btn-ghost" onclick="goStep(3)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+                <a class="btn btn-turq" id="bk-online-btn" href="#" target="_blank"><i class="fa-solid fa-globe"></i> Book online</a>
+                <a class="btn btn-wa" id="bk-wa-btn" href="#" target="_blank"><i class="fa-brands fa-whatsapp"></i> Book on WhatsApp</a>
+                <a class="btn btn-primary" id="bk-fb-btn" href="#" target="_blank"><i class="fa-brands fa-facebook-messenger"></i> Messenger</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- STICKY PRICE RAIL -->
+      <aside class="price-rail">
+        <div class="price-card">
+          <h4>Your trip</h4>
+          <div class="price-car" id="pr-car">Pick a car</div>
+          <div class="price-sub" id="pr-sub">—</div>
+          <div class="price-line"><span id="pr-rate-lbl">Daily rate × days</span><span id="pr-base">—</span></div>
+          <div class="price-line" id="pr-ins-line" style="display:none"><span>Full Protection</span><span id="pr-ins">—</span></div>
+          <div class="price-line" id="pr-extra-line" style="display:none"><span>Extras</span><span id="pr-extra">—</span></div>
+          <div class="price-total"><span class="pt-lbl">Estimated total</span><span class="pt-amt" id="pr-total">—</span></div>
+          <div class="price-now">Reserve now: <b id="pr-now">—</b> · rest on arrival</div>
+          <p class="price-promise"><i class="fa-solid fa-shield-heart"></i> Book a class, get that car or a free upgrade — never less. Live ERP pricing, no hidden fees.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET -->
+<section id="fleet" class="section" aria-label="fleet">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="fa-solid fa-car-side"></i> Our happy fleet</span>
+      <h2>Pick a ride you'll <span>love</span></h2>
+      <p>Eleven real classes, honest "from" prices, and a free upgrade promise on every one.</p>
+    </div>
+    <div class="fleet-filters reveal" id="fleet-filters"></div>
+    <div class="fleet-grid reveal" id="fleet-grid"></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why" class="section" style="background:linear-gradient(180deg,#fff,var(--soft))" aria-label="why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="fa-solid fa-heart"></i> Why travellers love Brothers</span>
+      <h2>A rental that feels like <span>a friend</span></h2>
+    </div>
+    <div class="why-grid reveal">
+      <div class="why-card"><div class="why-ico"><i class="fa-solid fa-money-bill-wave"></i></div><h3>No card, no stress</h3><p>Pay cash on arrival. No credit card, no pre-authorisation, no awkward holds on your account.</p></div>
+      <div class="why-card"><div class="why-ico"><i class="fa-solid fa-shield-heart"></i></div><h3>Zero deposit cover</h3><p>Choose Full Protection and we waive the deposit completely. If anything happens, we handle it.</p></div>
+      <div class="why-card"><div class="why-ico"><i class="fa-solid fa-plane-arrival"></i></div><h3>Meet you anywhere</h3><p>Airport, hotel or home — a chauffeur delivers your car 24/7, even in the middle of the night.</p></div>
+      <div class="why-card"><div class="why-ico"><i class="fa-solid fa-arrow-up-right-dots"></i></div><h3>Free upgrade promise</h3><p>Book a class and get that car or better. You will never be handed something smaller than you booked.</p></div>
+      <div class="why-card"><div class="why-ico"><i class="fa-solid fa-tags"></i></div><h3>Honest pricing</h3><p>The price you see is the price you pay. Real tiered rates, cheaper the longer you stay.</p></div>
+      <div class="why-card"><div class="why-ico"><i class="fa-solid fa-headset"></i></div><h3>A brother on call</h3><p>Need to extend, swap, or ask for advice? One message and we are there, day or night.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="section" aria-label="story">
+  <div class="wrap story-grid reveal">
+    <div class="story-img" aria-hidden="true"></div>
+    <div class="story-txt">
+      <span class="eyebrow"><i class="fa-solid fa-seedling"></i> Our family since 2007</span>
+      <h2>Not clients — <span>brothers</span>.</h2>
+      <p>It started with two brothers, two cars, and one little office on Sherry Street in Hurghada. The belief was simple: every traveller deserves a safe, honest, friendly ride, and someone who treats them like family.</p>
+      <p>Today we welcome travellers across four Egyptian cities — Cairo, Hurghada, Alexandria and Rosetta. People do not leave as customers. They leave as friends for life.</p>
+      <div class="story-stats">
+        <div><div class="ss-num">2007</div><div class="ss-lbl">Founded with love</div></div>
+        <div><div class="ss-num">4</div><div class="ss-lbl">Cities across Egypt</div></div>
+        <div><div class="ss-num">4.9★</div><div class="ss-lbl">Google rating</div></div>
+        <div><div class="ss-num">500+</div><div class="ss-lbl">Happy travellers</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="section" style="background:linear-gradient(180deg,var(--soft),#fff)" aria-label="reviews">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span style="color:var(--amber)">★★★★★</span> 4.9 on Google</span>
+      <h2>Our family <span>speaks</span></h2>
+      <p>Real reviews from real travellers who rode with Brothers.</p>
+    </div>
+    <div class="rev-grid reveal">
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>"Very good service, accepted EU driving licence, took full insurance and no deposit. Extending for further days was just one call. Stunning roadtrip!"</p>
+        <div class="ra"><img src="https://lh3.googleusercontent.com/a/ACg8ocK55XJAm-CeGXVHI_xVCARbgttaFzGEN8I0yb0Jterh8QPXiw=w40-h40-c-rp-mo-br100" alt="Gert Halop"><div><h5>Gert Halop</h5><span>Verified Google Review</span></div></div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>"Great service. They always have a car for you. Excellent team response, confirmed in minutes, car was exactly as described."</p>
+        <div class="ra"><img src="https://lh3.googleusercontent.com/a/ACg8ocK7rjyqXmcqwLeeh48rqH4ZNdR6xOzg6iGVf8jd0Vu3BHTL5Q=w40-h40-c-rp-mo-br100" alt="Dzianis Pomazau"><div><h5>Dzianis Pomazau</h5><span>Verified Google Review</span></div></div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>"Fantastic. Mr. Hussam came in the middle of the night to deliver at Cairo International Airport. Service was truly exceptional, highly recommended."</p>
+        <div class="ra"><img src="https://lh3.googleusercontent.com/a-/ALV-UjUm_fPTPUime2IEUVyhrKxqWEvm-1THxuOucC1K34l1vTGZ5NfG=w40-h40-c-rp-mo-ba2-br100" alt="Ahmad El Awad"><div><h5>Ahmad El Awad</h5><span>Verified Google Review</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CITIES -->
+<section id="cities" class="section" aria-label="cities">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="fa-solid fa-location-dot"></i> Where we meet you</span>
+      <h2>Four cities, <span>one family</span></h2>
+    </div>
+    <div class="city-grid reveal">
+      <a class="city" href="https://brothersegy.com/car-rental-cairo/" target="_blank">
+        <div class="cbg" style="background-image:url('https://brothersegy.com/wp-content/uploads/2025/11/giza-pyramids-cairo-egypt-with-palm.jpg')"></div>
+        <div class="cov"></div>
+        <div class="cbody"><span class="ctag">CAI · Since 2022</span><h3>Cairo</h3><p>Heliopolis & the airport, 24/7 delivery.</p></div>
+      </a>
+      <a class="city" href="https://brothersegy.com/car-rental-hurghada/" target="_blank">
+        <div class="cbg" style="background-image:url('https://brothersegy.com/wp-content/uploads/2025/11/hurghada-costal-destiantion-near-the-red-sea.jpg')"></div>
+        <div class="cov"></div>
+        <div class="cbody"><span class="ctag">HRG · Since 2007</span><h3>Hurghada</h3><p>Where it all began — Sherry St & the Red Sea.</p></div>
+      </a>
+      <a class="city" href="https://brothersegy.com/car-rental-alexandria/" target="_blank">
+        <div class="cbg" style="background-image:url('https://brothersegy.com/wp-content/uploads/2025/11/A-picture-from-above-of-the-city-of-Alexandria-in-Egypt.jpg')"></div>
+        <div class="cov"></div>
+        <div class="cbody"><span class="ctag">ALX · Since 2016</span><h3>Alexandria</h3><p>The Mediterranean coast, poets & the sea.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TOURS & TRANSFERS -->
+<section class="section" style="background:linear-gradient(180deg,#fff,var(--soft))" aria-label="tours and transfers">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><i class="fa-solid fa-compass"></i> Beyond the car</span>
+      <h2>Transfers &amp; <span>tours</span></h2>
+    </div>
+    <div class="tt-grid reveal">
+      <div class="tt-card">
+        <div class="ttbg" style="background-image:url('https://brothersegy.com/wp-content/uploads/2025/11/giza-pyramids-cairo-egypt-with-palm.jpg')"></div>
+        <div class="ttov"></div>
+        <div class="ttbody">
+          <h3>Airport transfers</h3>
+          <p>Land, smile, go. A friendly driver waiting with your name at Cairo, Hurghada or Alexandria.</p>
+          <a class="btn btn-wa" href="https://wa.me/201554446744?text=Hi%20Brothers%20EGY!%20I'd%20like%20an%20airport%20transfer." target="_blank"><i class="fa-brands fa-whatsapp"></i> Book a transfer</a>
+        </div>
+      </div>
+      <div class="tt-card">
+        <div class="ttbg" style="background-image:url('https://brothersegy.com/wp-content/uploads/2025/11/hurghada-costal-destiantion-near-the-red-sea.jpg')"></div>
+        <div class="ttov"></div>
+        <div class="ttbody">
+          <h3>Day tours</h3>
+          <p>Pyramids, the Red Sea, Alexandria's corniche — explore with a car and a brother who knows the roads.</p>
+          <a class="btn btn-primary" href="https://wa.me/201554446744?text=Hi%20Brothers%20EGY!%20I'd%20love%20to%20plan%20a%20tour." target="_blank"><i class="fa-solid fa-map-location-dot"></i> Plan a tour</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer aria-label="footer">
+  <div class="wrap">
+    <div class="foot-cta reveal">
+      <h2>Ready for an easy Egyptian road trip?</h2>
+      <p>Message us now — we usually reply within minutes.</p>
+      <a class="btn btn-wa" style="background:#fff;color:#128C7E" href="https://wa.me/201554446744" target="_blank"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</a>
+    </div>
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo"><img src="https://brothersegy.com/wp-content/uploads/2026/02/Logo.png" alt="Brothers EGY">Brothers EGY</div>
+        <p>Egypt's friendly car rental family since 2007. Not clients — brothers.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#wizard">Book a car</a>
+        <a href="#fleet">Our fleet</a>
+        <a href="#why">Why us</a>
+        <a href="#reviews">Reviews</a>
+      </div>
+      <div>
+        <h4>Cities</h4>
+        <a href="https://brothersegy.com/car-rental-cairo/" target="_blank">Cairo</a>
+        <a href="https://brothersegy.com/car-rental-hurghada/" target="_blank">Hurghada</a>
+        <a href="https://brothersegy.com/car-rental-alexandria/" target="_blank">Alexandria</a>
+        <a href="#cities">Rosetta</a>
+      </div>
+      <div>
+        <h4>Talk to us</h4>
+        <a href="https://wa.me/201554446744" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://m.me/BrothersEGY" target="_blank"><i class="fa-brands fa-facebook-messenger"></i> Messenger</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2007–2026 Brothers EGY. Made with care in Egypt.</span>
+      <span>Concept draft · Sunlit Red Sea · prices are live ERP data</span>
+    </div>
+  </div>
+</footer>
+
+<a id="fab-wa" href="https://wa.me/201554446744" target="_blank" aria-label="WhatsApp us"><i class="fa-brands fa-whatsapp"></i></a>
+
+<!-- fleet data (window.BEGY_FLEET) -->
+<script src="fleet-data.js"></script>
+<script>
+(function(){
+"use strict";
+var FLEET=window.BEGY_FLEET||{};
+var FK=Object.keys(FLEET);
+
+/* ── UTILS ── */
+function fmt(n){return Math.round(n).toLocaleString('en-US')}
+var RATES={EGP:1,USD:0.020,EUR:0.018};
+var SYMS={EGP:'EGP ',USD:'$',EUR:'€'};
+var activeCurr='EGP';
+function fC(n){return SYMS[activeCurr]+(activeCurr!=='EGP'?' ':'')+fmt(n*RATES[activeCurr])}
+
+/* ── ERP-EXACT PRICING + DAY COUNT ──  (copied verbatim from website/homepage/index.html)
+   DAYS = Math.ceil((dropoff - pickup)/86400000): any part-day rounds UP to a full
+   day (3d10h => 4, 3d20h => 4). Uses the full pickup/dropoff date+time. Clamp min 1.
+   DAILY RATE = the matching tier for the class and DAYS (min_days <= DAYS <= max_days;
+   open-ended top band when max_days is null). No sliding interpolation — real tiers.
+   Tier bands in the raw data can overlap at a boundary (e.g. MG ZS 1-2 then 2-6);
+   we take the FIRST band that matches, scanning in ascending min_days order. */
+function rentalDays(fromDate,fromTime,toDate,toTime){
+  if(!fromDate||!toDate)return 0;
+  var a=new Date(fromDate+'T'+(fromTime||'00:00')+':00');
+  var b=new Date(toDate+'T'+(toTime||'00:00')+':00');
+  if(isNaN(a)||isNaN(b))return 0;
+  var ms=b-a;
+  if(ms<=0)return 1;
+  return Math.max(1,Math.ceil(ms/86400000));
+}
+function calcRate(c,days){
+  if(!c)return 0;
+  var d=Math.max(1,parseInt(days)||1);
+  var tiers=c.tiers||[];
+  for(var i=0;i<tiers.length;i++){
+    var t=tiers[i];
+    var lo=t.min_days==null?1:t.min_days;
+    var hi=t.max_days==null?Infinity:t.max_days;
+    if(d>=lo&&d<=hi)return t.daily_rate;
+  }
+  // Beyond the last defined band: fall back to the cheapest (longest-stay) rate.
+  return tiers.length?tiers[tiers.length-1].daily_rate:(c.pMin||0);
+}
+/* Full Protection daily fee: real ERP insurance_daily when present, else 0 +
+   an "ask" flag so the UI shows it as indicative rather than a fabricated number. */
+function fullCoverDaily(c){return (c&&c.fc!=null)?c.fc:0}
+function fullCoverIsAsk(c){return !c||c.fc==null}
+function productUrl(slug,hub){return 'https://brothersegy.com/product/rent-'+slug+'-'+hub+'/'}
+/* INDICATIVE add-on fees — NOT in the ERP export, placeholders to confirm with owner. */
+var EXTRA_DRIVER_PER_DAY=500; // indicative
+var EXTRA_SEAT_PER_DAY=250;   // indicative
+
+/* ── STATE ── */
+var activeHub='hurghada';
+var bkCarId=null;
+var bkDays=7;
+var bkFullIns=false, bkExDriver=false, bkExSeat=false;
+var activeFilterHub='all', activeFilterCat='all';
+
+/* ── NAV ── */
+window.toggleMenu=function(){document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobmenu').classList.toggle('open')};
+window.closeMenu=function(){document.getElementById('hamburger').classList.remove('open');document.getElementById('mobmenu').classList.remove('open')};
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('scrolled',window.scrollY>24)},{passive:true});
+
+/* currency */
+document.getElementById('cur-switch').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-cur]');if(!b)return;
+  activeCurr=b.getAttribute('data-cur');
+  this.querySelectorAll('button').forEach(function(x){x.classList.toggle('active',x===b)});
+  renderRides();renderFleet();bkCalc();
+});
+
+/* ── DATES ── */
+function fmtDate(d){return d.toISOString().slice(0,10)}
+function initDates(){
+  var today=new Date();
+  var from=new Date(today);from.setDate(from.getDate()+2);
+  var to=new Date(today);to.setDate(to.getDate()+9);
+  ['sc-from','bk-from'].forEach(function(id){var el=document.getElementById(id);if(el){el.value=fmtDate(from);el.min=fmtDate(today)}});
+  ['sc-to','bk-to'].forEach(function(id){var el=document.getElementById(id);if(el){el.value=fmtDate(to);el.min=fmtDate(from)}});
+}
+
+/* search widget -> wizard */
+window.startWizard=function(){
+  var hub=document.getElementById('sc-hub').value;
+  syncHub(hub);
+  document.getElementById('bk-hub').value=hub;
+  copyVal('sc-from','bk-from');copyVal('sc-from-t','bk-from-t');
+  copyVal('sc-to','bk-to');copyVal('sc-to-t','bk-to-t');
+  recalcDays();
+  renderRides();
+  goStep(1);
+  document.getElementById('wizard').scrollIntoView({behavior:'smooth'});
+};
+function copyVal(a,b){var x=document.getElementById(a),y=document.getElementById(b);if(x&&y&&x.value)y.value=x.value}
+
+window.syncHub=function(h){activeHub=h;};
+
+function recalcDays(){
+  var f=document.getElementById('bk-from').value,tf=document.getElementById('bk-from-t').value||'10:00';
+  var t=document.getElementById('bk-to').value,tt=document.getElementById('bk-to-t').value||'10:00';
+  if(f&&t){
+    var diff=rentalDays(f,tf,t,tt); // ERP-exact Math.ceil day-count on full date+time
+    if(diff>0){bkDays=diff;document.getElementById('bk-days-lbl').textContent=diff;}
+  }
+  renderRides();bkCalc();
+}
+
+/* ── STEP NAVIGATION ── */
+window.goStep=function(n){
+  for(var i=1;i<=4;i++){
+    document.getElementById('panel-'+i).classList.toggle('active',i===n);
+    var tab=document.querySelector('.wiz-step-tab[data-step="'+i+'"]');
+    tab.classList.toggle('active',i===n);
+    tab.classList.toggle('done',i<n);
+  }
+  if(n>=2&&!bkCarId){ // auto-pick first available ride so the wizard always has a selection
+    var avail=availableIds();
+    if(avail.length){bkCarId=avail[0];renderRides();}
+  }
+  bkCalc();
+  if(n===4)buildReview();
+};
+
+/* ── RIDE PICKER (step 2) ── */
+function hubIds(hub){return FK.filter(function(id){return FLEET[id].branches.indexOf(hub)>-1})}
+function availableIds(){var ids=hubIds(activeHub);return ids.length?ids:FK;}
+function carImg(c){return c.img?('<div class="ride-img" style="background-image:url(\''+c.img+'\')"></div>'):('<div class="ride-img"><span class="ride-mono">'+initials(c)+'</span></div>')}
+function initials(c){return (c.make?c.make[0]:'')+(c.model?String(c.model)[0]:'')}
+function renderRides(){
+  var grid=document.getElementById('ride-grid');if(!grid)return;
+  var ids=availableIds();
+  grid.innerHTML=ids.map(function(id){
+    var c=FLEET[id];var dr=calcRate(c,bkDays);
+    return '<div class="ride-card'+(id===bkCarId?' sel':'')+'" onclick="pickRide(\''+id+'\')">'
+      +carImg(c)
+      +'<div class="ride-info">'
+      +'<div class="ride-cat">'+c.cat+'</div>'
+      +'<div class="ride-name">'+c.name+'</div>'
+      +'<div class="ride-meta"><span><i class="fa-solid fa-user-group"></i> '+c.seats+'</span><span><i class="fa-solid fa-suitcase"></i> '+c.bags+'</span></div>'
+      +'<div class="ride-price">'+fC(dr)+' <small>/ day · your dates</small></div>'
+      +'</div></div>';
+  }).join('');
+}
+window.pickRide=function(id){bkCarId=id;renderRides();bkCalc();};
+
+/* ── TOGGLES (step 3) ── */
+window.toggleIns=function(){bkFullIns=!bkFullIns;document.getElementById('tg-ins').classList.toggle('on',bkFullIns);bkCalc()};
+window.toggleDriver=function(){bkExDriver=!bkExDriver;document.getElementById('tg-driver').classList.toggle('on',bkExDriver);bkCalc()};
+window.toggleSeat=function(){bkExSeat=!bkExSeat;document.getElementById('tg-seat').classList.toggle('on',bkExSeat);bkCalc()};
+
+/* ── LIVE PRICE (sticky rail) ── */
+function bkCalc(){
+  var c=bkCarId?FLEET[bkCarId]:null;
+  var days=bkDays;
+  // insurance fee hint on step 3
+  if(c){
+    var feeEl=document.getElementById('ins-fee'),askEl=document.getElementById('ins-ask');
+    if(fullCoverIsAsk(c)){feeEl.textContent='';askEl.style.display='';}
+    else{feeEl.textContent=fC(fullCoverDaily(c))+' / day';askEl.style.display='none';}
+  }
+  if(!c){
+    document.getElementById('pr-car').textContent='Pick a car';
+    document.getElementById('pr-sub').textContent='Choose a ride in step 2';
+    ['pr-base','pr-total','pr-now'].forEach(function(id){document.getElementById(id).textContent='—'});
+    document.getElementById('pr-ins-line').style.display='none';
+    document.getElementById('pr-extra-line').style.display='none';
+    return;
+  }
+  var dr=calcRate(c,days);              // REAL tier rate, no interpolation
+  var base=dr*days;
+  var ins=bkFullIns?fullCoverDaily(c)*days:0;
+  var ext=(bkExDriver?EXTRA_DRIVER_PER_DAY*days:0)+(bkExSeat?EXTRA_SEAT_PER_DAY*days:0);
+  var total=base+ins+ext;
+  var now=total*0.30, later=total*0.70;   // 30% / 70% split
+
+  document.getElementById('pr-car').textContent=c.name;
+  document.getElementById('pr-sub').textContent=hubLabel(activeHub)+' · '+days+' day'+(days>1?'s':'');
+  document.getElementById('pr-rate-lbl').textContent=fC(dr)+' × '+days+' days';
+  document.getElementById('pr-base').textContent=fC(base);
+  var insLine=document.getElementById('pr-ins-line');
+  if(bkFullIns){insLine.style.display='';document.getElementById('pr-ins').textContent=fullCoverIsAsk(c)?'ask':fC(ins);}
+  else insLine.style.display='none';
+  var extLine=document.getElementById('pr-extra-line');
+  if(ext>0){extLine.style.display='';document.getElementById('pr-extra').textContent=fC(ext);}
+  else extLine.style.display='none';
+  document.getElementById('pr-total').textContent=fC(total);
+  document.getElementById('pr-now').textContent=fC(now);
+
+  // book links
+  var hub=activeHub;
+  var link=document.getElementById('bk-online-btn');
+  // TODO Part-A cart hand-off: carry ERP-synced days+price into the cart at this seam
+  if(link)link.href=productUrl(c.slug,hub);
+  var name=(document.getElementById('bk-name')||{}).value||'';
+  var phone=(document.getElementById('bk-phone')||{}).value||'';
+  var notes=(document.getElementById('bk-notes')||{}).value||'';
+  var msg='Hi Brothers EGY! I would like to book the '+c.name+' in '+hubLabel(hub)
+    +' for '+days+' day'+(days>1?'s':'')+'.'
+    +'%0A• Pick-up: '+((document.getElementById('bk-from')||{}).value||'')+' '+((document.getElementById('bk-from-t')||{}).value||'')
+    +'%0A• Drop-off: '+((document.getElementById('bk-to')||{}).value||'')+' '+((document.getElementById('bk-to-t')||{}).value||'')
+    +'%0A• Estimated total: '+fC(total)+' ('+fC(now)+' now, '+fC(later)+' on arrival)'
+    +(bkFullIns?'%0A• Full Protection: yes':'')
+    +(bkExDriver?'%0A• Extra driver':'')
+    +(bkExSeat?'%0A• Child seat':'')
+    +(name?('%0A• Name: '+encodeURIComponent(name)):'')
+    +(phone?('%0A• Phone: '+encodeURIComponent(phone)):'')
+    +(notes?('%0A• Notes: '+encodeURIComponent(notes)):'');
+  var wa=document.getElementById('bk-wa-btn');if(wa)wa.href='https://wa.me/201554446744?text='+msg;
+  var fb=document.getElementById('bk-fb-btn');if(fb)fb.href='https://m.me/BrothersEGY';
+}
+function hubLabel(h){return {cairo:'Cairo',hurghada:'Hurghada',alexandria:'Alexandria',rashid:'Rosetta / Rashid'}[h]||h}
+
+/* ── REVIEW (step 4) ── */
+function buildReview(){
+  var c=bkCarId?FLEET[bkCarId]:null;var el=document.getElementById('review-lines');if(!el)return;
+  if(!c){el.innerHTML='<p class="wiz-hint">Please pick a car in step 2 first.</p>';return;}
+  var days=bkDays, dr=calcRate(c,days), base=dr*days;
+  var ins=bkFullIns?fullCoverDaily(c)*days:0;
+  var ext=(bkExDriver?EXTRA_DRIVER_PER_DAY*days:0)+(bkExSeat?EXTRA_SEAT_PER_DAY*days:0);
+  var total=base+ins+ext, now=total*0.30, later=total*0.70;
+  var rows=''
+    +'<div class="rev-line"><span>'+c.name+' · '+c.cat+'</span><span>'+hubLabel(activeHub)+'</span></div>'
+    +'<div class="rev-line"><span>'+fC(dr)+' × '+days+' days</span><span>'+fC(base)+'</span></div>';
+  if(bkFullIns)rows+='<div class="rev-line"><span>Full Protection</span><span>'+(fullCoverIsAsk(c)?'ask':fC(ins))+'</span></div>';
+  if(bkExDriver)rows+='<div class="rev-line"><span>Extra driver <span class="indic">(indicative)</span></span><span>'+fC(EXTRA_DRIVER_PER_DAY*days)+'</span></div>';
+  if(bkExSeat)rows+='<div class="rev-line"><span>Child seat <span class="indic">(indicative)</span></span><span>'+fC(EXTRA_SEAT_PER_DAY*days)+'</span></div>';
+  rows+='<div class="rev-line big"><span>Estimated total</span><span>'+fC(total)+'</span></div>';
+  el.innerHTML=rows;
+  document.getElementById('pay-now').textContent=fC(now);
+  document.getElementById('pay-later').textContent=fC(later);
+}
+['bk-name','bk-phone','bk-notes'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',bkCalc)});
+
+/* ── FLEET SECTION ── */
+function catList(){var s={};FK.forEach(function(id){s[FLEET[id].cat]=1});return Object.keys(s)}
+function renderFilters(){
+  var el=document.getElementById('fleet-filters');if(!el)return;
+  var hubs=[['all','All cities'],['cairo','Cairo'],['hurghada','Hurghada'],['alexandria','Alexandria'],['rashid','Rosetta']];
+  var html=hubs.map(function(h){return '<button class="fpill'+(activeFilterHub===h[0]?' active':'')+'" onclick="setFH(\''+h[0]+'\')"><i class="fa-solid fa-location-dot"></i> '+h[1]+'</button>'}).join('');
+  el.innerHTML=html;
+}
+window.setFH=function(h){activeFilterHub=h;renderFilters();renderFleet()};
+function renderFleet(){
+  var grid=document.getElementById('fleet-grid');if(!grid)return;
+  var ids=FK.filter(function(id){
+    var c=FLEET[id];
+    if(activeFilterHub!=='all'&&c.branches.indexOf(activeFilterHub)<0)return false;
+    return true;
+  });
+  grid.innerHTML=ids.map(function(id){
+    var c=FLEET[id];
+    var img=c.img?('<div class="car-img" style="background-image:url(\''+c.img+'\')">'):('<div class="car-img"><span class="car-mono">'+initials(c)+'</span>');
+    var ribbon=c.ribbon?('<span class="car-ribbon">'+c.ribbon+'</span>'):'';
+    return '<article class="car-card">'
+      +img+ribbon+'<span class="car-badge">'+c.cat+'</span></div>'
+      +'<div class="car-body">'
+      +'<div class="car-name">'+c.name+'</div>'
+      +'<div class="car-meta"><span><i class="fa-solid fa-user-group"></i> '+c.seats+' seats</span><span><i class="fa-solid fa-suitcase"></i> '+c.bags+' bags</span></div>'
+      +'<div class="car-guar"><i class="fa-solid fa-shield-heart"></i> Book this class, get it or a free upgrade.</div>'
+      +'<div class="car-price"><span class="cp-from">from</span><span class="cp-amt">'+fC(c.pMin)+'</span><span class="cp-day">/ day</span></div>'
+      +'<div class="car-cta">'
+      +'<button class="btn btn-primary btn-sm" onclick="bookFromFleet(\''+id+'\')"><i class="fa-solid fa-calendar-check"></i> Book</button>'
+      +'<a class="btn btn-ghost btn-sm" href="'+productUrl(c.slug,c.branches[0]||'hurghada')+'" target="_blank">Details</a>'
+      +'</div></div></article>';
+  }).join('');
+}
+window.bookFromFleet=function(id){
+  bkCarId=id;
+  var c=FLEET[id];
+  // move the hub to one this class is available in, if current hub lacks it
+  if(c.branches.indexOf(activeHub)<0&&c.branches.length){activeHub=c.branches[0];document.getElementById('bk-hub').value=activeHub;}
+  renderRides();bkCalc();
+  goStep(2);
+  document.getElementById('wizard').scrollIntoView({behavior:'smooth'});
+};
+
+/* ── REVEAL ── */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+
+/* ── INIT ── */
+initDates();
+renderFilters();
+renderFleet();
+renderRides();
+bkCalc();
+
+/* ── SELF-TEST (open index.html?selftest) ──
+   Static sanity checks on the ERP-exact day-count + tier lookup. */
+if(/[?&]selftest\b/.test(location.search)){
+  (function(){
+    var pass=0,fail=0;
+    function assert(cond,label){if(cond){pass++;console.log('PASS: '+label)}else{fail++;console.error('FAIL: '+label)}}
+    // 1) Math.ceil day-count: any part-day rounds UP.
+    assert(rentalDays('2026-01-01','09:00','2026-01-04','19:00')===4,'3d10h -> 4 days');
+    assert(rentalDays('2026-01-01','09:00','2026-01-05','05:00')===4,'3d20h -> 4 days (part day rounds up)');
+    assert(rentalDays('2026-01-01','09:00','2026-01-04','09:00')===3,'exactly 3 days -> 3');
+    assert(rentalDays('2026-01-01','09:00','2026-01-01','10:00')===1,'1 hour -> clamped to 1 day');
+    // 2) Tier lookup picks the right band for a known class (MG ZS real tiers).
+    var zs=FLEET.mg_zs;
+    if(zs){
+      assert(calcRate(zs,1)===3200,'MG ZS 1 day -> 3200 (first band)');
+      assert(calcRate(zs,10)===2400,'MG ZS 10 days -> 2400 (7-12 band)');
+      assert(calcRate(zs,40)===1900,'MG ZS 40 days -> 1900 (26-45 band)');
+    }
+    // 3) Data hygiene: no "Renualt"/"Megan"/"Cherry" typos leaked into class names.
+    var names=FK.map(function(k){return FLEET[k].name}).join(' | ');
+    assert(!/renualt/i.test(names)&&!/\bmegan\b/i.test(names)&&!/cherry/i.test(names),'no Renualt/Megan/Cherry typo in class names');
+    console.log('SELFTEST DONE — '+pass+' passed, '+fail+' failed.');
+  })();
+}
+})();
+</script>
+</body>
+</html>

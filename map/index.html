@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brothers EGY — Explore Egypt &amp; Drive</title>
+<meta name="description" content="Rent a car in Egypt the easy way. Explore the map, pick your city, and book your car, tour or airport transfer with Brothers EGY — trusted since 2007." />
+<link rel="icon" href="https://brothersegy.com/wp-content/uploads/2026/02/Logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+/* ---------- THEME TOKENS ---------- */
+:root{
+  --font-head:'Sora',system-ui,sans-serif;
+  --font-body:'Manrope',system-ui,sans-serif;
+  --gold:#e8b04b; --gold-2:#f4cd7a; --teal:#19c3c9; --nile:#2b7bd4;
+  --radius:18px; --maxw:1240px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+html[data-theme="dark"]{
+  --bg:#070b14; --bg-2:#0d1424; --panel:rgba(16,24,42,.74); --panel-solid:#101a2e;
+  --ink:#f3f7ff; --muted:#9fb0cc; --line:rgba(255,255,255,.1);
+  --map-land:#16233c; --map-land-2:#1d3254; --map-stroke:#3b5a8c;
+  --sea:#0b2c4a; --scrim:rgba(5,9,18,.62); --shadow:0 24px 60px rgba(0,0,0,.5);
+  --glow:0 0 0 6px rgba(232,176,75,.18),0 0 26px rgba(232,176,75,.6);
+}
+html[data-theme="light"]{
+  --bg:#eef3fb; --bg-2:#ffffff; --panel:rgba(255,255,255,.82); --panel-solid:#ffffff;
+  --ink:#102038; --muted:#5b6a84; --line:rgba(16,32,56,.12);
+  --map-land:#f3e4c4; --map-land-2:#ecd49e; --map-stroke:#caa865;
+  --sea:#bfe0f0; --scrim:rgba(255,255,255,.28); --shadow:0 18px 44px rgba(26,47,86,.18);
+  --glow:0 0 0 6px rgba(43,123,212,.16),0 0 24px rgba(43,123,212,.5);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);background:var(--bg);color:var(--ink);
+  line-height:1.6;overflow-x:hidden;transition:background .5s var(--ease),color .35s var(--ease);
+}
+h1,h2,h3,h4,.brandname{font-family:var(--font-head);line-height:1.1;letter-spacing:-.02em}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,4vw,34px)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:8px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* ---------- HEADER ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .4s,backdrop-filter .4s,box-shadow .4s}
+header.solid{background:var(--panel);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo img{height:46px;width:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
+.logo .brandname{display:flex;flex-direction:column;line-height:1}
+.logo b{font-size:1.12rem;font-weight:800}
+.logo small{font-size:.64rem;letter-spacing:.28em;color:var(--gold-2);text-transform:uppercase}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:10px 15px;border-radius:999px;font-weight:700;font-size:.86rem;border:1px solid var(--line);background:var(--panel);transition:transform .2s,border-color .2s}
+.pill:hover{transform:translateY(-2px);border-color:var(--gold)}
+.pill.wa{background:#25d366;color:#04210f;border-color:transparent}
+.icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--panel);font-size:1rem;transition:transform .25s,color .25s}
+.icon-btn:hover{transform:translateY(-2px) rotate(-8deg);color:var(--gold)}
+
+/* ---------- HERO MAP ---------- */
+.hero{position:relative;min-height:100svh;padding-top:74px;display:flex;flex-direction:column;overflow:hidden}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
+  background:radial-gradient(120% 120% at 70% 10%,#13335a 0%,#070b14 60%)}
+.hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,var(--scrim),transparent 30%,transparent 55%,var(--bg) 100%),var(--scrim)}
+.hero-inner{position:relative;z-index:2;flex:1;display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center;padding:clamp(14px,3vh,30px) 0}
+.hero-copy{max-width:560px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 14px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-weight:700;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2);margin-bottom:18px;backdrop-filter:blur(8px)}
+.hero h1{font-size:clamp(2.3rem,5.4vw,4rem);font-weight:800;margin-bottom:16px}
+.hero h1 .grad{background:linear-gradient(100deg,var(--gold),var(--gold-2) 40%,var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{font-size:clamp(1rem,2vw,1.16rem);color:var(--ink);opacity:.92;margin-bottom:22px;text-shadow:0 1px 10px rgba(0,0,0,.4)}
+.hero-stats{display:flex;gap:22px;flex-wrap:wrap}
+.hero-stats div{display:flex;flex-direction:column}
+.hero-stats b{font-size:1.4rem;font-weight:800;color:var(--gold-2)}
+.hero-stats span{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.hint{margin-top:18px;font-size:.86rem;color:var(--muted);display:flex;align-items:center;gap:8px}
+.hint i{color:var(--gold)}
+
+/* ---------- MAP STAGE ---------- */
+.map-stage{position:relative;width:100%;aspect-ratio:1/1;max-height:70svh;filter:drop-shadow(0 30px 50px rgba(0,0,0,.45))}
+.egypt-map{width:100%;height:100%;overflow:visible}
+.egypt-map .land{fill:url(#landgrad);stroke:var(--map-stroke);stroke-width:1.6;transition:fill .5s}
+.egypt-map .nile{fill:none;stroke:var(--nile);stroke-width:3.4;stroke-linecap:round;opacity:.9;filter:drop-shadow(0 0 6px var(--nile))}
+.egypt-map .water{fill:var(--sea);opacity:.55}
+.egypt-map .route{fill:none;stroke:var(--gold);stroke-width:1.6;stroke-dasharray:5 7;opacity:.5;stroke-linecap:round;animation:dash 14s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-240}}
+.pin{cursor:pointer}
+.pin .halo{fill:var(--gold);opacity:.25;transform-origin:center;transform-box:fill-box;animation:pulse 2.6s var(--ease) infinite}
+.pin:nth-child(2) .halo{animation-delay:.5s}
+.pin:nth-child(3) .halo{animation-delay:1s}
+.pin:nth-child(4) .halo{animation-delay:1.5s}
+@keyframes pulse{0%{transform:scale(.6);opacity:.5}70%{transform:scale(2.6);opacity:0}100%{opacity:0}}
+.pin .dot{fill:var(--gold);stroke:#fff;stroke-width:2;transition:transform .25s,fill .25s;transform-origin:center;transform-box:fill-box}
+.pin:hover .dot,.pin:focus-visible .dot,.pin.active .dot{fill:var(--teal);transform:scale(1.45)}
+.pin .label{fill:var(--ink);font:700 14px var(--font-head);paint-order:stroke;stroke:var(--bg);stroke-width:4px;stroke-linejoin:round;pointer-events:none;transition:fill .3s}
+.pin .sub{fill:var(--gold-2);font:600 10px var(--font-body);paint-order:stroke;stroke:var(--bg);stroke-width:3.5px;pointer-events:none}
+.map-help{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);font-size:.78rem;color:var(--muted);display:flex;gap:8px;align-items:center;white-space:nowrap}
+
+/* ---------- CITY LIST (mobile) ---------- */
+.city-chips{display:none;gap:10px;flex-wrap:wrap;margin-top:16px}
+.city-chips button{padding:11px 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+.city-chips button[aria-pressed="true"]{background:var(--gold);color:#1a1203;border-color:transparent}
+
+/* ---------- BOOKING BAR ---------- */
+.bookbar{position:relative;z-index:3;margin:-34px auto 0;max-width:var(--maxw)}
+.bookbar-inner{background:var(--panel-solid);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;display:grid;grid-template-columns:repeat(5,1fr) auto;gap:12px;align-items:end}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.field input,.field select{padding:11px 12px;border-radius:11px;border:1px solid var(--line);background:var(--bg-2);color:var(--ink);font-family:inherit;font-size:.9rem;font-weight:600}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 22px;border-radius:12px;font-weight:800;font-size:.95rem;transition:transform .2s,box-shadow .2s;white-space:nowrap}
+.btn-gold{background:linear-gradient(100deg,var(--gold),var(--gold-2));color:#1a1203;box-shadow:0 10px 26px rgba(232,176,75,.4)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(232,176,75,.55)}
+.btn-ghost{border:1px solid var(--line);background:var(--panel)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ---------- CITY PANEL ---------- */
+section{padding:clamp(44px,7vw,86px) 0}
+.city-panel{padding-top:clamp(40px,6vw,70px)}
+.city-head{position:relative;border-radius:24px;overflow:hidden;min-height:300px;display:flex;align-items:flex-end;box-shadow:var(--shadow);margin-bottom:30px}
+.city-head img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transform:scale(1.04);transition:transform 8s linear,opacity .6s}
+.city-head.swap img{opacity:0}
+.city-head::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(5,9,18,.9),rgba(5,9,18,.15) 60%,transparent)}
+.city-head .ch-inner{position:relative;z-index:2;padding:30px;color:#fff}
+.city-head .tag{display:inline-flex;gap:8px;align-items:center;background:rgba(232,176,75,.22);border:1px solid rgba(232,176,75,.5);color:var(--gold-2);padding:6px 13px;border-radius:999px;font-weight:700;font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;backdrop-filter:blur(6px)}
+.city-head h2{color:#fff;font-size:clamp(1.9rem,4.2vw,2.8rem)}
+.city-head p{color:rgba(255,255,255,.86);max-width:620px;margin-top:8px}
+
+.sec-title{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sec-title h3{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800}
+.sec-title p{color:var(--muted);font-size:.92rem;margin-top:2px}
+
+/* ---------- FILTER ---------- */
+.filters{display:flex;gap:9px;flex-wrap:wrap}
+.chip{padding:9px 15px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-weight:700;font-size:.84rem;transition:all .2s}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:transparent}
+html[data-theme="light"] .chip[aria-pressed="true"]{background:var(--nile);color:#fff}
+
+/* ---------- CARS ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:20px}
+.card{background:var(--panel-solid);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .3s var(--ease),border-color .3s}
+.card:hover{transform:translateY(-6px);border-color:var(--gold)}
+.car-media{position:relative;aspect-ratio:16/10;background:
+  radial-gradient(120% 90% at 50% 10%,rgba(232,176,75,.14),transparent 60%),var(--bg-2);display:grid;place-items:center;padding:14px}
+.car-media img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 20px rgba(0,0,0,.4))}
+.car-media .cat{position:absolute;top:11px;left:11px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(8px);padding:5px 11px;border-radius:999px;font-size:.72rem;font-weight:700;color:var(--gold-2)}
+.car-media .seats{position:absolute;top:11px;right:11px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(8px);padding:5px 11px;border-radius:999px;font-size:.72rem;font-weight:700}
+.car-body{padding:16px 17px 18px;display:flex;flex-direction:column;gap:9px;flex:1}
+.car-body h4{font-size:1.14rem;font-weight:800}
+.guarantee{font-size:.76rem;color:var(--muted);display:flex;gap:7px;align-items:flex-start}
+.guarantee i{color:var(--teal);margin-top:3px}
+.price-row{display:flex;align-items:baseline;gap:7px;margin-top:auto}
+.price-row b{font-size:1.5rem;font-weight:800;color:var(--gold-2)}
+.price-row span{color:var(--muted);font-size:.84rem}
+.car-cta{display:flex;gap:9px;margin-top:4px}
+.car-cta .btn{flex:1;padding:11px 14px;font-size:.88rem}
+
+/* ---------- TOURS / TRANSFER ---------- */
+.split{display:grid;grid-template-columns:1.4fr 1fr;gap:22px}
+.tour{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--panel-solid);box-shadow:var(--shadow);transition:transform .3s}
+.tour:hover{transform:translateY(-5px)}
+.tour .t-top{display:flex;gap:14px;align-items:center;padding:16px}
+.tour .t-ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:1.3rem;color:#1a1203;background:linear-gradient(135deg,var(--gold),var(--gold-2));flex-shrink:0}
+.tour h4{font-size:1.06rem;font-weight:800}
+.tour p{font-size:.86rem;color:var(--muted)}
+.tour .t-foot{display:flex;justify-content:space-between;align-items:center;padding:0 16px 16px}
+.tour .t-foot b{color:var(--gold-2);font-size:1.08rem}
+.transfer-card{background:linear-gradient(160deg,var(--panel-solid),var(--bg-2));border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+.transfer-card .big{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;color:#04210f;background:linear-gradient(135deg,var(--teal),#8ef3f0);margin-bottom:14px}
+.transfer-card h4{font-size:1.3rem;margin-bottom:6px}
+.transfer-card ul{list-style:none;margin:14px 0;display:flex;flex-direction:column;gap:9px}
+.transfer-card li{font-size:.9rem;display:flex;gap:9px;align-items:center;color:var(--muted)}
+.transfer-card li i{color:var(--teal)}
+
+/* ---------- TRUST + REVIEWS ---------- */
+.trust-band{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.trust-item{display:flex;gap:13px;align-items:flex-start}
+.trust-item i{font-size:1.4rem;color:var(--gold);margin-top:2px}
+.trust-item b{display:block;font-weight:800;font-family:var(--font-head)}
+.trust-item span{font-size:.84rem;color:var(--muted)}
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.review{background:var(--panel-solid);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+.review .stars{color:var(--gold);margin-bottom:9px}
+.review p{font-size:.94rem;margin-bottom:14px}
+.review .who{display:flex;align-items:center;gap:11px}
+.review .av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--teal));display:grid;place-items:center;font-weight:800;color:#1a1203}
+.review .who b{font-weight:700}.review .who span{font-size:.78rem;color:var(--muted)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--bg-2);border-top:1px solid var(--line);padding:46px 0 30px}
+.foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:26px}
+.foot-grid .brandname{display:flex;flex-direction:column}
+.foot-social{display:flex;gap:10px;margin-top:14px}
+.foot-social a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--panel);transition:transform .2s,color .2s}
+.foot-social a:hover{transform:translateY(-3px);color:var(--gold)}
+.copy{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.82rem;text-align:center}
+
+/* ---------- TOAST ---------- */
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(120px);background:var(--panel-solid);border:1px solid var(--gold);color:var(--ink);padding:14px 20px;border-radius:12px;box-shadow:var(--shadow);z-index:120;font-weight:600;transition:transform .4s var(--ease);max-width:92vw}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr;gap:10px}
+  .map-stage{display:none}
+  .city-chips{display:flex}
+  .bookbar-inner{grid-template-columns:1fr 1fr}
+  .bookbar-inner .btn{grid-column:1/-1}
+  .split{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .bookbar-inner{grid-template-columns:1fr}
+  .hero-stats{gap:16px}
+  .nav .brandname{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
+  .city-head img{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="sr-only" href="#main">Skip to content</a>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Brothers EGY home">
+      <img src="https://brothersegy.com/wp-content/uploads/2026/02/Logo.png" alt="Brothers EGY logo"
+           onerror="this.style.display='none'" />
+      <span class="brandname"><b>Brothers EGY</b><small>Rent &amp; Explore</small></span>
+    </a>
+    <div class="nav-actions">
+      <select id="currency" class="pill" aria-label="Currency" style="padding-right:12px">
+        <option value="EGP">EGP £</option>
+        <option value="USD">USD $</option>
+        <option value="EUR">EUR €</option>
+      </select>
+      <a class="pill wa" href="https://wa.me/201554446744" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle dark and light theme" title="Toggle theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<!-- ================= HERO MAP ================= -->
+<section class="hero" id="top">
+  <video class="hero-video" id="bgVideo" autoplay muted loop playsinline
+         poster="https://brothersegy.com/wp-content/uploads/2025/11/hurghada-costal-destiantion-near-the-red-sea.jpg">
+    <source src="https://assets.mixkit.co/videos/12759/12759-720.mp4" type="video/mp4" />
+    <source src="https://assets.mixkit.co/videos/2371/2371-720.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-scrim"></div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow"><i class="fa-solid fa-map-location-dot"></i> Explore Egypt &amp; Drive</span>
+      <h1>Don’t scroll.<br><span class="grad">Explore the map.</span></h1>
+      <p class="lede">Tap a city on the map of Egypt and we’ll bring that hub to life — the cars waiting there, local tours and your airport transfer. Pick where you’re going; we handle the rest.</p>
+      <div class="hero-stats">
+        <div><b>4.9★</b><span>Guest rating</span></div>
+        <div><b>2007</b><span>Trusted since</span></div>
+        <div><b>24/7</b><span>Chauffeur delivery</span></div>
+        <div><b>0 EGP</b><span>Deposit</span></div>
+      </div>
+      <p class="hint"><i class="fa-solid fa-hand-pointer"></i> Tap a glowing pin to fly to a city.</p>
+      <div class="city-chips" id="cityChips" role="group" aria-label="Choose a city"></div>
+    </div>
+
+    <div class="map-stage">
+      <svg class="egypt-map" viewBox="0 0 300 320" id="egyptMap" role="group" aria-label="Interactive map of Egypt. Choose a city hub.">
+        <defs>
+          <linearGradient id="landgrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--map-land)"/>
+            <stop offset="1" stop-color="var(--map-land-2)"/>
+          </linearGradient>
+        </defs>
+        <!-- seas -->
+        <rect class="water" x="0" y="0" width="300" height="48" rx="8"/>
+        <rect class="water" x="232" y="40" width="68" height="230"/>
+        <!-- Egypt silhouette (stylised) -->
+        <path class="land" d="M22,52 L170,46 L205,54 L232,60 L236,96 L222,120 L214,150 L228,182 L236,214 L214,236 L196,268 L168,300 L150,312 L138,300 L140,262 L128,214 L118,150 L96,120 L58,96 L30,78 Z"/>
+        <!-- Nile -->
+        <path class="nile" d="M150,312 C148,270 136,220 132,180 C128,140 150,96 164,52"/>
+        <!-- route lines (cross-city rental hint) -->
+        <path class="route" d="M160,70 C180,120 150,150 95,86"/>
+        <path class="route" d="M160,70 C200,120 220,150 214,150"/>
+        <path class="route" d="M135,220 C160,180 180,120 160,70"/>
+        <!-- pins injected by JS -->
+        <g id="pins"></g>
+      </svg>
+      <span class="map-help"><i class="fa-solid fa-location-crosshairs" style="color:var(--gold)"></i> 4 hubs · Cairo · Hurghada · Alexandria · Rashid</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BOOKING BAR ================= -->
+<div class="bookbar wrap" aria-label="Quick booking">
+  <form class="bookbar-inner" id="bookForm">
+    <div class="field">
+      <label for="branch">Pick-up hub</label>
+      <select id="branch" aria-label="Pick-up hub"></select>
+    </div>
+    <div class="field">
+      <label for="carclass">Car class</label>
+      <select id="carclass" aria-label="Car class"><option value="any">Any class</option></select>
+    </div>
+    <div class="field">
+      <label for="pickup">Pick-up date &amp; time</label>
+      <input type="datetime-local" id="pickup" aria-label="Pick-up date and time"/>
+    </div>
+    <div class="field">
+      <label for="dropoff">Drop-off date &amp; time</label>
+      <input type="datetime-local" id="dropoff" aria-label="Drop-off date and time"/>
+    </div>
+    <div class="field">
+      <label for="est">Estimated days</label>
+      <input id="est" readonly aria-live="polite" value="1 day"/>
+    </div>
+    <button class="btn btn-gold" type="submit"><i class="fa-solid fa-magnifying-glass"></i> See cars</button>
+  </form>
+</div>
+
+<!-- ================= CITY PANEL ================= -->
+<section class="city-panel wrap" id="cityPanel">
+  <div class="city-head" id="cityHead">
+    <img id="cityImg" alt="" />
+    <div class="ch-inner">
+      <span class="tag" id="cityTag"><i class="fa-solid fa-location-dot"></i> Hub</span>
+      <h2 id="cityName">City</h2>
+      <p id="cityDesc"></p>
+    </div>
+  </div>
+
+  <div class="sec-title">
+    <div><h3>Cars ready in <span id="fleetCity">this hub</span></h3><p id="fleetMeta">Pick a class — guaranteed same category or higher, never lower.</p></div>
+    <div class="filters" id="filters" role="group" aria-label="Filter cars by type"></div>
+  </div>
+  <div class="grid" id="carGrid"></div>
+</section>
+
+<!-- ================= TOURS + TRANSFER ================= -->
+<section class="wrap" id="exp">
+  <div class="split">
+    <div>
+      <div class="sec-title"><div><h3>Tours from <span id="tourCity">this hub</span></h3><p>Hand-picked day trips with English-speaking drivers.</p></div></div>
+      <div class="grid" id="tourGrid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))"></div>
+    </div>
+    <div>
+      <div class="sec-title"><div><h3>Airport transfer</h3><p>Door-to-door, fixed price.</p></div></div>
+      <div class="transfer-card">
+        <div class="big"><i class="fa-solid fa-plane-arrival"></i></div>
+        <h4 id="trfTitle">Airport ⇄ City</h4>
+        <p style="color:var(--muted);font-size:.9rem" id="trfDesc"></p>
+        <ul>
+          <li><i class="fa-solid fa-user-tie"></i> Meet &amp; greet at arrivals</li>
+          <li><i class="fa-solid fa-clock"></i> Free 60-min flight-delay wait</li>
+          <li><i class="fa-solid fa-child-reaching"></i> Free child seat on request</li>
+          <li><i class="fa-solid fa-tag"></i> Fixed fare — no surge, no meter</li>
+        </ul>
+        <div style="display:flex;align-items:baseline;gap:8px;margin:6px 0 14px">
+          <b style="font-size:1.6rem;color:var(--gold-2)" id="trfPrice">—</b><span style="color:var(--muted)">one way</span>
+        </div>
+        <a class="btn btn-gold" style="width:100%" id="trfBtn" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Book transfer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRUST ================= -->
+<section class="trust-band"><div class="wrap">
+  <div class="trust-grid">
+    <div class="trust-item"><i class="fa-solid fa-shield-halved"></i><div><b>Zero deposit</b><span>Full protection included</span></div></div>
+    <div class="trust-item"><i class="fa-solid fa-credit-card"></i><div><b>No card needed</b><span>Pay on arrival</span></div></div>
+    <div class="trust-item"><i class="fa-solid fa-clock-rotate-left"></i><div><b>12h free cancel</b><span>Plans change — no stress</span></div></div>
+    <div class="trust-item"><i class="fa-solid fa-car-side"></i><div><b>24/7 delivery</b><span>Chauffeur to your door</span></div></div>
+    <div class="trust-item"><i class="fa-solid fa-award"></i><div><b>Since 2007</b><span>4.9★ from real guests</span></div></div>
+  </div>
+</div></section>
+
+<!-- ================= REVIEWS ================= -->
+<section class="wrap">
+  <div class="sec-title"><div><h3>What guests say</h3><p>Real reviews from recent travellers.</p></div></div>
+  <div class="reviews">
+    <div class="review"><div class="stars">★★★★★</div><p>“Flawless from booking to drop-off. The car was spotless and waiting at the airport exactly on time. Highly recommend Brothers EGY.”</p><div class="who"><div class="av">GH</div><div><b>Gert Halop</b><br><span>Estonia · Hurghada</span></div></div></div>
+    <div class="review"><div class="stars">★★★★★</div><p>“Great communication over WhatsApp, fair pricing and no hidden fees. They even delivered the car to my hotel. Will book again.”</p><div class="who"><div class="av">DP</div><div><b>Dzianis Pomazau</b><br><span>Belarus · Cairo</span></div></div></div>
+    <div class="review"><div class="stars">★★★★★</div><p>“Honest, professional and very flexible with my changing dates. Felt like dealing with friends. The best rental experience in Egypt.”</p><div class="who"><div class="av">AE</div><div><b>Ahmad El Awad</b><br><span>Egypt · Alexandria</span></div></div></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="#top" aria-label="Brothers EGY home">
+          <img src="https://brothersegy.com/wp-content/uploads/2026/02/Logo.png" alt="" style="height:40px" onerror="this.style.display='none'"/>
+          <span class="brandname"><b>Brothers EGY</b><small>Rent &amp; Explore</small></span>
+        </a>
+        <div class="foot-social">
+          <a href="https://wa.me/201554446744" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://m.me/BrothersEGY" target="_blank" rel="noopener" aria-label="Messenger"><i class="fa-brands fa-facebook-messenger"></i></a>
+        </div>
+      </div>
+      <div style="color:var(--muted);font-size:.9rem;max-width:320px">
+        Car rental &amp; tailor-made journeys across Egypt since 2007. Cars, tours and airport transfers in Cairo, Hurghada, Alexandria &amp; Rashid.
+      </div>
+    </div>
+    <div class="copy">© <span id="yr"></span> Brothers EGY · Mockup concept — Explore Egypt. Imagery &amp; prices are illustrative.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   Brothers EGY — EXPLORE EGYPT (v3 interactive map)
+   Self-contained mockup. No build step, no backend.
+   ============================================================ */
+(function(){
+  "use strict";
+
+  /* ---------- DATA ---------- */
+  // City hubs with SVG coordinates on the Egypt map (viewBox 300x320)
+  var CITIES = {
+    cairo:{
+      name:"Cairo", slug:"cairo", sub:"Pyramids", x:160, y:92,
+      tag:"Nile & Pyramids",
+      photo:"https://brothersegy.com/wp-content/uploads/2025/11/giza-pyramids-cairo-egypt-with-palm.jpg",
+      desc:"Egypt's beating heart — the Giza pyramids, the Grand Egyptian Museum and the buzz of old Cairo. Great base for Nile-valley road trips.",
+      transfer:{title:"Cairo Airport (CAI) ⇄ City", desc:"Meet-and-greet at Terminal 2/3 and a smooth ride into Downtown, Giza or Nasr City.", egp:900},
+      tours:[
+        {ico:"fa-landmark",name:"Pyramids & Sphinx",dur:"Half day · guide",egp:2200},
+        {ico:"fa-palette",name:"Grand Egyptian Museum",dur:"Half day · skip-line",egp:1800},
+        {ico:"fa-moon",name:"Islamic & Coptic Cairo",dur:"Full day",egp:2600}
+      ]
+    },
+    hurghada:{
+      name:"Hurghada", slug:"hurghada", sub:"Red Sea", x:214, y:150,
+      tag:"Red Sea Riviera",
+      photo:"https://brothersegy.com/wp-content/uploads/2025/11/hurghada-costal-destiantion-near-the-red-sea.jpg",
+      desc:"Turquoise water, coral reefs and year-round sun. The perfect launch pad for snorkelling trips and a desert dash — or a day run to Luxor.",
+      transfer:{title:"Hurghada Airport (HRG) ⇄ Resort", desc:"Private transfer to any Hurghada, El Gouna or Sahl Hasheesh resort.", egp:650},
+      tours:[
+        {ico:"fa-water",name:"Giftun Island Snorkel",dur:"Full day · boat",egp:1900},
+        {ico:"fa-monument",name:"Luxor Day Trip",dur:"Full day · guide",egp:3200},
+        {ico:"fa-sun",name:"Desert Super Safari",dur:"Afternoon · quad",egp:1500}
+      ]
+    },
+    alexandria:{
+      name:"Alexandria", slug:"alexandria", sub:"Mediterranean", x:118, y:62,
+      tag:"Mediterranean Pearl",
+      photo:"https://brothersegy.com/wp-content/uploads/2025/11/A-picture-from-above-of-the-city-of-Alexandria-in-Egypt.jpg",
+      desc:"Breezy Mediterranean coast, the great Library, the Citadel of Qaitbay and the finest seafood corniche in Egypt.",
+      transfer:{title:"Borg El Arab (HBE) ⇄ City", desc:"Comfortable ride from the airport into the Corniche and Downtown Alexandria.", egp:750},
+      tours:[
+        {ico:"fa-book-open",name:"Library & Corniche Tour",dur:"Half day",egp:1600},
+        {ico:"fa-chess-rook",name:"Qaitbay Citadel & Catacombs",dur:"Full day",egp:2100},
+        {ico:"fa-fish",name:"Seafood & Markets Walk",dur:"Evening",egp:1200}
+      ]
+    },
+    rashid:{
+      name:"Rashid", slug:"rashid", sub:"Rosetta", x:112, y:50,
+      tag:"Rosetta Heritage",
+      photo:"https://brothersegy.com/wp-content/uploads/2025/11/A-picture-from-above-of-the-city-of-Alexandria-in-Egypt.jpg",
+      desc:"Historic Rosetta where the Nile meets the sea — Ottoman houses, the Rosetta Stone story and quiet delta charm away from the crowds.",
+      transfer:{title:"Borg El Arab (HBE) ⇄ Rashid", desc:"Scenic delta transfer from Alexandria's airport to Rosetta town.", egp:1100},
+      tours:[
+        {ico:"fa-house-chimney",name:"Ottoman Houses Walk",dur:"Half day",egp:1400},
+        {ico:"fa-scroll",name:"Rosetta Stone Story",dur:"Half day · guide",egp:1500},
+        {ico:"fa-anchor",name:"Nile-mouth Boat Ride",dur:"Afternoon",egp:1300}
+      ]
+    }
+  };
+
+  // Fleet. tier[0]=1-3d, tier[1]=4-7d, tier[2]=8+ d (daily EGP, lower for longer rental)
+  var FLEET = [
+    {make:"Kia",model:"Sportage",cat:"SUV",seats:5,img:"Kia-Sportage.png",tier:[2200,2000,1800],cities:["cairo","hurghada","alexandria"]},
+    {make:"Hyundai",model:"Tucson",cat:"SUV",seats:5,img:"Hyundai-Tucson.png",tier:[2300,2100,1900],cities:["cairo","hurghada"]},
+    {make:"Renault",model:"Duster",cat:"Crossover",seats:5,img:"Renault-Duster-1.png",tier:[1600,1450,1300],cities:["hurghada","alexandria","rashid"]},
+    {make:"Haval",model:"Jolion",cat:"Crossover",seats:5,img:"Haval-Jolion-1.png",tier:[1700,1550,1400],cities:["cairo","alexandria"]},
+    {make:"MG",model:"ZS",cat:"Crossover",seats:5,img:"MG-ZS.png",tier:[1500,1350,1200],cities:["cairo","hurghada","rashid"]},
+    {make:"Toyota",model:"Corolla",cat:"Sedan",seats:5,img:"Toyota-Corolla.png",tier:[1400,1250,1100],cities:["cairo","alexandria"]},
+    {make:"Chery",model:"Arrizo",cat:"Sedan",seats:5,img:"Chery-Arrizo.png",tier:[1200,1080,980],cities:["hurghada","rashid"]},
+    {make:"MG",model:"5",cat:"Sedan",seats:5,img:"MG-5-2.png",tier:[1250,1120,1000],cities:["cairo","alexandria","hurghada"]},
+    {make:"Nissan",model:"Sunny",cat:"Economy",seats:5,img:"Nissan-Sunny.png",tier:[950,850,780],cities:["cairo","hurghada","alexandria","rashid"]},
+    {make:"Jetour",model:"X90 Plus",cat:"Luxury",seats:7,img:"Jetour-X90-Plus-scaled.png",tier:[3200,2950,2700],cities:["cairo","hurghada"]},
+    {make:"Soueast",model:"S09",cat:"Luxury",seats:7,img:"Soueast-S09-scaled.png",tier:[3400,3100,2850],cities:["cairo","alexandria"]}
+  ];
+  var IMG_BASE="https://brothersegy.com/wp-content/uploads/2026/01/";
+  var CAR_FALLBACK="data:image/svg+xml;utf8,"+encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200"><rect width="320" height="200" fill="#16233c"/>'+
+    '<text x="160" y="104" font-family="sans-serif" font-size="16" fill="#9fb0cc" text-anchor="middle">Brothers EGY</text>'+
+    '<path d="M70 130 h180 l-18-34 h-144 z M92 130 a12 12 0 1 0 .1 0 M228 130 a12 12 0 1 0 .1 0" fill="none" stroke="#e8b04b" stroke-width="4"/></svg>');
+
+  var CATS=["All","SUV","Crossover","Sedan","Luxury","Economy"];
+  var RATES={EGP:1,USD:1/48.5,EUR:1/52};
+  var SYM={EGP:"EGP ",USD:"$",EUR:"€"};
+
+  /* ---------- STATE ---------- */
+  var state={city:"hurghada",cat:"All",currency:"EGP",days:1};
+
+  /* ---------- HELPERS ---------- */
+  var $=function(s,r){return (r||document).querySelector(s);};
+  function money(egp){
+    var v=egp*RATES[state.currency];
+    var n=state.currency==="EGP"?Math.round(v):Math.round(v);
+    return SYM[state.currency]+n.toLocaleString();
+  }
+  // tier index from day count
+  function tierIndex(days){ return days>=8?2 : days>=4?1 : 0; }
+  function dailyRate(car,days){ return car.tier[tierIndex(days)]; }
+
+  // days between two datetime-local strings; part-day rounds UP; min 1
+  function computeDays(pickStr,dropStr){
+    var a=new Date(pickStr), b=new Date(dropStr);
+    if(isNaN(a)||isNaN(b)||b<=a) return 1;
+    return Math.max(1, Math.ceil((b-a)/86400000));
+  }
+
+  function toast(msg){
+    var t=$("#toast"); t.textContent=msg; t.classList.add("show");
+    clearTimeout(toast._t); toast._t=setTimeout(function(){t.classList.remove("show");},3400);
+  }
+
+  /* ---------- THEME ---------- */
+  function applyTheme(mode){
+    document.documentElement.setAttribute("data-theme",mode);
+    $("#themeIcon").className = mode==="dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
+    try{localStorage.setItem("begy-theme",mode);}catch(e){}
+  }
+  (function initTheme(){
+    var saved; try{saved=localStorage.getItem("begy-theme");}catch(e){}
+    if(!saved){ saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light":"dark"; }
+    applyTheme(saved);
+  })();
+  $("#themeBtn").addEventListener("click",function(){
+    applyTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark");
+  });
+
+  /* ---------- HEADER SHADOW ---------- */
+  var hdr=$("#hdr");
+  function onScroll(){ hdr.classList.toggle("solid", window.scrollY>24); }
+  onScroll(); window.addEventListener("scroll",onScroll,{passive:true});
+
+  /* ---------- MAP PINS ---------- */
+  var pinsG=$("#pins");
+  Object.keys(CITIES).forEach(function(key){
+    var c=CITIES[key];
+    var g=document.createElementNS("http://www.w3.org/2000/svg","g");
+    g.setAttribute("class","pin");
+    g.setAttribute("tabindex","0");
+    g.setAttribute("role","button");
+    g.setAttribute("aria-label","Explore "+c.name+" — "+c.tag);
+    g.dataset.city=key;
+    g.innerHTML=
+      '<circle class="halo" cx="'+c.x+'" cy="'+c.y+'" r="8"/>'+
+      '<circle class="dot" cx="'+c.x+'" cy="'+c.y+'" r="6"/>'+
+      '<text class="label" x="'+(c.x+12)+'" y="'+(c.y+4)+'">'+c.name+'</text>'+
+      '<text class="sub" x="'+(c.x+12)+'" y="'+(c.y+16)+'">'+c.sub+'</text>';
+    function go(){ selectCity(key,true); }
+    g.addEventListener("click",go);
+    g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){e.preventDefault();go();} });
+    pinsG.appendChild(g);
+  });
+
+  /* ---------- CITY CHIPS (mobile) + booking branch select ---------- */
+  var chips=$("#cityChips"), branchSel=$("#branch");
+  Object.keys(CITIES).forEach(function(key){
+    var c=CITIES[key];
+    var b=document.createElement("button");
+    b.type="button"; b.setAttribute("aria-pressed","false"); b.dataset.city=key;
+    b.innerHTML='<i class="fa-solid fa-location-dot"></i> '+c.name;
+    b.addEventListener("click",function(){ selectCity(key,true); });
+    chips.appendChild(b);
+
+    var o=document.createElement("option"); o.value=key; o.textContent=c.name+" ("+c.sub+")";
+    branchSel.appendChild(o);
+  });
+  branchSel.addEventListener("change",function(){ selectCity(branchSel.value,false); });
+
+  /* ---------- FILTERS ---------- */
+  var filtersEl=$("#filters"), classSel=$("#carclass");
+  CATS.forEach(function(cat){
+    var b=document.createElement("button");
+    b.className="chip"; b.textContent=cat; b.dataset.cat=cat;
+    b.setAttribute("aria-pressed", cat==="All"?"true":"false");
+    b.addEventListener("click",function(){
+      state.cat=cat;
+      [].forEach.call(filtersEl.children,function(x){x.setAttribute("aria-pressed", x.dataset.cat===cat?"true":"false");});
+      renderCars();
+    });
+    filtersEl.appendChild(b);
+    if(cat!=="All"){ var o=document.createElement("option"); o.value=cat; o.textContent=cat; classSel.appendChild(o); }
+  });
+  classSel.addEventListener("change",function(){
+    var v=classSel.value, cat = v==="any"?"All":v;
+    state.cat=cat;
+    [].forEach.call(filtersEl.children,function(x){x.setAttribute("aria-pressed", x.dataset.cat===cat?"true":"false");});
+    renderCars();
+  });
+
+  /* ---------- CURRENCY ---------- */
+  $("#currency").addEventListener("change",function(e){ state.currency=e.target.value; renderCars(); renderExperience(); });
+
+  /* ---------- MAP FLY-TO (viewBox animation) ---------- */
+  var map=$("#egyptMap");
+  var fullBox=[0,0,300,320];
+  function animateViewBox(target,ms){
+    if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+      map.setAttribute("viewBox",target.join(" ")); return;
+    }
+    var start=(map.getAttribute("viewBox")||fullBox.join(" ")).split(" ").map(Number);
+    var t0=null;
+    function step(ts){
+      if(!t0) t0=ts; var p=Math.min(1,(ts-t0)/ms);
+      var e=1-Math.pow(1-p,3); // easeOutCubic
+      var cur=start.map(function(s,i){return s+(target[i]-s)*e;});
+      map.setAttribute("viewBox",cur.join(" "));
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  function flyTo(c){
+    var w=150,h=160; // zoomed window
+    var x=Math.max(0,Math.min(300-w, c.x-w/2));
+    var y=Math.max(0,Math.min(320-h, c.y-h/2));
+    animateViewBox([x,y,w,h],900);
+    setTimeout(function(){ animateViewBox(fullBox,1100); }, 1700);
+  }
+
+  /* ---------- SELECT CITY ---------- */
+  function selectCity(key,scroll){
+    state.city=key;
+    var c=CITIES[key];
+
+    // pins / chips active state
+    [].forEach.call(pinsG.children,function(p){ p.classList.toggle("active", p.dataset.city===key); });
+    [].forEach.call(chips.children,function(b){ b.setAttribute("aria-pressed", b.dataset.city===key?"true":"false"); });
+    if(branchSel.value!==key) branchSel.value=key;
+
+    // city header (cross-fade photo)
+    var head=$("#cityHead"), img=$("#cityImg");
+    head.classList.add("swap");
+    setTimeout(function(){
+      img.onerror=function(){ this.onerror=null; this.src=c.photo; };
+      img.src=c.photo; img.alt=c.name+", Egypt";
+      head.classList.remove("swap");
+    },260);
+    $("#cityTag").innerHTML='<i class="fa-solid fa-location-dot"></i> '+c.tag;
+    $("#cityName").textContent=c.name;
+    $("#cityDesc").textContent=c.desc;
+    $("#fleetCity").textContent=c.name;
+    $("#tourCity").textContent=c.name;
+
+    flyTo(c);
+    renderCars();
+    renderExperience();
+
+    if(scroll){ $("#cityPanel").scrollIntoView({behavior:"smooth",block:"start"}); }
+  }
+
+  /* ---------- RENDER CARS ---------- */
+  function renderCars(){
+    var grid=$("#carGrid"); grid.innerHTML="";
+    var days=state.days;
+    var list=FLEET.filter(function(car){
+      return car.cities.indexOf(state.city)>-1 && (state.cat==="All"||car.cat===state.cat);
+    });
+    $("#fleetMeta").textContent = list.length+" car"+(list.length===1?"":"s")+" available in "+CITIES[state.city].name+
+      " · estimated "+days+" day"+(days===1?"":"s")+" — same category or higher, never lower.";
+
+    if(!list.length){
+      grid.innerHTML='<p style="color:var(--muted);grid-column:1/-1">No cars in this class here — try another class or hub.</p>';
+      return;
+    }
+    list.forEach(function(car){
+      var rate=dailyRate(car,days);
+      var total=rate*days;
+      var deposit=Math.round(total*0.30), onArrival=total-deposit;
+      var full=car.make+" "+car.model;
+      var slug=(car.make+"-"+car.model).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+      var hub=CITIES[state.city].slug;
+      var reserveUrl="https://brothersegy.com/product/rent-"+slug+"-"+hub+"/";
+      var waMsg=encodeURIComponent("Hello Brothers EGY! I'd like to book the "+full+" ("+car.cat+") in "+CITIES[state.city].name+
+        " for "+days+" day"+(days===1?"":"s")+". Estimated total "+money(total)+" (30% deposit "+money(deposit)+"). Is it available?");
+      var waUrl="https://wa.me/201554446744?text="+waMsg;
+
+      var card=document.createElement("article");
+      card.className="card";
+      card.innerHTML=
+        '<div class="car-media">'+
+          '<span class="cat">'+car.cat+'</span>'+
+          '<span class="seats"><i class="fa-solid fa-user-group"></i> '+car.seats+'</span>'+
+          '<img loading="lazy" alt="'+full+'" src="'+IMG_BASE+car.img+'" '+
+            'onerror="this.onerror=null;this.src=\''+CAR_FALLBACK+'\'"/>'+
+        '</div>'+
+        '<div class="car-body">'+
+          '<h4>'+full+'</h4>'+
+          '<div class="guarantee"><i class="fa-solid fa-circle-check"></i><span>'+full+' or similar — same category or higher, never lower.</span></div>'+
+          '<div class="price-row"><b>'+money(rate)+'</b><span>/ day · '+money(total)+' total</span></div>'+
+          '<div style="font-size:.76rem;color:var(--muted)">Pay '+money(deposit)+' now (30%) · '+money(onArrival)+' on arrival</div>'+
+          '<div class="car-cta">'+
+            '<a class="btn btn-ghost" href="'+reserveUrl+'" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Reserve</a>'+
+            '<a class="btn btn-gold" href="'+waUrl+'" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Book</a>'+
+          '</div>'+
+        '</div>';
+      // TODO Part-A cart hand-off: wire "Reserve" to the ERP cart/proposal flow instead of the WP product URL.
+      grid.appendChild(card);
+    });
+  }
+
+  /* ---------- RENDER TOURS + TRANSFER ---------- */
+  function renderExperience(){
+    var c=CITIES[state.city];
+    var tg=$("#tourGrid"); tg.innerHTML="";
+    c.tours.forEach(function(t){
+      var waUrl="https://wa.me/201554446744?text="+encodeURIComponent("Hello Brothers EGY! I'm interested in the \""+t.name+"\" tour from "+c.name+" ("+t.dur+", approx "+money(t.egp)+"). Can you share details?");
+      var el=document.createElement("div");
+      el.className="tour";
+      el.innerHTML=
+        '<div class="t-top"><div class="t-ico"><i class="fa-solid '+t.ico+'"></i></div>'+
+          '<div><h4>'+t.name+'</h4><p>'+t.dur+'</p></div></div>'+
+        '<div class="t-foot"><b>'+money(t.egp)+'</b>'+
+          '<a class="btn btn-ghost" style="padding:9px 14px;font-size:.84rem" href="'+waUrl+'" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Ask</a></div>';
+      tg.appendChild(el);
+    });
+    var tr=c.transfer;
+    $("#trfTitle").textContent=tr.title;
+    $("#trfDesc").textContent=tr.desc;
+    $("#trfPrice").textContent=money(tr.egp);
+    $("#trfBtn").href="https://wa.me/201554446744?text="+encodeURIComponent("Hello Brothers EGY! I'd like to book an airport transfer: "+tr.title+" (approx "+money(tr.egp)+" one way). Here are my flight details:");
+  }
+
+  /* ---------- BOOKING FORM ---------- */
+  var pickup=$("#pickup"), dropoff=$("#dropoff"), est=$("#est");
+  (function seedDates(){
+    var now=new Date(); now.setMinutes(0,0,0); now.setHours(now.getHours()+2);
+    var later=new Date(now.getTime()+3*86400000);
+    function fmt(d){ var p=function(n){return String(n).padStart(2,"0");};
+      return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())+"T"+p(d.getHours())+":"+p(d.getMinutes()); }
+    pickup.value=fmt(now); dropoff.value=fmt(later);
+  })();
+  function refreshDays(){
+    state.days=computeDays(pickup.value,dropoff.value);
+    est.value=state.days+" day"+(state.days===1?"":"s");
+    renderCars();
+  }
+  pickup.addEventListener("change",refreshDays);
+  dropoff.addEventListener("change",refreshDays);
+  refreshDays();
+
+  $("#bookForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    selectCity(branchSel.value,true);
+    toast("Showing "+CITIES[state.city].name+" cars · "+state.days+" day"+(state.days===1?"":"s")+" · "+state.currency);
+  });
+
+  /* ---------- INIT ---------- */
+  $("#yr").textContent=new Date().getFullYear();
+  selectCity(state.city,false);
+
+  /* ---------- VIDEO GRACEFUL FALLBACK ---------- */
+  (function video(){
+    var v=$("#bgVideo");
+    v.addEventListener("error",function(){ v.style.display="none"; },true);
+    var p=v.play && v.play();
+    if(p && p.catch){ p.catch(function(){/* autoplay blocked — poster shows */}); }
+  })();
+
+  /* ============================================================
+     ?selftest — console.assert sanity checks
+     ============================================================ */
+  if(location.search.indexOf("selftest")>-1){
+    console.assert(computeDays("2026-01-01T10:00","2026-01-04T20:00")===4,"3d10h should round UP to 4 days");
+    console.assert(computeDays("2026-01-01T10:00","2026-01-01T11:00")===1,"part-day -> min 1 day");
+    console.assert(computeDays("2026-01-01T10:00","2026-01-04T10:00")===3,"exactly 3 days -> 3");
+    console.assert(tierIndex(2)===0 && tierIndex(5)===1 && tierIndex(9)===2,"tier lookup 1-3/4-7/8+");
+    var kia=FLEET[0];
+    console.assert(dailyRate(kia,2)===kia.tier[0] && dailyRate(kia,5)===kia.tier[1] && dailyRate(kia,10)===kia.tier[2],"tier rate lookup");
+    console.assert(Object.keys(CITIES).length===4,"4 city hubs present");
+    console.log("%c[selftest] all assertions passed","color:#19c3c9;font-weight:bold");
+  }
+})();
+</script>
+</body>
+</html>

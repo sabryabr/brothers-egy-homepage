@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brothers EGY — Homepage Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--gold:#d4a24e;--bg:#0b0a08;--card:#15130f;--line:rgba(212,162,78,.22);--txt:#f4 efe3;--dim:#b8ad97}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Space Grotesk',system-ui,sans-serif;background:radial-gradient(120% 80% at 20% 0%,rgba(46,122,122,.14),transparent 60%),#0b0a08;color:#f4efe3;min-height:100vh;padding:48px 20px}
+  .wrap{max-width:1040px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .brand img{height:40px}
+  h1{font-family:'Fraunces',serif;font-size:clamp(1.9rem,4vw,2.8rem);font-weight:600;line-height:1.1;margin:18px 0 8px}
+  h1 .amber{color:var(--gold);font-style:italic}
+  .sig{color:var(--gold);font-style:italic;font-family:'Fraunces',serif;font-size:1.05rem;margin-bottom:4px}
+  p.lead{color:#b8ad97;max-width:60ch;margin-bottom:34px;line-height:1.6}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  a.card{display:block;background:#15130f;border:1px solid rgba(212,162,78,.22);border-radius:18px;padding:22px;text-decoration:none;color:#f4efe3;transition:.25s}
+  a.card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 18px 44px -22px rgba(0,0,0,.8)}
+  .tag{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .card h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.35rem;margin:8px 0 6px}
+  .card p{color:#b8ad97;font-size:.9rem;line-height:1.5}
+  .star{margin-top:10px;display:inline-block;font-size:.72rem;color:#0b0a08;background:var(--gold);padding:3px 10px;border-radius:999px;font-weight:600}
+  footer{margin-top:40px;color:#8a8069;font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><img src="https://brothersegy.com/wp-content/uploads/2026/02/Logo.png" alt="Brothers EGY"></div>
+  <div class="sig">The Egyptian brother — the one you reach for anything.</div>
+  <h1>Homepage <span class="amber">concepts</span></h1>
+  <p class="lead">Four directions for the new Brothers EGY homepage. Each opens as a live, interactive prototype — try the dark/light toggle, the booking tools, and the booking flow. Mockup data; real fleet, pricing and availability wire in at production.</p>
+  <div class="grid">
+    <a class="card" href="./index.html">
+      <span class="tag">The chosen direction</span>
+      <h2>The Journey</h2>
+      <p>Cinematic, scroll-driven brand film with three interactive tools: Smart Build (self-quote), Budget Calculator, and a day-by-day Tour Planner.</p>
+      <span class="star">★ Lead concept</span>
+    </a>
+    <a class="card" href="./map/index.html">
+      <span class="tag">Spatial</span>
+      <h2>Explore Egypt — Map</h2>
+      <p>An interactive map of Egypt; tap a city pin to reveal that hub's fleet, tours and transfers. Navigate by destination.</p>
+    </a>
+    <a class="card" href="./vibrant/index.html">
+      <span class="tag">Bright & friendly</span>
+      <h2>Sunlit Red Sea</h2>
+      <p>Warm, approachable, conversion-focused — turquoise + coral, big friendly search, mobile-first energy.</p>
+    </a>
+    <a class="card" href="./editorial/index.html">
+      <span class="tag">Editorial</span>
+      <h2>Desert Luxury</h2>
+      <p>Warm, magazine-style editorial travel brand — serif headlines, full-bleed Egypt photography, a boutique reservation feel.</p>
+    </a>
+  </div>
+  <footer>Brothers EGY · prototypes for review · brothers by bond, not blood · since 2007</footer>
+</div>
+</body>
+</html>
