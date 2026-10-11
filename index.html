@@ -559,6 +559,10 @@ html[data-theme="light"] .pay-now{background:#241d10}
 .ct-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
 .ct-col{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px;position:relative}
 .ct-col .ct-x{position:absolute;top:8px;right:8px;background:transparent;border:none;color:var(--txt-mute);font-size:.9rem}
+.ct-col .ct-thumb{aspect-ratio:16/10;display:grid;place-items:center;background:linear-gradient(180deg,#1a160e,#0f0d08);border-radius:10px;overflow:hidden;margin:4px 0 8px}
+html[data-theme="light"] .ct-col .ct-thumb{background:linear-gradient(180deg,#efe6d4,#e3d6bd)}
+.ct-col .ct-thumb img{width:86%}
+.ct-col .ct-thumb .silhouette{width:66%;opacity:.4}
 .ct-col h5{font-family:"Fraunces";margin:0 0 2px;font-size:1.02rem}
 .ct-col .ct-plan{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-2);margin-bottom:10px}
 .ct-col .ct-line{display:flex;justify-content:space-between;font-size:.82rem;color:var(--txt-dim);margin-bottom:6px}
@@ -2574,6 +2578,7 @@ function renderCompare(){
     }
     col.innerHTML =
       '<button class="ct-x" data-ct-remove="'+idx+'" aria-label="Remove this build">✕</button>'+
+      '<div class="ct-thumb">'+(c?carMediaHTML(c):silhouetteSVG())+'</div>'+
       '<h5>'+(c?c.name:"New build")+'</h5>'+
       controls + body;
     cols.appendChild(col);
