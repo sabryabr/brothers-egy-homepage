@@ -42,7 +42,7 @@ img{max-width:100%; display:block}
 button{font-family:inherit; cursor:pointer}
 :focus-visible{outline:3px solid var(--gold-2); outline-offset:3px; border-radius:6px}
 .wrap{max-width:var(--max); margin-inline:auto; padding-inline:clamp(18px,4vw,40px)}
-.eyebrow{font-family:"Space Grotesk"; text-transform:uppercase; letter-spacing:.32em; font-size:.72rem; font-weight:600; color:var(--gold-2)}
+.eyebrow{font-family:"Space Grotesk"; text-transform:uppercase; letter-spacing:.22em; font-size:.7rem; font-weight:600; color:var(--gold-2)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);border:0}
 .skip{position:fixed;left:12px;top:-60px;z-index:1000;background:var(--gold);color:#1a1409;padding:10px 16px;border-radius:10px;font-weight:600;transition:top .25s}
 .skip:focus{top:12px}
@@ -75,7 +75,8 @@ html[data-theme="light"] .topbar{background:linear-gradient(to bottom,rgba(255,2
 .btn-wa:hover{background:#188f45;transform:translateY(-2px)}
 
 /* ---------- chapter dot nav ---------- */
-.chapters{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:550;display:flex;flex-direction:column;gap:14px}
+.chapters{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:550;display:flex;flex-direction:column;gap:14px;
+  transition:opacity .3s var(--ease),visibility .3s var(--ease)}
 .chapters button{appearance:none;border:none;background:transparent;display:flex;align-items:center;gap:10px;flex-direction:row-reverse;color:var(--txt-dim)}
 .chapters .dot{width:11px;height:11px;border-radius:50%;border:2px solid var(--txt-mute);background:transparent;transition:.3s}
 .chapters .lbl{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;opacity:0;transform:translateX(8px);transition:.3s;white-space:nowrap}
@@ -83,9 +84,13 @@ html[data-theme="light"] .topbar{background:linear-gradient(to bottom,rgba(255,2
 .chapters button:hover .dot{border-color:var(--gold)}
 .chapters button[aria-current="true"] .dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 5px rgba(212,162,78,.18)}
 .chapters button[aria-current="true"]{color:var(--txt)}
+/* fit fix: on the first viewport the dot-nav crowds the "Find your car" card — hide
+   it while the hero is the active chapter (JS toggles .on-hero via the existing
+   section observer) and fade it back in once the visitor scrolls to chapter 2+ */
+.chapters.on-hero{opacity:0;visibility:hidden;pointer-events:none}
 
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-media video,.hero-media .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero-media .poster{background-size:cover;background-position:center;z-index:0}
@@ -94,23 +99,63 @@ html[data-theme="light"] .topbar{background:linear-gradient(to bottom,rgba(255,2
   linear-gradient(to top,rgba(6,5,3,.92) 2%,rgba(6,5,3,.28) 42%,rgba(6,5,3,.5) 100%),
   radial-gradient(120% 80% at 20% 10%,rgba(31,122,122,.26),transparent 60%)}
 html[data-theme="light"] .hero-scrim{background:linear-gradient(to top,rgba(243,234,217,.9) 2%,rgba(243,234,217,.1) 45%,rgba(20,16,8,.42) 100%)}
-.hero-inner{position:relative;z-index:3;width:100%;padding-bottom:clamp(28px,5vw,60px);padding-top:120px}
-.hero h1{font-size:clamp(2.9rem,8.4vw,6.6rem);margin:0 0 .2em;color:#fff;text-shadow:0 4px 40px rgba(0,0,0,.5)}
+.hero-inner{position:relative;z-index:3;width:100%;padding-top:calc(var(--nav-h) + 28px);padding-bottom:clamp(24px,4vw,48px)}
+/* split hero: story on the left, search card on the right, both in the first viewport.
+   Balanced across the full hero width — headline flexes, the card holds a comfortable
+   fixed width on the right so it never floats with big awkward gaps on wide screens. */
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(380px,430px);gap:clamp(24px,4vw,64px);align-items:center}
+@media(max-width:980px){.hero-grid{grid-template-columns:1fr;gap:22px}}
+.hero-col{min-width:0}
+.hero h1{font-size:clamp(2.4rem,5.6vw,4.6rem);margin:0 0 .2em;color:#fff;text-shadow:0 4px 40px rgba(0,0,0,.5)}
 html[data-theme="light"] .hero h1{color:#fff}
-.hero h1 .amber{color:var(--gold-2);font-style:italic}
-.hero-sub{max-width:46ch;font-size:clamp(1rem,2vw,1.22rem);color:rgba(255,255,255,.9);margin:0 0 1.6em}
-.hero-sig{font-family:"Fraunces";font-style:italic;font-weight:500;font-size:clamp(1.1rem,2.2vw,1.4rem);color:var(--gold-2);margin:0 0 1.5em;text-shadow:0 2px 20px rgba(0,0,0,.4)}
+.hero h1 .amber{color:var(--gold-2);font-style:italic;white-space:nowrap}
+.hero h1 .nowrap,.hero-sub .nowrap{white-space:nowrap}
+@media(max-width:560px){.hero h1 .amber{white-space:normal}}
+.hero-sub{max-width:34ch;font-size:clamp(1rem,1.6vw,1.16rem);color:rgba(255,255,255,.9);margin:0 0 1em}
+.hero-sub-line2{display:block}
+.hero-sig{font-family:"Fraunces";font-style:italic;font-weight:500;font-size:clamp(1.05rem,1.8vw,1.3rem);color:var(--gold-2);margin:0 0 1em;text-shadow:0 2px 20px rgba(0,0,0,.4)}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.hero-badges{display:flex;gap:22px;flex-wrap:wrap;margin-top:26px;color:rgba(255,255,255,.86);font-size:.85rem}
-.hero-badges span{display:inline-flex;align-items:center;gap:8px}
-.hero-badges i{color:var(--gold-2)}
+/* rating pill (top of the left column) */
+.hero-rating{display:inline-flex;align-items:center;gap:10px;background:rgba(0,0,0,.32);border:1px solid rgba(240,198,116,.3);
+  backdrop-filter:blur(8px);border-radius:999px;padding:7px 14px;color:#fff;font-size:.82rem;margin-bottom:16px}
+html[data-theme="light"] .hero-rating{background:rgba(255,255,255,.4);border-color:rgba(146,110,46,.3);color:#241d10}
+.hero-rating .stars{color:var(--gold-2);letter-spacing:1px}
+.hero-rating b{font-weight:700}
+.hero-rating .sub{opacity:.82}
+/* trust chips under the headline */
+.hero-chips{display:grid;grid-template-columns:repeat(2,max-content);gap:8px 10px;margin-top:16px;justify-content:start;margin-left:48px}
+@media(max-width:420px){.hero-chips{grid-template-columns:1fr;justify-content:stretch}}
+.hero-chips span{display:inline-flex;align-items:center;gap:7px;font-size:.76rem;color:#fff;white-space:nowrap;max-width:100%;
+  background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 12px}
+html[data-theme="light"] .hero-chips span{color:#241d10;background:rgba(255,255,255,.52);border-color:rgba(146,110,46,.22)}
+.hero-chips i{color:var(--gold-2)}
+/* search card (right column) — theme-aware glass. Tightened (fit fix): the card was
+   a bit tall/loose, so field spacing is denser without losing legibility/tap targets. */
+.search-card{background:var(--surface);border:1px solid var(--glass-brd);backdrop-filter:blur(18px);
+  border-radius:var(--radius-lg);padding:clamp(16px,2vw,22px);box-shadow:var(--shadow)}
+.search-card .sc-head{margin:0 0 2px;font-family:"Fraunces";font-size:1.32rem;color:var(--txt)}
+.search-card .sc-sub{margin:0 0 12px;color:var(--txt-dim);font-size:.84rem}
+.search-card .fld{display:flex;flex-direction:column;gap:4px;margin-bottom:9px}
+.search-card label{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-dim)}
+.search-card select,.search-card input{background:var(--surface-solid);color:var(--txt);border:1px solid var(--line);
+  border-radius:12px;padding:10px 12px;font-family:inherit;font-size:.9rem;width:100%;box-sizing:border-box;min-width:0}
+.search-card .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.search-card .fld input[type="datetime-local"]{padding-left:9px;padding-right:4px;font-size:.84rem;letter-spacing:-.1px}
+.search-card .row2 .fld{min-width:0}
+.search-card .fld input[type="datetime-local"]{width:100%;box-sizing:border-box;min-width:0}
+.search-card .sc-same{display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--txt-dim);margin:-3px 0 9px}
+.search-card .sc-same input{width:auto}
+.search-card .btn-search{width:100%;height:46px;justify-content:center;font-size:.96rem;margin-top:2px}
+.search-card .sc-note{margin:12px 0 0;font-size:.72rem;color:var(--txt-mute);display:flex;align-items:center;gap:7px}
+.search-card .sc-fee{margin:10px 0 0;font-size:.8rem;color:var(--nile-2);display:none;align-items:center;gap:7px}
+.search-card .sc-fee.show{display:flex}
 .scroll-cue{position:absolute;left:50%;bottom:18px;z-index:4;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
 .scroll-cue .mouse{width:22px;height:36px;border:2px solid rgba(255,255,255,.6);border-radius:12px;position:relative}
 .scroll-cue .mouse::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;border-radius:3px;background:#fff;transform:translateX(-50%);animation:wheel 1.6s var(--ease) infinite}
 @keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}60%{opacity:1;transform:translate(-50%,10px)}100%{opacity:0}}
 
 /* ---------- floating booking bar ---------- */
-.bookbar{position:relative;z-index:3;margin-top:30px;background:var(--glass);border:1px solid var(--glass-brd);
+.bookbar{position:relative;z-index:3;margin-top:22px;background:var(--glass);border:1px solid var(--glass-brd);
   backdrop-filter:blur(16px);border-radius:var(--radius-lg);padding:16px;display:grid;
   grid-template-columns:repeat(4,1fr) auto;gap:12px;align-items:end;box-shadow:var(--shadow)}
 .bookbar .fld{display:flex;flex-direction:column;gap:5px}
@@ -121,16 +166,16 @@ html[data-theme="light"] .hero h1{color:#fff}
 
 /* ---------- sections ---------- */
 section{position:relative}
-.band{padding:clamp(70px,10vw,130px) 0}
+.band{padding:clamp(44px,6vw,76px) 0}
 .band.alt{background:linear-gradient(180deg,var(--bg),var(--bg-2))}
-.sec-head{max-width:62ch;margin-bottom:48px}
+.sec-head{max-width:62ch;margin-bottom:clamp(22px,3vw,34px)}
 .sec-head h2{font-size:clamp(2rem,5vw,3.4rem);margin:.3em 0 .3em}
 .sec-head p{color:var(--txt-dim);font-size:1.06rem;margin:0}
 .sec-head p.story-copy{color:var(--txt);font-size:1.12rem;margin:.2em 0 .9em;font-family:"Fraunces";font-weight:400;font-style:italic;line-height:1.5}
 
 /* ---------- scrollytelling ---------- */
 .scrolly{position:relative}
-.scene{min-height:92vh;display:flex;align-items:center;position:relative;padding:60px 0}
+.scene{min-height:auto;display:flex;align-items:center;position:relative;padding:clamp(26px,4vw,44px) 0}
 .scene-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,5vw,70px);align-items:center;width:100%}
 .scene:nth-child(even) .scene-grid{grid-template-columns:1fr 1.05fr}
 .scene:nth-child(even) .scene-copy{order:2}
@@ -140,7 +185,7 @@ section{position:relative}
 .scene-copy ul{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:10px}
 .scene-copy li{display:flex;gap:11px;align-items:flex-start;color:var(--txt-dim)}
 .scene-copy li i{color:var(--nile-2);margin-top:3px}
-.scene-visual{position:relative;border-radius:var(--radius-lg);overflow:hidden;min-height:360px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.scene-visual{position:relative;border-radius:var(--radius-lg);overflow:hidden;min-height:300px;box-shadow:var(--shadow);border:1px solid var(--line)}
 .scene-visual img.bgimg{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .scene-visual video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .scene-visual .parallax-car{position:absolute;bottom:6%;left:-40%;width:78%;filter:drop-shadow(0 30px 30px rgba(0,0,0,.6));transition:transform .1s linear;z-index:3}
@@ -158,20 +203,20 @@ section{position:relative}
 .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
 
 /* counters strip */
-.counters{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:10px}
-.counters .c{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 20px;text-align:center}
+.counters{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.counters .c{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 16px;text-align:center}
 .counters .n{font-family:"Fraunces";font-size:clamp(2rem,5vw,3rem);color:var(--gold-2);line-height:1}
 .counters .l{color:var(--txt-dim);font-size:.86rem;margin-top:8px}
 @media(max-width:720px){.counters{grid-template-columns:1fr 1fr}}
 
 /* ---------- fleet ---------- */
-.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:28px}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
 .filters .grp{display:flex;gap:7px;flex-wrap:wrap}
 .chipbtn{border:1px solid var(--line);background:var(--glass);color:var(--txt-dim);border-radius:999px;padding:8px 15px;font-size:.84rem;transition:.22s}
 .chipbtn:hover{color:var(--txt);border-color:var(--gold)}
 .chipbtn[aria-pressed="true"]{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1a1308;border-color:transparent;font-weight:600}
 .filters .sep{width:1px;height:26px;background:var(--line);margin:0 4px}
-.fleet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px}
+.fleet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:16px}
 .car{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;transition:.3s var(--ease);display:flex;flex-direction:column}
 .car:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:var(--shadow)}
 .car .thumb{position:relative;aspect-ratio:16/10;background:radial-gradient(120% 90% at 50% 20%,rgba(46,167,163,.16),transparent 60%),linear-gradient(180deg,#1a160e,#0f0d08);display:grid;place-items:center;overflow:hidden}
@@ -181,35 +226,38 @@ html[data-theme="light"] .car .thumb{background:radial-gradient(120% 90% at 50% 
 .car .silhouette{width:72%;opacity:.4;color:var(--gold)}
 .car .ribbon{position:absolute;top:12px;left:12px;background:var(--nile);color:#eafffb;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:999px;font-weight:600}
 .car .cat{position:absolute;top:12px;right:12px;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-dim);background:var(--glass);border:1px solid var(--glass-brd);padding:4px 10px;border-radius:999px}
-.car .body{padding:18px;display:flex;flex-direction:column;gap:12px;flex:1}
-.car h4{font-family:"Fraunces";font-size:1.28rem;margin:0}
-.car .specs{display:flex;gap:14px;color:var(--txt-mute);font-size:.82rem;flex-wrap:wrap}
-.car .specs span{display:inline-flex;align-items:center;gap:6px}
-.car .guarantee{font-size:.76rem;color:var(--nile-2);display:flex;gap:7px;align-items:flex-start}
-.car .foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding-top:6px;border-top:1px solid var(--line)}
-.car .price .from{font-size:.68rem;color:var(--txt-mute);text-transform:uppercase;letter-spacing:.12em}
-.car .price .amt{font-family:"Fraunces";font-size:1.5rem;color:var(--gold-2)}
-.car .price .per{font-size:.78rem;color:var(--txt-mute)}
-.car .old{text-decoration:line-through;color:var(--txt-mute);font-size:.84rem;margin-right:6px}
+.car .body{padding:14px 16px;display:flex;flex-direction:column;gap:7px;flex:1}
+.car .cartype{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--nile-2)}
+.guarantee-banner{display:inline-flex;align-items:center;gap:9px;margin:14px 0 0;font-size:.92rem;color:var(--nile-2);
+  background:var(--glass);border:1px solid var(--glass-brd);border-radius:999px;padding:8px 16px}
+.guarantee-banner i{color:var(--gold-2)}
+.car .price .prow{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.car h4{font-family:"Fraunces";font-size:1.18rem;margin:0;line-height:1.15}
+.car .specs{display:flex;gap:12px;color:var(--txt-mute);font-size:.78rem;flex-wrap:nowrap;white-space:nowrap}
+.car .specs span{display:inline-flex;align-items:center;gap:5px}
+.car .foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding-top:8px;border-top:1px solid var(--line)}
+.car .price .amt{font-family:"Fraunces";font-size:1.3rem;color:var(--gold-2);font-weight:600}
+.car .price .per{font-size:.72rem;color:var(--txt-mute);margin-top:1px}
+.car .old{text-decoration:line-through;color:var(--txt-mute);font-size:.8rem}
 .empty-fleet{grid-column:1/-1;text-align:center;color:var(--txt-dim);padding:50px;border:1px dashed var(--line);border-radius:var(--radius)}
 
 /* ---------- ambient video strip ---------- */
-.ambient-strip{position:relative;border-radius:var(--radius-lg);overflow:hidden;height:clamp(180px,28vw,320px);margin-bottom:40px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.ambient-strip{position:relative;border-radius:var(--radius-lg);overflow:hidden;height:clamp(160px,22vw,250px);margin-bottom:24px;border:1px solid var(--line);box-shadow:var(--shadow)}
 .ambient-strip .poster{position:absolute;inset:0;background-size:cover;background-position:center}
 .ambient-strip video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ambient-scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,4,2,.55),transparent 55%,rgba(5,4,2,.35))}
 html[data-theme="light"] .ambient-scrim{background:linear-gradient(90deg,rgba(243,234,217,.4),transparent 55%,rgba(243,234,217,.25))}
 
 /* ---------- what we handle (open-ended services) ---------- */
-.handle-strip{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.handle-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 .handle-strip .pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:11px 18px;font-size:.88rem;color:var(--txt-dim);display:inline-flex;align-items:center;gap:9px;transition:.25s}
 .handle-strip .pill:hover{border-color:var(--gold);color:var(--txt)}
 .handle-strip .pill i{color:var(--nile-2)}
 .handle-strip .pill.more{color:var(--gold-2);border-color:var(--glass-brd);font-style:italic}
 
 /* ---------- tours / transfers ---------- */
-.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
-.tile{position:relative;border-radius:var(--radius-lg);overflow:hidden;min-height:300px;display:flex;align-items:flex-end;color:#fff;isolation:isolate}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.tile{position:relative;border-radius:var(--radius-lg);overflow:hidden;min-height:260px;display:flex;align-items:flex-end;color:#fff;isolation:isolate}
 .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .6s var(--ease)}
 .tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(5,4,2,.9),rgba(5,4,2,.1) 60%)}
 .tile:hover img{transform:scale(1.07)}
@@ -217,15 +265,15 @@ html[data-theme="light"] .ambient-scrim{background:linear-gradient(90deg,rgba(24
 .tile .t-body h4{font-family:"Fraunces";font-size:1.4rem;margin:0 0 4px}
 .tile .t-body p{margin:0 0 14px;color:rgba(255,255,255,.85);font-size:.9rem}
 .tile .t-meta{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);margin-bottom:8px}
-.transfers{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:6px}
+.transfers{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:6px}
 .transfer{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;gap:10px}
 .transfer .ic{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--nile),var(--nile-2));display:grid;place-items:center;color:#eafffb;font-size:1.1rem}
 .transfer h4{font-family:"Fraunces";margin:0;font-size:1.2rem}
 .transfer p{margin:0;color:var(--txt-dim);font-size:.9rem}
 
 /* ---------- trust / reviews ---------- */
-.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.review{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:26px;display:flex;flex-direction:column;gap:14px}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.review{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px;display:flex;flex-direction:column;gap:12px}
 .review .stars{color:var(--gold-2);letter-spacing:3px}
 .review p{margin:0;font-size:1rem;color:var(--txt)}
 .review .who{display:flex;align-items:center;gap:12px;margin-top:auto}
@@ -233,7 +281,7 @@ html[data-theme="light"] .ambient-scrim{background:linear-gradient(90deg,rgba(24
 .review .who b{display:block;font-size:.92rem}
 .review .who small{color:var(--txt-mute)}
 @media(max-width:820px){.reviews{grid-template-columns:1fr}}
-.trust-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.trust-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 .trust-row .pill{display:inline-flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-size:.86rem}
 .trust-row .pill i{color:var(--nile-2)}
 
@@ -252,7 +300,8 @@ html[data-theme="light"] .ambient-scrim{background:linear-gradient(90deg,rgba(24
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
 .field label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-dim)}
-.field input,.field select{background:var(--bg-2);color:var(--txt);border:1px solid var(--line);border-radius:12px;padding:12px;font-family:inherit;font-size:.95rem}
+.field input,.field select{background:var(--bg-2);color:var(--txt);border:1px solid var(--line);border-radius:12px;padding:12px;font-family:inherit;font-size:.95rem;width:100%;box-sizing:border-box;min-width:0}
+.field input[type="datetime-local"]{width:100%;box-sizing:border-box;min-width:0}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .classgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .classcard{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:14px;cursor:pointer;transition:.2s;display:flex;gap:12px;align-items:center}
@@ -272,10 +321,10 @@ html[data-theme="light"] .ambient-scrim{background:linear-gradient(90deg,rgba(24
 .extra .ex-pr{color:var(--gold-2);font-size:.9rem}
 .summary{position:sticky;top:72px;align-self:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
 .summary h4{margin:0 0 14px;font-family:"Fraunces"}
-.sumline{display:flex;justify-content:space-between;font-size:.9rem;color:var(--txt-dim);margin-bottom:9px}
+.sumline{display:flex;justify-content:space-between;font-size:.88rem;color:var(--txt-dim);margin-bottom:7px}
 .sumline b{color:var(--txt)}
-.sumtot{border-top:1px solid var(--line);margin-top:12px;padding-top:14px;display:flex;justify-content:space-between;align-items:baseline}
-.sumtot .big{font-family:"Fraunces";font-size:1.9rem;color:var(--gold-2)}
+.sumtot{border-top:1px solid var(--line);margin-top:10px;padding-top:11px;display:flex;justify-content:space-between;align-items:baseline}
+.sumtot .big{font-family:"Fraunces";font-size:1.7rem;color:var(--gold-2)}
 .split{background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:12px;margin-top:14px;font-size:.84rem;color:var(--txt-dim)}
 .split b{color:var(--nile-2)}
 .cur-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:12px}
@@ -286,7 +335,7 @@ html[data-theme="light"] .ambient-scrim{background:linear-gradient(90deg,rgba(24
 @media(max-width:760px){.sheet-body{grid-template-columns:1fr}.summary{position:static}.classgrid{grid-template-columns:1fr}}
 
 /* ---------- footer ---------- */
-footer{background:var(--bg-2);border-top:1px solid var(--line);padding:60px 0 30px}
+footer{background:var(--bg-2);border-top:1px solid var(--line);padding:44px 0 26px}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
 footer h5{font-family:"Fraunces";font-size:1.05rem;margin:0 0 14px}
 footer a{color:var(--txt-dim);display:block;padding:4px 0;font-size:.9rem}
@@ -296,17 +345,18 @@ footer a:hover{color:var(--gold-2)}
 .social{display:flex;gap:10px;margin-top:14px}
 .social a{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);display:grid;place-items:center;color:var(--txt);font-size:1rem;padding:0}
 .social a:hover{border-color:var(--gold);color:var(--gold-2)}
-.foot-base{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:var(--txt-mute);font-size:.82rem}
+.foot-base{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:var(--txt-mute);font-size:.82rem}
 @media(max-width:760px){.foot-grid{grid-template-columns:1fr}.scene-grid{grid-template-columns:1fr!important}.scene:nth-child(even) .scene-copy{order:0}.chapters{display:none}.nav-links{display:none}}
 
 /* floating WA */
-.wa-float{position:fixed;right:18px;bottom:18px;z-index:580;width:56px;height:56px;border-radius:50%;background:#1faa53;color:#fff;display:grid;place-items:center;font-size:1.5rem;box-shadow:0 14px 30px -8px rgba(31,170,83,.6);transition:.25s}
+/* floated bottom-LEFT on desktop so it never blocks the right-side 'Find your car' card; bottom-right on mobile where the card isn't beside it */
+.wa-float{position:fixed;left:18px;bottom:18px;z-index:580;width:52px;height:52px;border-radius:50%;background:#1faa53;color:#fff;display:grid;place-items:center;font-size:1.4rem;box-shadow:0 14px 30px -8px rgba(31,170,83,.6);transition:.25s}
 .wa-float:hover{transform:scale(1.08)}
-@media(max-width:760px){.wa-float{bottom:14px;right:14px}}
+@media(max-width:980px){.wa-float{left:auto;right:14px;bottom:14px}}
 
 /* ---------- tools launcher (Journey stays calm; tools open as their own full-screen experiences) ---------- */
-.tools-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.tool-card{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:26px;display:flex;flex-direction:column;gap:12px;transition:.3s var(--ease);width:100%}
+.tools-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tool-card{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px;display:flex;flex-direction:column;gap:10px;transition:.3s var(--ease);width:100%}
 .tool-card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:var(--shadow)}
 .tool-card .ic{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--gold),var(--nile-2));display:grid;place-items:center;color:#15110a;font-size:1.3rem}
 .tool-card h4{font-family:"Fraunces";margin:0;font-size:1.3rem}
@@ -322,6 +372,17 @@ footer a:hover{color:var(--gold-2)}
 .tool-head .sub{color:var(--txt-dim);font-size:.84rem;margin-top:2px}
 .tool-head .spacer{flex:1}
 .tool-body{max-width:1040px;margin-inline:auto;padding:clamp(22px,4vw,44px) clamp(16px,4vw,32px) 90px}
+/* Smart Build is a FULL-WIDTH booking workspace — it must use the whole viewport
+   width, not a narrow centred column with big dead side margins. */
+.tool-body.sb-body{max-width:none;margin-inline:0;padding-left:clamp(18px,3vw,44px);padding-right:clamp(18px,3vw,44px)}
+/* Smart Build fills the viewport height: head is compact + static, the body below
+   is a flex column whose own car-grid box gets the leftover height (not a thin strip) */
+#toolBuild.tool-overlay{display:none;overflow:hidden}
+#toolBuild.tool-overlay.open{display:flex;flex-direction:column;height:100vh}
+#toolBuild .tool-head{position:static;padding:10px clamp(16px,3vw,28px);flex:0 0 auto}
+#toolBuild .tool-head h2{font-size:clamp(1.05rem,2vw,1.3rem)}
+#toolBuild .tool-head .sub{display:none}
+#toolBuild .tool-body.sb-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding-top:clamp(10px,1.4vw,16px);display:flex;flex-direction:column}
 .tool-section{margin-bottom:clamp(28px,4vw,44px)}
 .tool-section>h3{font-family:"Fraunces";font-size:1.3rem;margin:0 0 6px}
 .tool-section>p.hint{color:var(--txt-dim);font-size:.9rem;margin:0 0 18px}
@@ -331,6 +392,7 @@ footer a:hover{color:var(--gold-2)}
 .mock-note i{color:var(--gold-2);margin-top:1px}
 
 /* ---- Tool 1: Smart Build ---- */
+/* wide multi-column car grid — uses the horizontal room (3-4 columns on desktop) */
 .sb-cars{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
 .sb-car{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:16px;padding:14px;cursor:pointer;transition:.2s;display:flex;flex-direction:column;gap:8px}
 .sb-car:hover{border-color:var(--gold)}
@@ -341,7 +403,8 @@ html[data-theme="light"] .sb-car .thumb{background:linear-gradient(180deg,#efe6d
 .sb-car .thumb .silhouette{width:68%;opacity:.4}
 .sb-car b{font-family:"Fraunces";font-size:1rem}
 .sb-car small{color:var(--txt-mute)}
-.sb-car .pr{color:var(--gold-2);font-family:"Fraunces";font-size:1.1rem;margin-top:auto}
+.sb-car .pr{color:var(--gold-2);font-family:"Fraunces";font-size:1rem;margin-top:auto;line-height:1.2;white-space:nowrap}
+.sb-car .pr small{white-space:nowrap}
 .tier-ladder{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .tier-pill{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:.78rem;color:var(--txt-dim);background:var(--card)}
 .tier-pill b{color:var(--txt);display:block;font-family:"Fraunces";font-size:.98rem}
@@ -350,7 +413,183 @@ html[data-theme="light"] .sb-car .thumb{background:linear-gradient(180deg,#efe6d
 .nudge i{color:var(--gold-2);margin-top:2px}
 .nudge b{color:var(--gold-2)}
 .nudge button{margin-top:8px}
-.sb-summary{position:sticky;top:86px;align-self:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.sb-summary{position:sticky;top:86px;align-self:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;max-height:calc(100vh - 100px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
+
+/* ---- Smart Build: two-pane booking + contained-scroll car box + reservation pane ---- */
+.step-rail{list-style:none;display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px;padding:0;flex:0 0 auto}
+.step-rail li{display:flex;align-items:center;gap:6px;font-size:.74rem;color:var(--txt-mute);border:1px solid var(--line);
+  border-radius:999px;padding:4px 11px;background:var(--card)}
+.step-rail li .n{width:17px;height:17px;border-radius:50%;display:grid;place-items:center;font-size:.66rem;font-weight:700;background:var(--glass);color:var(--txt-dim)}
+.step-rail li.active{color:var(--txt);border-color:var(--gold)}
+.step-rail li.active .n{background:var(--gold);color:#1a1308}
+.step-rail li.done .n{background:var(--nile);color:#fff}
+/* genuine two-pane workspace that fills the width AND the viewport height: LEFT
+   flexes to fill the room and becomes a column (compact top + flexible car box),
+   RIGHT reservation pane is a comfortable fixed width (no cramped 1fr squeeze) */
+.sb-two{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:clamp(16px,2vw,28px);align-items:start;flex:1 1 auto;min-height:0}
+/* left column: sections stack in NORMAL FLOW (no flex-grow fighting) so none can
+   overlap another. The body scrolls as one unit; the car box keeps its own capped
+   inner scroll so it stays dominant without growing tall enough to float over step 3. */
+.sb-left{min-width:0;display:flex;flex-direction:column;min-height:0}
+.field.end{justify-content:flex-end}
+/* step-1 trip row: compact by default; once pick-up+drop-off+dates are all set it
+   collapses to a slim one-line summary bar so the car grid below gets the room */
+.sb-step1{flex:0 0 auto}
+.sb-step1 .sb-trip-grid{display:grid}
+.sb-step1.collapsed .sb-trip-grid,.sb-step1.collapsed .guarantee-note{display:none}
+.sb-trip-summary{display:none;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--line);background:var(--card);
+  border-radius:12px;padding:9px 14px;font-size:.84rem;color:var(--txt-dim)}
+.sb-trip-summary b{color:var(--txt);font-weight:600}
+.sb-trip-summary button{margin-left:auto;background:transparent;border:none;color:var(--gold-2);font-size:.78rem;font-weight:600;cursor:pointer}
+.sb-step1.collapsed .sb-trip-summary{display:flex}
+.sb-pick{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);padding:14px;margin-top:0;
+  display:flex;flex-direction:column;flex:0 1 auto;min-height:0}
+.sb-pick-head{flex:0 0 auto}
+.sb-pick-head h3{font-family:"Fraunces";font-size:1.08rem;margin:0 0 8px}
+.sb-filters .grp{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+/* contained scroll box: the car grid is the DOMINANT element of this screen — it
+   fills whatever height is left after the compact header/steps/trip-row instead of
+   a short, arbitrary vh-cap, so a laptop viewport comfortably shows ~2-3 rows */
+.sb-cars-box{position:relative;flex:0 1 auto;min-height:240px;max-height:46vh;overflow-y:auto;padding:4px;scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
+.sb-cars-box::-webkit-scrollbar{width:8px}
+.sb-cars-box::-webkit-scrollbar-thumb{background:var(--gold);border-radius:8px;border:2px solid transparent;background-clip:content-box}
+.sb-cars-box::-webkit-scrollbar-track{background:transparent}
+/* subtle top/bottom fade to signal more cars */
+.sb-pick{--fade:linear-gradient(var(--bg-2),transparent)}
+.sb-cars-box::before,.sb-cars-box::after{content:"";position:sticky;left:0;display:block;height:14px;pointer-events:none;z-index:1}
+.sb-cars-box::before{top:0;background:linear-gradient(var(--card),transparent);margin-bottom:-14px}
+.sb-cars-box::after{bottom:0;background:linear-gradient(transparent,var(--card));margin-top:-14px}
+/* car card compare-pin control */
+.sb-car{position:relative}
+.sb-car .pin{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:9px;border:1px solid var(--line);
+  background:var(--glass);color:var(--txt-dim);display:grid;place-items:center;font-size:.78rem;transition:.2s}
+.sb-car .pin:hover{border-color:var(--gold);color:var(--gold-2)}
+.sb-car .pin.on{background:var(--gold);color:#1a1308;border-color:var(--gold)}
+/* reservation pane */
+.resv-pane{top:16px}
+.resv-head{font-family:"Fraunces";font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2);margin-bottom:11px;display:flex;align-items:center;gap:8px}
+.resv-car{display:flex;gap:12px;align-items:center;margin-bottom:11px}
+.resv-thumb{width:78px;height:50px;border-radius:10px;flex:0 0 auto;background:linear-gradient(180deg,#1a160e,#0f0d08);display:grid;place-items:center;overflow:hidden}
+html[data-theme="light"] .resv-thumb{background:linear-gradient(180deg,#efe6d4,#e3d6bd)}
+.resv-thumb img{width:92%}.resv-thumb .silhouette{width:70%;opacity:.4}
+.resv-car-id b{font-family:"Fraunces";font-size:1.02rem;display:block;text-transform:uppercase;letter-spacing:.02em}
+.resv-car-id small{color:var(--txt-mute);text-transform:uppercase;font-size:.68rem;letter-spacing:.1em}
+.pay-now{background:var(--ink-2);border:1px solid var(--glass-brd);border-radius:14px;padding:11px 13px;margin-top:11px}
+html[data-theme="light"] .pay-now{background:#241d10}
+.pay-now .pn-label{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2)}
+.pay-now .pn-amt{font-family:"Fraunces";font-size:1.7rem;color:#fff;line-height:1.05;margin:1px 0}
+.pay-now .pn-rest,.pay-now .pn-dep{font-size:.78rem;color:rgba(255,255,255,.72);line-height:1.35}
+.pay-now .pn-rest{margin-top:3px}.pay-now .pn-dep{margin-top:3px}
+.pay-now .pn-rest b,.pay-now .pn-dep b{color:var(--nile-2)}
+.resv-promise{font-size:.74rem;color:var(--nile-2);margin:11px 0 0;display:flex;gap:7px;align-items:flex-start;line-height:1.35}
+.resv-actions{margin-top:11px}
+.resv-prompt{font-size:.82rem;color:var(--txt-dim);background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:11px 13px;margin:0 0 12px;display:flex;gap:8px;align-items:center}
+.resv-prompt i{color:var(--gold-2)}
+/* PROMINENT security-deposit callout (pane + compare columns) */
+.deposit-box{margin-top:11px;border-radius:14px;padding:11px 13px;border:1px solid var(--line)}
+.deposit-box .dep-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.deposit-box .dep-label{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-dim);display:flex;align-items:center;gap:7px}
+.deposit-box .dep-badge{font-family:"Fraunces";font-weight:700;font-size:1rem;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.deposit-box .dep-note{font-size:.74rem;margin:6px 0 0;color:var(--txt-dim);line-height:1.35}
+.deposit-box .dep-upsell{display:inline-block;margin-top:4px;color:var(--gold-2);font-weight:600}
+.deposit-box.zero{background:rgba(45,164,110,.12);border-color:rgba(45,164,110,.5)}
+.deposit-box.zero .dep-badge{background:#2da46e;color:#06230f}
+.deposit-box.zero .dep-label i{color:#2da46e}
+.deposit-box.hold{background:rgba(212,162,78,.1);border-color:rgba(212,162,78,.45)}
+.deposit-box.hold .dep-badge{background:var(--gold);color:#1a1308}
+.deposit-box.hold .dep-label i{color:var(--gold-2)}
+/* step-1 compact trip grid: fields spread across the FULL left-pane width (no
+   40%-then-dead-gap) — the grid IS the left column, so it fills it edge to edge */
+.sb-step1-h{font-family:"Fraunces";font-size:1rem;margin:0 0 8px}
+/* ---- collapsible step accordion: every step has a clickable header + chevron that
+   hides its body so you can tuck away any step you're done with and give the car
+   grid the room. Step 1 keeps its auto-collapse-to-summary behaviour on top of this. */
+.sb-acc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+  background:transparent;border:none;cursor:pointer;color:var(--txt);text-align:left;padding:0;margin:0 0 8px;
+  font-family:"Fraunces";font-size:1.02rem;font-weight:600}
+.sb-step1-h.sb-acc-head{font-size:1rem}
+.sb-acc-head:hover{color:var(--gold-2)}
+.sb-acc-chev{color:var(--gold-2);font-size:.82rem;flex:0 0 auto;transition:transform .3s var(--ease)}
+.sb-acc.sb-collapsed .sb-acc-chev{transform:rotate(180deg)}
+.sb-acc.sb-collapsed .sb-acc-body{display:none}
+/* collapsing step 1 by hand also reveals its slim one-line trip summary */
+.sb-step1.sb-collapsed .sb-trip-summary{display:flex}
+/* when step 1 auto-collapses to its summary bar, the chevron header is redundant
+   (the summary's own Edit button re-opens it) — hide the header to avoid two toggles */
+.sb-step1.collapsed > .sb-acc-head{display:none}
+/* step 2 is a flex column (sticky head + inner-scroll car box); when collapsed it must
+   stop stretching so the sections below rise up */
+.sb-pick.sb-collapsed{flex:0 0 auto}
+.sb-pick.sb-collapsed .sb-filters{display:none}
+.sb-pick.sb-collapsed .sb-pick-head{margin-bottom:0}
+.sb-trip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.sb-trip-grid .field{min-width:0}
+.sb-trip-grid .sc-same{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--txt-dim);margin-top:7px;text-transform:none;letter-spacing:0;white-space:nowrap}
+.sb-trip-grid .sc-same span{white-space:nowrap}
+@media(min-width:980px){.sb-trip-grid{grid-template-columns:repeat(4,1fr)}}
+/* denser booking area: the car grid is the point of this screen, so every other
+   section in the left column is compressed to the minimum comfortable size */
+.sb-left .tool-section{margin-bottom:10px}
+
+.sb-left .field{margin-bottom:10px}
+.sb-left .sb-pick-head h3,.sb-left .tool-section>h3{font-size:1.02rem}
+.sb-left #sbTierSection,.sb-left .tool-section:last-child{flex:0 0 auto}
+/* compare tray — collapsible so it never eats the whole screen */
+.compare-tray{position:fixed;left:0;right:0;bottom:0;z-index:980;background:var(--surface);backdrop-filter:blur(16px);
+  border-top:1px solid var(--gold);box-shadow:0 -20px 50px -24px rgba(0,0,0,.7);max-height:70vh;overflow:hidden;padding:14px clamp(14px,4vw,28px);
+  display:flex;flex-direction:column}
+.compare-tray[hidden]{display:none}
+.ct-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;flex:0 0 auto}
+.ct-head b{font-family:"Fraunces";font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.ct-hint{font-size:.78rem;color:var(--txt-dim)}
+.ct-count{font-size:.8rem;color:var(--gold-2);font-family:inherit}
+/* collapse/expand arrow */
+.ct-toggle{width:34px;height:34px;flex:0 0 auto;border-radius:10px;border:1px solid var(--line);background:var(--card);
+  color:var(--gold-2);display:grid;place-items:center;font-size:.9rem;transition:transform .3s var(--ease)}
+.ct-toggle:hover{border-color:var(--gold)}
+.ct-toggle i{transition:transform .3s var(--ease)}
+/* the collapsible body: columns + their own scroll live here */
+.ct-body{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;transition:opacity .25s var(--ease)}
+/* collapsed = slim bar: just the title + count + arrow, no columns, no big height */
+.compare-tray.collapsed{max-height:none}
+.compare-tray.collapsed .ct-body{max-height:0;opacity:0;overflow:hidden;pointer-events:none}
+.compare-tray.collapsed .ct-head{margin-bottom:0}
+.compare-tray.collapsed .ct-hint,.compare-tray.collapsed .ct-headbtn{display:none}
+.compare-tray.collapsed .ct-toggle i{transform:rotate(180deg)}
+.ct-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.ct-col{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px;position:relative}
+.ct-col .ct-x{position:absolute;top:8px;right:8px;background:transparent;border:none;color:var(--txt-mute);font-size:.9rem}
+.ct-col h5{font-family:"Fraunces";margin:0 0 2px;font-size:1.02rem}
+.ct-col .ct-plan{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-2);margin-bottom:10px}
+.ct-col .ct-line{display:flex;justify-content:space-between;font-size:.82rem;color:var(--txt-dim);margin-bottom:6px}
+.ct-col .ct-line b{color:var(--txt)}
+.ct-col .ct-grand{display:flex;justify-content:space-between;border-top:1px solid var(--line);margin-top:8px;padding-top:8px;font-family:"Fraunces"}
+.ct-col .ct-grand .big{color:var(--gold-2);font-size:1.2rem}
+.ct-col .ct-dep{font-size:.76rem;color:var(--nile-2);margin-top:6px}
+/* mobile sticky reservation bar */
+.resv-bar{display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:970;align-items:center;gap:12px;
+  background:var(--gold);color:#1a1308;border:none;border-radius:16px;padding:12px 16px;box-shadow:0 16px 40px -14px rgba(0,0,0,.6);text-align:left}
+.resv-bar .rb-car{font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.resv-bar .rb-tot{display:flex;flex-direction:column;align-items:flex-end;line-height:1.1}
+.resv-bar .rb-tot small{font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;opacity:.8}
+.resv-bar .rb-tot b{font-family:"Fraunces";font-size:1.1rem}
+.resv-bar .rb-go{font-size:.9rem}
+@media(max-width:860px){
+  /* relax the fixed-viewport flex layout back to normal page scroll: on phones the
+     pane is a sticky bottom bar, not a floating column, so there is no "left column"
+     height to fill — the whole body scrolls normally like the other two tools */
+  #toolBuild.tool-overlay.open{height:auto;display:block}
+  #toolBuild .tool-head{position:sticky}
+  #toolBuild .tool-head .sub{display:block}
+  #toolBuild .tool-body.sb-body{overflow-y:visible;display:block}
+  .sb-two{grid-template-columns:1fr;display:block}
+  .sb-left{display:block}
+  .sb-pick{display:block}
+  .sb-cars-box{max-height:none;overflow:visible;flex:none} /* relax inner scroll on phones */
+  .resv-pane{display:none} /* collapsed into the sticky bottom bar */
+  .resv-bar.show{display:flex}
+  .resv-pane.resv-open{display:block;position:fixed;inset:auto 10px 76px 10px;z-index:975;max-height:70vh;overflow:auto}
+}
 
 /* ---- Tool 2: Budget Calculator ---- */
 .bud-inputs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:end}
@@ -398,6 +637,78 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 .tp-travel{display:flex;gap:9px;align-items:center;color:var(--txt-mute);font-size:.8rem;padding:8px 4px 8px 14px;margin:-2px 0 10px}
 .tp-travel i{color:var(--nile-2)}
 
+/* ---------- searchable / type-ahead location combobox (no external library) ---------- */
+.combo{position:relative}
+.combo input.combo-input{width:100%;background:var(--surface-solid);color:var(--txt);border:1px solid var(--line);
+  border-radius:12px;padding:11px 34px 11px 12px;font-family:inherit;font-size:.92rem}
+.combo input.combo-input:disabled{opacity:.55;cursor:not-allowed}
+.combo .combo-caret{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--txt-mute);pointer-events:none;font-size:.8rem}
+.combo-list{position:absolute;z-index:40;left:0;right:0;top:calc(100% + 4px);max-height:240px;overflow-y:auto;
+  background:var(--surface-solid);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:4px;
+  scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
+.combo-list[hidden]{display:none}
+.combo-opt{padding:9px 11px;border-radius:8px;font-size:.9rem;color:var(--txt-dim);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.combo-opt:hover,.combo-opt.active{background:var(--glass);color:var(--txt)}
+.combo-opt[aria-selected="true"]{color:var(--gold-2)}
+.combo-opt .match{color:var(--gold-2);font-weight:600}
+.combo-empty{padding:10px 11px;color:var(--txt-mute);font-size:.84rem}
+
+/* ---------- compare: per-column editable controls ---------- */
+.ct-col.best{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,162,78,.25)}
+.ct-controls{display:flex;flex-direction:column;gap:8px;margin:4px 0 12px}
+.ct-controls .ct-carsel{width:100%;background:var(--bg-2);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-family:inherit;font-size:.84rem}
+.ct-plan-toggle{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.ct-plan-toggle button{flex:1;background:transparent;border:none;color:var(--txt-dim);padding:7px 8px;font-size:.78rem}
+.ct-plan-toggle button.on{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1a1308;font-weight:600}
+.ct-extras{font-size:.8rem;color:var(--txt-dim)}
+.ct-extras summary{cursor:pointer;padding:4px 0;color:var(--gold-2)}
+.ct-extras .ct-ex{display:flex;align-items:center;gap:7px;padding:3px 0}
+.ct-extras .ct-ex input{width:15px;height:15px;accent-color:var(--gold)}
+.ct-delta{font-size:.76rem;color:var(--rose);margin-top:4px}
+.ct-delta.best{color:var(--nile-2)}
+.ct-empty-col{color:var(--txt-mute);font-size:.84rem;margin:6px 0 0}
+
+/* ---------- responsive polish: fit cleanly across phone / tablet / laptop / desktop ---------- */
+/* large desktop: let the main container breathe a little wider */
+@media(min-width:1500px){ :root{ --max:1320px; } }
+/* tablet landscape / small laptop: keep the two-pane booking but slimmer reservation pane */
+@media(max-width:1100px) and (min-width:861px){
+  .sb-two{grid-template-columns:minmax(0,1fr) 320px}
+  .tool-grid-2{grid-template-columns:1.4fr 1fr}
+}
+/* tablet portrait: hero stacks, fleet 2-up, compare columns stay readable */
+@media(max-width:980px){
+  .counters{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:860px){
+  /* reservation pane -> sticky bottom bar is already handled; make the tray columns stack cleanly */
+  .ct-cols{grid-template-columns:1fr}
+  .compare-tray{max-height:80vh}
+  .ct-head{gap:8px}
+  .ct-head .ct-hint{flex-basis:100%;order:3}
+  .tp-layout{grid-template-columns:1fr}
+}
+/* phone: single-column car grids, comfortable tap targets, no overflow */
+@media(max-width:560px){
+  .fleet-grid{grid-template-columns:1fr}
+  .sb-cars{grid-template-columns:1fr}
+  .sb-trip-grid{grid-template-columns:1fr}
+  .bud-inputs{grid-template-columns:1fr}
+  .search-card .row2{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+  .bud-card{flex-wrap:wrap}
+  .bud-card .amt{text-align:left}
+  .bud-card button{margin-left:0!important;width:100%}
+  .btn{padding:12px 18px}
+  .chipbtn{padding:9px 15px}
+  .combo-list{max-height:min(50vh,240px)}
+}
+/* very small phones: keep headlines legible, avoid cramped gaps */
+@media(max-width:380px){
+  .hero-chips span{font-size:.72rem}
+  .resv-bar{left:8px;right:8px}
+}
+
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .reveal{opacity:1!important;transform:none!important;transition:none!important}
@@ -431,18 +742,18 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
       <button class="icon-btn" id="themeBtn" aria-label="Toggle dark and light theme" title="Toggle theme">
         <i class="fa-solid fa-moon" aria-hidden="true"></i>
       </button>
-      <button class="btn btn-gold" data-open-wizard>
+      <a class="btn btn-gold" href="#build">
         <i class="fa-solid fa-car" aria-hidden="true"></i> Book now
-      </button>
+      </a>
     </div>
   </div>
 </header>
 
 <!-- ============ CHAPTER DOT NAV ============ -->
-<nav class="chapters" id="chapters" aria-label="Chapters">
+<nav class="chapters on-hero" id="chapters" aria-label="Chapters">
   <button data-goto="top"><span class="dot"></span><span class="lbl">Welcome</span></button>
+  <button data-goto="fleet"><span class="dot"></span><span class="lbl">Choose your class</span></button>
   <button data-goto="journey"><span class="dot"></span><span class="lbl">The journey</span></button>
-  <button data-goto="fleet"><span class="dot"></span><span class="lbl">The fleet</span></button>
   <button data-goto="tours"><span class="dot"></span><span class="lbl">Tours</span></button>
   <button data-goto="transfers"><span class="dot"></span><span class="lbl">Transfers</span></button>
   <button data-goto="trust"><span class="dot"></span><span class="lbl">Why us</span></button>
@@ -463,60 +774,103 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-inner wrap">
-    <p class="eyebrow reveal in">The Egyptian brother · Brothers since 2007 · by bond, not blood · 4.9★ on Google</p>
-    <h1 class="reveal in d1">Egypt is yours.<br><span class="amber">We bring the keys.</span></h1>
-    <p class="hero-sub reveal in d2">From a midnight landing at Cairo airport to the open road along the Red Sea — rent a car with people who treat your trip like their own. From a backpacker's week to a company's fleet, it's the same brother, the same care. Pay on arrival. Zero deposit. No surprises.</p>
-    <p class="hero-sig reveal in d2">The Egyptian brother — the one you reach for anything.</p>
-    <div class="hero-cta reveal in d2">
-      <button class="btn btn-gold" data-open-wizard><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Start your booking</button>
-      <a class="btn btn-ghost" href="#journey"><i class="fa-solid fa-play" aria-hidden="true"></i> Take the journey</a>
-      <a class="btn btn-ghost" href="#build"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Build your drive</a>
-      <a class="btn btn-ghost" href="#planner"><i class="fa-solid fa-map" aria-hidden="true"></i> Plan your trip</a>
-    </div>
-    <div class="hero-badges reveal in d3">
-      <span><i class="fa-solid fa-credit-card"></i> No credit card needed</span>
-      <span><i class="fa-solid fa-shield-halved"></i> Zero deposit with Full Protection</span>
-      <span><i class="fa-solid fa-plane-arrival"></i> 24/7 airport delivery</span>
-      <span><i class="fa-solid fa-rotate-left"></i> Free 12h cancellation</span>
-    </div>
+    <div class="hero-grid">
+      <!-- LEFT: story + trust -->
+      <div class="hero-col">
+        <div class="hero-rating reveal in"><span class="stars">★★★★★</span> <b>4.9</b> <span class="sub">on Google · 500+ happy travellers</span></div>
+        <p class="eyebrow reveal in">The Egyptian brother · Brothers since 2007 · <span class="nowrap">by bond, not blood</span></p>
+        <h1 class="reveal in d1">Rent a car in Egypt,<br><span class="amber">the easy, friendly way.</span></h1>
+        <p class="hero-sub reveal in d2"><span class="nowrap">From a backpacker's week to a company's fleet,</span> it's the same brother, the same care. <span class="hero-sub-line2">Pay on arrival, zero deposit, <span class="nowrap">no&nbsp;surprises.</span></span></p>
+        <p class="hero-sig reveal in d2">The Egyptian brother — the one you reach for anything.</p>
+        <div class="hero-chips reveal in d3">
+          <span><i class="fa-solid fa-credit-card"></i> No credit card</span>
+          <span><i class="fa-solid fa-money-bill-wave"></i> Pay cash on arrival</span>
+          <span><i class="fa-solid fa-shield-halved"></i> Zero deposit with full cover</span>
+          <span><i class="fa-solid fa-rotate-left"></i> 12h free cancellation</span>
+        </div>
+      </div>
 
-    <!-- floating glass booking bar -->
-    <form class="bookbar reveal in d3" id="quickBar" aria-label="Quick availability search">
-      <div class="fld">
-        <label for="qbBranch">Pick-up branch</label>
-        <select id="qbBranch">
-          <option value="hurghada">Hurghada</option>
-          <option value="cairo">Cairo</option>
-          <option value="alexandria">Alexandria</option>
-          <option value="rashid">Rashid</option>
-        </select>
+      <!-- RIGHT: search-first "Find your car" card (first viewport) -->
+      <div class="hero-col">
+        <form class="search-card reveal in d2" id="quickBar" aria-label="Find your car">
+          <h2 class="sc-head">Find your car</h2>
+          <p class="sc-sub">Three quick taps and you're on the road.</p>
+
+          <div class="fld">
+            <label for="qbFromLoc">Pick-up location</label>
+            <select id="qbFromLoc" aria-label="Pick-up location"></select>
+          </div>
+          <div class="fld">
+            <label for="qbToLoc">Drop-off location</label>
+            <select id="qbToLoc" aria-label="Drop-off location"></select>
+          </div>
+          <label class="sc-same"><input type="checkbox" id="qbSameLoc" checked> Return to the same place</label>
+
+          <div class="row2">
+            <div class="fld"><label for="qbFrom">Pick-up date &amp; time</label><input type="datetime-local" id="qbFrom"></div>
+            <div class="fld"><label for="qbTo">Drop-off date &amp; time</label><input type="datetime-local" id="qbTo"></div>
+          </div>
+
+          <div class="fld">
+            <label for="qbClass">Car class (optional)</label>
+            <select id="qbClass">
+              <option value="">Any class</option>
+              <option value="suv">SUV</option>
+              <option value="crossover">Crossover</option>
+              <option value="sedan">Sedan</option>
+              <option value="luxury">Luxury</option>
+              <option value="economy">Economy</option>
+            </select>
+          </div>
+
+          <p class="sc-fee" id="qbFee"><i class="fa-solid fa-route"></i> <span id="qbFeeText"></span></p>
+
+          <button class="btn btn-gold btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search cars</button>
+          <p class="sc-note"><i class="fa-solid fa-location-dot"></i> Real pick-up / drop-off points &amp; route fees from our live system.</p>
+        </form>
       </div>
-      <div class="fld">
-        <label for="qbFrom">Pick-up</label>
-        <input type="datetime-local" id="qbFrom">
-      </div>
-      <div class="fld">
-        <label for="qbTo">Drop-off</label>
-        <input type="datetime-local" id="qbTo">
-      </div>
-      <div class="fld">
-        <label for="qbClass">Car class</label>
-        <select id="qbClass">
-          <option value="">Any class</option>
-          <option value="suv">SUV</option>
-          <option value="crossover">Crossover</option>
-          <option value="sedan">Sedan</option>
-          <option value="luxury">Luxury</option>
-          <option value="economy">Economy</option>
-        </select>
-      </div>
-      <button class="btn btn-gold" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
-    </form>
+    </div>
   </div>
-  <div class="scroll-cue" aria-hidden="true"><span class="mouse"></span>Scroll</div>
 </section>
 
-<!-- ============ SCROLLYTELLING: THE JOURNEY ============ -->
+<!-- ============ FLEET / CHOOSE YOUR CLASS (primary, right under the hero) ============ -->
+<section id="fleet" class="band alt" aria-label="Choose your class">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Choose your class · pick your ride</p>
+      <h2>Cars that love Egyptian roads.</h2>
+      <p>Filter by type and branch. Prices are per day in EGP and drop the longer you stay — indicative rates, confirmed at booking.</p>
+      <p class="guarantee-banner"><i class="fa-solid fa-shield-halved"></i> Reserve a class — you get that model or an upgrade, never less.</p>
+      <div class="hero-cta" style="margin-top:18px">
+        <a class="btn btn-gold" href="#build"><i class="fa-solid fa-sliders"></i> Build your reservation</a>
+        <a class="btn btn-ghost" href="#budget"><i class="fa-solid fa-calculator"></i> Shop by budget</a>
+      </div>
+    </div>
+
+    <div class="filters reveal" role="group" aria-label="Filter the fleet">
+      <div class="grp" id="typeFilters" aria-label="Car type">
+        <button class="chipbtn" data-type="all" aria-pressed="true">All types</button>
+        <button class="chipbtn" data-type="suv" aria-pressed="false">SUV</button>
+        <button class="chipbtn" data-type="crossover" aria-pressed="false">Crossover</button>
+        <button class="chipbtn" data-type="sedan" aria-pressed="false">Sedan</button>
+        <button class="chipbtn" data-type="luxury" aria-pressed="false">Luxury</button>
+        <button class="chipbtn" data-type="economy" aria-pressed="false">Economy</button>
+      </div>
+      <span class="sep" aria-hidden="true"></span>
+      <div class="grp" id="branchFilters" aria-label="Branch">
+        <button class="chipbtn" data-branch="all" aria-pressed="true">All branches</button>
+        <button class="chipbtn" data-branch="hurghada" aria-pressed="false">Hurghada</button>
+        <button class="chipbtn" data-branch="cairo" aria-pressed="false">Cairo</button>
+        <button class="chipbtn" data-branch="alexandria" aria-pressed="false">Alexandria</button>
+        <button class="chipbtn" data-branch="rashid" aria-pressed="false">Rashid</button>
+      </div>
+    </div>
+
+    <div class="fleet-grid" id="fleetGrid" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ SCROLLYTELLING: THE JOURNEY (supporting brand story, below booking) ============ -->
 <section id="journey" class="band scrolly" aria-label="The journey">
   <div class="wrap sec-head reveal">
     <p class="eyebrow">The journey · four chapters</p>
@@ -616,42 +970,6 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
   </div>
 </section>
 
-<!-- ============ FLEET ============ -->
-<section id="fleet" class="band alt" aria-label="Our fleet">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <p class="eyebrow">The fleet · pick your ride</p>
-      <h2>Cars that love Egyptian roads.</h2>
-      <p>Filter by type and branch. Prices are per day in EGP and drop the longer you stay — indicative rates, confirmed at booking. Every class comes with our guarantee: same category or higher, never lower.</p>
-      <div class="hero-cta" style="margin-top:18px">
-        <a class="btn btn-gold" href="#build"><i class="fa-solid fa-sliders"></i> Build your drive</a>
-        <a class="btn btn-ghost" href="#budget"><i class="fa-solid fa-calculator"></i> Shop by budget</a>
-      </div>
-    </div>
-
-    <div class="filters reveal" role="group" aria-label="Filter the fleet">
-      <div class="grp" id="typeFilters" aria-label="Car type">
-        <button class="chipbtn" data-type="all" aria-pressed="true">All types</button>
-        <button class="chipbtn" data-type="suv" aria-pressed="false">SUV</button>
-        <button class="chipbtn" data-type="crossover" aria-pressed="false">Crossover</button>
-        <button class="chipbtn" data-type="sedan" aria-pressed="false">Sedan</button>
-        <button class="chipbtn" data-type="luxury" aria-pressed="false">Luxury</button>
-        <button class="chipbtn" data-type="economy" aria-pressed="false">Economy</button>
-      </div>
-      <span class="sep" aria-hidden="true"></span>
-      <div class="grp" id="branchFilters" aria-label="Branch">
-        <button class="chipbtn" data-branch="all" aria-pressed="true">All branches</button>
-        <button class="chipbtn" data-branch="hurghada" aria-pressed="false">Hurghada</button>
-        <button class="chipbtn" data-branch="cairo" aria-pressed="false">Cairo</button>
-        <button class="chipbtn" data-branch="alexandria" aria-pressed="false">Alexandria</button>
-        <button class="chipbtn" data-branch="rashid" aria-pressed="false">Rashid</button>
-      </div>
-    </div>
-
-    <div class="fleet-grid" id="fleetGrid" aria-live="polite"></div>
-  </div>
-</section>
-
 <!-- ============ TOURS ============ -->
 <section id="tours" class="band" aria-label="Guided tours">
   <div class="wrap">
@@ -706,7 +1024,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
       <span class="pill" role="listitem"><i class="fa-solid fa-bus"></i> Buses &amp; group transport</span>
       <span class="pill more" role="listitem"><i class="fa-solid fa-ellipsis"></i> …and whatever else you need on the road</span>
     </div>
-    <div class="sec-head reveal" style="margin-top:48px">
+    <div class="sec-head reveal" style="margin-top:28px;margin-bottom:18px">
       <p>Real reviews from real Google travellers. Content was rephrased for compliance with licensing restrictions.</p>
     </div>
     <div class="reviews">
@@ -777,7 +1095,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
     <h2>Ready when you are.</h2>
     <p style="margin-inline:auto">Build your booking in four quick steps with a live price. No card, no deposit — just a confirmed car and a family waiting at arrivals.</p>
     <div class="hero-cta" style="justify-content:center;margin-top:24px">
-      <button class="btn btn-gold" data-open-wizard><i class="fa-solid fa-wand-magic-sparkles"></i> Open the booking wizard</button>
+      <a class="btn btn-gold" href="#build"><i class="fa-solid fa-sliders"></i> Build your reservation</a>
       <a class="btn btn-wa" href="https://wa.me/201554446744" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</a>
     </div>
   </div>
@@ -916,33 +1234,61 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
     <span class="spacer"></span>
     <button class="icon-btn" data-tool-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
   </div>
-  <div class="tool-body">
-    <div class="tool-section">
-      <h3>1 · Branch &amp; dates</h3>
-      <div class="two">
-        <div class="field"><label for="sbBranch">Pick-up branch</label>
-          <select id="sbBranch">
-            <option value="hurghada">Hurghada</option>
-            <option value="cairo">Cairo</option>
-            <option value="alexandria">Alexandria</option>
-            <option value="rashid">Rashid</option>
-          </select>
-        </div>
-        <div></div>
-      </div>
-      <div class="two">
-        <div class="field"><label for="sbFrom">Pick-up date &amp; time</label><input type="datetime-local" id="sbFrom"></div>
-        <div class="field"><label for="sbTo">Drop-off date &amp; time</label><input type="datetime-local" id="sbTo"></div>
-      </div>
-      <p class="guarantee-note"><i class="fa-solid fa-circle-info"></i> Part-days round up to a full day. A 3-day 10-hour rental is billed as 4 days.</p>
-    </div>
+  <div class="tool-body sb-body">
+    <!-- 4-step rail (progress through the booking flow) -->
+    <ol class="step-rail" id="sbRail" aria-label="Booking steps">
+      <li data-step="1"><span class="n">1</span> Trip &amp; dates</li>
+      <li data-step="2"><span class="n">2</span> Choose your class</li>
+      <li data-step="3"><span class="n">3</span> Protection &amp; extras</li>
+      <li data-step="4"><span class="n">4</span> Review &amp; reserve</li>
+    </ol>
 
-    <div class="tool-grid-2">
-      <div>
-        <div class="tool-section">
-          <h3>2 · Pick your car</h3>
-          <p class="hint">Pick any car — you're always guaranteed that category or higher, never lower.</p>
-          <div class="sb-cars" id="sbCars"></div>
+    <div class="sb-two">
+      <!-- LEFT 2/3: step flow + contained-scroll car box -->
+      <div class="sb-left">
+        <div class="tool-section sb-step1 sb-acc" id="sbStep1">
+          <button type="button" class="sb-acc-head sb-step1-h" aria-expanded="true"><span>1 · Where &amp; when</span><i class="fa-solid fa-chevron-up sb-acc-chev" aria-hidden="true"></i></button>
+          <div class="sb-acc-body">
+          <!-- compact grid: pick-up/drop-off locations + dates + class, no branch picker
+               (branch is derived behind the scenes from the pick-up location) -->
+          <div class="sb-trip-grid">
+            <div class="field"><label for="sbPickupLoc">Pick-up location</label><select id="sbPickupLoc" aria-label="Pick-up location"></select></div>
+            <div class="field"><label for="sbDropoffLoc">Drop-off location</label><select id="sbDropoffLoc" aria-label="Drop-off location"></select>
+              <label class="sc-same"><input type="checkbox" id="sbSameLoc" checked> <span>Return to the same place</span></label>
+            </div>
+            <div class="field"><label for="sbFrom">Pick-up date &amp; time</label><input type="datetime-local" id="sbFrom"></div>
+            <div class="field"><label for="sbTo">Drop-off date &amp; time</label><input type="datetime-local" id="sbTo"></div>
+          </div>
+          <!-- once pick-up/drop-off/dates are all set, the row above collapses to this
+               slim one-line bar so the car grid below gets the room (fit fix) -->
+          </div>
+          <div class="sb-trip-summary" id="sbTripSummary">
+            <i class="fa-solid fa-route"></i> <b id="sbTripSummaryText">—</b>
+            <button type="button" id="sbTripEdit" aria-expanded="false" aria-controls="sbStep1">Edit</button>
+          </div>
+        </div>
+
+        <!-- pinned filters + contained-scroll car grid -->
+        <div class="sb-pick sb-acc" id="sbStep2">
+          <div class="sb-pick-head">
+            <button type="button" class="sb-acc-head" aria-expanded="true"><span>2 · Choose your class</span><i class="fa-solid fa-chevron-up sb-acc-chev" aria-hidden="true"></i></button>
+            <div class="sb-filters" role="group" aria-label="Filter cars">
+              <div class="grp" id="sbTypeFilters" aria-label="Car type">
+                <button type="button" class="chipbtn" data-sbtype="all" aria-pressed="true">All types</button>
+                <button type="button" class="chipbtn" data-sbtype="suv" aria-pressed="false">SUV</button>
+                <button type="button" class="chipbtn" data-sbtype="crossover" aria-pressed="false">Crossover</button>
+                <button type="button" class="chipbtn" data-sbtype="sedan" aria-pressed="false">Sedan</button>
+                <button type="button" class="chipbtn" data-sbtype="luxury" aria-pressed="false">Luxury</button>
+                <button type="button" class="chipbtn" data-sbtype="economy" aria-pressed="false">Economy</button>
+              </div>
+            </div>
+          </div>
+          <div class="sb-acc-body sb-pick-body">
+          <div class="sb-cars-box">
+            <div class="sb-cars" id="sbCars"></div>
+          </div>
+          <p class="hint" style="margin:10px 0 0"><i class="fa-solid fa-shield-halved"></i> Pick any class — you're guaranteed that category or higher, never lower.</p>
+          </div>
         </div>
 
         <div class="tool-section" id="sbTierSection" hidden>
@@ -952,40 +1298,93 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
           <div class="nudge" id="sbNudge" hidden></div>
         </div>
 
-        <div class="tool-section">
-          <h3>3 · Services</h3>
-          <div class="extras" id="sbExtras"></div>
+        <div class="tool-section sb-acc" id="sbStep3">
+          <button type="button" class="sb-acc-head" aria-expanded="true"><span>3 · Protection &amp; extras</span><i class="fa-solid fa-chevron-up sb-acc-chev" aria-hidden="true"></i></button>
+          <div class="sb-acc-body">
+            <div class="extras" id="sbExtras"></div>
+          </div>
         </div>
       </div>
 
-      <aside class="sb-summary" aria-label="Booking overview">
-        <h4>Booking overview</h4>
-        <div class="sumline"><span>Branch</span><b id="sbSBranch">Hurghada</b></div>
-        <div class="sumline"><span>Dates</span><b id="sbSDates">—</b></div>
+      <!-- RIGHT 1/3: persistent floating reservation pane -->
+      <aside class="sb-summary resv-pane" aria-label="Your reservation">
+        <div class="resv-head"><i class="fa-solid fa-receipt"></i> Your reservation</div>
+        <div class="resv-car">
+          <div class="resv-thumb" id="sbSThumb"></div>
+          <div class="resv-car-id"><b id="sbSClass">Pick a car</b><small id="sbSClassCat">Choose your class on the left</small></div>
+        </div>
+        <!-- empty-state helper shown until a car is picked (dates / duration / locations / delivery) -->
+        <p class="resv-prompt" id="sbSPrompt" hidden><i class="fa-solid fa-hand-pointer"></i> Pick a car for your full price.</p>
+        <div class="sumline" id="sbSLocRow" hidden><span>Pick-up</span><b id="sbSPickup">—</b></div>
+        <div class="sumline" id="sbSDropRow" hidden><span>Drop-off</span><b id="sbSDropoff">—</b></div>
         <div class="sumline"><span>Duration</span><b id="sbSDays">1 day</b></div>
-        <div class="sumline"><span>Car</span><b id="sbSClass">—</b></div>
         <div class="sumline"><span>Daily rate</span><b id="sbSRate">—</b></div>
         <div class="sumline"><span>Car × days</span><b id="sbSBase">—</b></div>
+        <div class="sumline" id="sbSProtRow"><span id="sbSProtLabel">Full Protection</span><b id="sbSProt">—</b></div>
         <div id="sbSExtrasLines"></div>
-        <div class="sumtot"><span>Total</span><span class="big" id="sbSTotal">—</span></div>
+        <div class="sumline" id="sbSFeeRow" hidden><span>Delivery</span><b id="sbSFee">—</b></div>
+        <div class="sumtot"><span>Grand total</span><span class="big" id="sbSTotal">—</span></div>
         <div class="cur-toggle" role="group" aria-label="Currency" id="sbCurToggle">
           <button data-cur="EGP" class="on">EGP</button>
           <button data-cur="USD">USD</button>
           <button data-cur="EUR">EUR</button>
         </div>
-        <div class="split">
-          Pay now (30%): <b id="sbSNow">—</b><br>
-          At pickup (70%): <b id="sbSLater">—</b><br>
-          Refundable deposit: <b id="sbSDeposit">—</b>
+        <!-- MONEY CONCEPT 1: the booking/reservation deposit — a 30% PREPAYMENT toward the
+             rental that confirms the booking (balance 70% at pick-up). NOT the security hold. -->
+        <div class="pay-now">
+          <div class="pn-label">Reservation deposit · 30% to confirm</div>
+          <div class="pn-amt" id="sbSNow">—</div>
+          <div class="pn-rest">Pay now to confirm your booking · goes toward your rental.</div>
+          <div class="pn-dep">Balance due at pick-up (70%): <b id="sbSLater">—</b></div>
+        </div>
+        <!-- MONEY CONCEPT 2 (completely separate): the refundable SECURITY DEPOSIT, a damage
+             hold — ZERO with Full Protection, the real per-class refundable hold with Basic. -->
+        <div class="deposit-box" id="sbSDepositBox">
+          <div class="dep-row">
+            <span class="dep-label"><i class="fa-solid fa-shield-halved"></i> Security deposit (refundable hold)</span>
+            <span class="dep-badge" id="sbSDepBadge">—</span>
+          </div>
+          <p class="dep-note" id="sbSDepNote"></p>
+        </div>
+        <p class="resv-promise"><i class="fa-solid fa-handshake-angle"></i> Our promise: reserve a class — receive that model, or an upgrade. Never less.</p>
+        <div class="resv-actions">
+          <button type="button" class="btn btn-ghost" id="sbPinBtn" style="width:100%;justify-content:center"><i class="fa-solid fa-layer-group"></i> Pin to compare</button>
+          <button type="button" class="btn btn-ghost" id="sbCompareBasicFull" style="width:100%;justify-content:center;margin-top:8px"><i class="fa-solid fa-code-compare"></i> Compare Basic vs Full Protection</button>
+          <button type="button" class="btn btn-wa" id="sbReserveBtn" style="width:100%;justify-content:center;margin-top:8px">
+            <i class="fa-brands fa-whatsapp"></i> Reserve &amp; send to WhatsApp
+          </button>
         </div>
         <p class="guarantee-note" id="sbSGuarantee"></p>
-        <button class="btn btn-wa" id="sbReserveBtn" style="width:100%;justify-content:center;margin-top:14px">
-          <i class="fa-brands fa-whatsapp"></i> Reserve &amp; send to WhatsApp
-        </button>
       </aside>
     </div>
   </div>
 </div>
+
+<!-- compare tray (slides up from the bottom; each slot is its OWN editable build) -->
+<div class="compare-tray" id="compareTray" hidden aria-label="Compare reservations">
+  <div class="ct-head">
+    <!-- collapse/expand arrow: hides the tray to a slim bar so it never eats the whole screen -->
+    <button type="button" class="ct-toggle" id="ctToggle" aria-expanded="true" aria-controls="ctBody" title="Collapse / expand compare">
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <b><i class="fa-solid fa-code-compare"></i> Compare builds <span class="ct-count" id="ctCount"></span></b>
+    <span class="ct-hint">Each column is its own build — pick the car, the insurance plan and extras per column. Compare the same car Basic vs Full, two different cars, anything.</span>
+    <span class="spacer"></span>
+    <button type="button" class="btn btn-ghost ct-headbtn" id="ctAdd" style="padding:8px 14px"><i class="fa-solid fa-plus"></i> Add a build</button>
+    <button type="button" class="icon-btn ct-headbtn" id="ctClear" aria-label="Clear all" title="Clear all">Clear</button>
+    <button type="button" class="icon-btn" id="ctClose" aria-label="Close compare"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="ct-body" id="ctBody">
+    <div class="ct-cols" id="ctCols"></div>
+  </div>
+</div>
+
+<!-- mobile sticky bottom reservation bar (condensed; expands on tap) -->
+<button type="button" class="resv-bar" id="resvBar" hidden aria-expanded="false" aria-label="Open reservation summary">
+  <span class="rb-car" id="rbCar">Pick a car</span>
+  <span class="rb-tot"><small>Reservation 30%</small><b id="rbNow">—</b></span>
+  <span class="rb-go"><i class="fa-solid fa-chevron-up"></i></span>
+</button>
 
 <!-- ============ TOOL 2: BUDGET CALCULATOR (full-screen overlay, #budget) ============ -->
 <div class="tool-overlay" id="toolBudget" role="dialog" aria-modal="true" aria-labelledby="budgetTitle" hidden>
@@ -1003,7 +1402,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
       <h3>Your budget &amp; trip</h3>
       <div class="bud-inputs">
         <div class="field"><label for="bgAmount">Your budget (EGP, total)</label><input type="number" id="bgAmount" min="0" step="100" placeholder="e.g. 8000"></div>
-        <div class="field"><label for="bgBranch">Branch</label>
+        <div class="field"><label for="bgBranch">Branch pool</label>
           <select id="bgBranch">
             <option value="all">Any branch</option>
             <option value="hurghada">Hurghada</option>
@@ -1012,9 +1411,12 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
             <option value="rashid">Rashid</option>
           </select>
         </div>
-        <div class="field"><label for="bgFrom">Pick-up</label><input type="datetime-local" id="bgFrom"></div>
-        <div class="field"><label for="bgTo">Drop-off</label><input type="datetime-local" id="bgTo"></div>
+        <div class="field"><label for="bgPickupLoc">Pick-up location</label><select id="bgPickupLoc" aria-label="Pick-up location"></select></div>
+        <div class="field"><label for="bgDropoffLoc">Drop-off location</label><select id="bgDropoffLoc" aria-label="Drop-off location"></select></div>
+        <div class="field"><label for="bgFrom">Pick-up date &amp; time</label><input type="datetime-local" id="bgFrom"></div>
+        <div class="field"><label for="bgTo">Drop-off date &amp; time</label><input type="datetime-local" id="bgTo"></div>
       </div>
+      <p class="mock-note" id="bgFeeNote" hidden><i class="fa-solid fa-route"></i> <span id="bgFeeNoteText"></span></p>
       <div class="field" style="margin-top:14px;max-width:260px">
         <label for="bgType">Car type (optional)</label>
         <select id="bgType">
@@ -1099,75 +1501,103 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 /* ---- sample fleet (type = SUV / crossover / sedan / luxury / economy) ---- */
 var IMG = "https://brothersegy.com/wp-content/uploads/";
 var FLEET = [
-  {id:"soueast_s09", name:"Soueast S09", make:"Soueast", model:"S09", slug:"soueast-s09", type:"suv",
+  {id:"soueast_s09", name:"Soueast S09", make:"Soueast", model:"S09", slug:"soueast-s09", type:"suv", ins:"soueast_s09",
    cat:"Premium 7-Seater SUV", year:2027, seats:7, bags:4, ribbon:"New 2026", old:5400,
    img:IMG+"2026/06/Soueast-S09-scaled.png", branches:["hurghada"],
    tiers:[{d:2,r:4500},{d:6,r:3800},{d:12,r:3500},{d:18,r:3300},{d:25,r:3000},{d:45,r:2800}]},
-  {id:"jetour_x90", name:"Jetour X90 Plus", make:"Jetour", model:"X90 Plus", slug:"jetour-x90-plus", type:"suv",
+  {id:"jetour_x90", name:"Jetour X90 Plus", make:"Jetour", model:"X90 Plus", slug:"jetour-x90-plus", type:"suv", ins:"jetour_x90_plus",
    cat:"Flagship 7-Seater", year:2026, seats:7, bags:4, ribbon:"Flagship", old:5000,
    img:IMG+"2026/06/Jetour-X90-Plus-scaled.png", branches:["hurghada","rashid"],
    tiers:[{d:2,r:4200},{d:6,r:3500},{d:12,r:3200},{d:18,r:3000},{d:25,r:2600},{d:45,r:2500}]},
-  {id:"hyundai_tucson", name:"Hyundai Tucson", make:"Hyundai", model:"Tucson", slug:"hyundai-tucson", type:"suv",
+  {id:"hyundai_tucson", name:"Hyundai Tucson", make:"Hyundai", model:"Tucson", slug:"hyundai-tucson", type:"suv", ins:"hyundai_tucson",
    cat:"Premium SUV", year:2022, seats:5, bags:3, ribbon:"Premium", old:4800,
    img:IMG+"2026/01/Hyundai-Tucson.png", branches:["hurghada"],
    tiers:[{d:2,r:4000},{d:6,r:3200},{d:12,r:3000},{d:18,r:2800},{d:25,r:2600},{d:45,r:2500}]},
-  {id:"haval_jolion", name:"Haval Jolion", make:"Haval", model:"Jolion", slug:"haval-jolion", type:"suv",
+  {id:"haval_jolion", name:"Haval Jolion", make:"Haval", model:"Jolion", slug:"haval-jolion", type:"suv", ins:"haval_jolion",
    cat:"Trending SUV", year:2022, seats:5, bags:3, ribbon:"Trending", old:4200,
    img:IMG+"2026/01/Haval-Jolion-1.png", branches:["hurghada"],
    tiers:[{d:2,r:3500},{d:6,r:2600},{d:12,r:2500},{d:18,r:2400},{d:25,r:2300},{d:45,r:2200}]},
-  {id:"kia_sportage", name:"Kia Sportage", make:"Kia", model:"Sportage", slug:"kia-sportage", type:"suv",
+  {id:"kia_sportage", name:"Kia Sportage", make:"Kia", model:"Sportage", slug:"kia-sportage", type:"suv", ins:"kia_sportage",
    cat:"Premium Crossover", year:2018, seats:5, bags:3, ribbon:"Top Rated", old:4200,
    img:IMG+"2026/01/Kia-Sportage.png", branches:["alexandria"],
    tiers:[{d:2,r:3500},{d:6,r:2600},{d:12,r:2500},{d:18,r:2400},{d:25,r:2300},{d:45,r:2200}]},
-  {id:"mg_zs", name:"MG ZS", make:"MG", model:"ZS", slug:"mg-zs", type:"crossover",
+  {id:"mg_zs", name:"MG ZS", make:"MG", model:"ZS", slug:"mg-zs", type:"crossover", ins:"mg_zs",
    cat:"Compact SUV", year:2025, seats:5, bags:3, ribbon:"Best Value", old:3800,
    img:IMG+"2026/01/MG-ZS.png", branches:["hurghada","cairo","alexandria","rashid"],
    tiers:[{d:2,r:3200},{d:6,r:2500},{d:12,r:2400},{d:18,r:2300},{d:25,r:2100},{d:45,r:1900}]},
-  {id:"renault_duster", name:"Renault Duster", make:"Renault", model:"Duster", slug:"renault-duster", type:"crossover",
+  {id:"renault_duster", name:"Renault Duster", make:"Renault", model:"Duster", slug:"renault-duster", type:"crossover", ins:"renault_duster",
    cat:"Rugged SUV", year:2025, seats:5, bags:3, ribbon:"", old:3800,
    img:IMG+"2026/01/Renault-Duster-1.png", branches:["hurghada","cairo","alexandria","rashid"],
    tiers:[{d:2,r:3200},{d:6,r:2500},{d:12,r:2400},{d:18,r:2300},{d:25,r:2100},{d:45,r:1900}]},
-  {id:"chery_arrizo", name:"Chery Arrizo", make:"Chery", model:"Arrizo", slug:"chery-arrizo", type:"sedan",
+  {id:"chery_arrizo", name:"Chery Arrizo", make:"Chery", model:"Arrizo", slug:"chery-arrizo", type:"sedan", ins:"mg_5",
    cat:"Modern Sedan", year:2025, seats:5, bags:3, ribbon:"", old:3400,
    img:IMG+"2026/01/Chery-Arrizo.png", branches:["hurghada","cairo"],
    tiers:[{d:2,r:3000},{d:6,r:2300},{d:12,r:2200},{d:18,r:2100},{d:25,r:1900},{d:45,r:1800}]},
-  {id:"mg_5", name:"MG 5", make:"MG", model:"5", slug:"mg-5", type:"sedan",
+  {id:"mg_5", name:"MG 5", make:"MG", model:"5", slug:"mg-5", type:"sedan", ins:"mg_5",
    cat:"Value Sedan", year:2026, seats:5, bags:3, ribbon:"Best Value", old:3300,
    img:IMG+"2026/01/MG-5-2.png", branches:["hurghada","cairo","alexandria","rashid"],
    tiers:[{d:2,r:2800},{d:6,r:2200},{d:12,r:2100},{d:18,r:2000},{d:25,r:1800},{d:45,r:1700}]},
-  {id:"renault_megane", name:"Renault Megane", make:"Renault", model:"Megane", slug:"renault-megane", type:"sedan",
+  {id:"renault_megane", name:"Renault Megane", make:"Renault", model:"Megane", slug:"renault-megane", type:"sedan", ins:"renault_megane",
    cat:"Comfort Sedan", year:2020, seats:5, bags:3, ribbon:"", old:2900,
    img:IMG+"2026/01/Hyundai-Elantra.png", branches:["hurghada"],
    tiers:[{d:2,r:2500},{d:6,r:2000},{d:12,r:1900},{d:18,r:1800},{d:25,r:1600},{d:45,r:1400}]},
-  {id:"nissan_sunny", name:"Nissan Sunny", make:"Nissan", model:"Sunny", slug:"nissan-sunny", type:"economy",
+  {id:"nissan_sunny", name:"Nissan Sunny", make:"Nissan", model:"Sunny", slug:"nissan-sunny", type:"economy", ins:"nissan_sunny",
    cat:"Reliable Sedan", year:2026, seats:5, bags:3, ribbon:"", old:3000,
    img:IMG+"2026/01/Nissan-Sunny.png", branches:["cairo"],
    tiers:[{d:2,r:2500},{d:6,r:2000},{d:12,r:1900},{d:18,r:1800},{d:25,r:1600},{d:45,r:1400}]},
-  {id:"chevrolet_aveo", name:"Chevrolet Aveo", make:"Chevrolet", model:"Aveo", slug:"chevrolet-aveo", type:"economy",
+  {id:"chevrolet_aveo", name:"Chevrolet Aveo", make:"Chevrolet", model:"Aveo", slug:"chevrolet-aveo", type:"economy", ins:"chevrolet_aveo",
    cat:"Budget Sedan", year:2017, seats:5, bags:3, ribbon:"", old:2200,
    img:IMG+"2026/01/Fiat-Tipo.png", branches:["hurghada","cairo","alexandria","rashid"],
    tiers:[{d:2,r:1800},{d:12,r:1500},{d:18,r:1400},{d:25,r:1300},{d:45,r:1200}]},
-  {id:"renault_logan", name:"Renault Logan", make:"Renault", model:"Logan", slug:"renault-logan", type:"economy",
+  {id:"renault_logan", name:"Renault Logan", make:"Renault", model:"Logan", slug:"renault-logan", type:"economy", ins:"nissan_sunny",
    cat:"Economy Sedan", year:2024, seats:5, bags:3, ribbon:"", old:2600,
    img:IMG+"2026/01/Renault-Logan.png", branches:["cairo","alexandria"],
    tiers:[{d:2,r:2200},{d:6,r:1800},{d:12,r:1700},{d:18,r:1600},{d:25,r:1500},{d:45,r:1300}]},
-  {id:"hyundai_elantra_cn7", name:"Hyundai Elantra CN7", make:"Hyundai", model:"Elantra CN7", slug:"hyundai-elantra-cn7", type:"sedan",
+  {id:"hyundai_elantra_cn7", name:"Hyundai Elantra CN7", make:"Hyundai", model:"Elantra CN7", slug:"hyundai-elantra-cn7", type:"sedan", ins:"mg_5",
    cat:"Premium Sedan", year:2025, seats:5, bags:3, ribbon:"Fresh", old:3600,
    img:IMG+"2026/01/Hyundai-CN7.png", branches:["cairo","hurghada"],
    tiers:[{d:2,r:3100},{d:6,r:2400},{d:12,r:2300},{d:18,r:2200},{d:25,r:2000},{d:45,r:1850}]}
 ];
 /* a touch of "luxury" so the filter is never empty: reuse flagship as a lux trim */
-FLEET.push({id:"jetour_x90_lux", name:"Jetour X90 Signature", make:"Jetour", model:"X90 Signature", slug:"jetour-x90-signature", type:"luxury",
+FLEET.push({id:"jetour_x90_lux", name:"Jetour X90 Signature", make:"Jetour", model:"X90 Signature", slug:"jetour-x90-signature", type:"luxury", ins:"jetour_x90_plus",
    cat:"Luxury 7-Seater", year:2026, seats:7, bags:5, ribbon:"Signature", old:6200,
    img:IMG+"2026/06/Jetour-X90-Plus-scaled.png", branches:["hurghada","cairo"],
    tiers:[{d:2,r:5200},{d:6,r:4600},{d:12,r:4300},{d:18,r:4100},{d:25,r:3800},{d:45,r:3500}]});
 
+/* ---------- REAL per-class insurance (exported from the ERP, insurance-export.json) ----------
+   Full Protection is a DAILY fee (insurance_daily * rentalDays) — the real per-class figure,
+   never a flat guess. Basic plan is free but holds the real refundable security_deposit for
+   that class; Full Protection = ZERO deposit. Inlined so the file stays self-contained. */
+var INSURANCE = {
+  renault_megane:{insurance_daily:1200, security_deposit:35000},
+  haval_jolion:{insurance_daily:1400, security_deposit:35000},
+  mg_zs:{insurance_daily:1200, security_deposit:35000},
+  chevrolet_aveo:{insurance_daily:800, security_deposit:20000},
+  nissan_sunny:{insurance_daily:900, security_deposit:30000},
+  mg_5:{insurance_daily:1000, security_deposit:30000},
+  renault_duster:{insurance_daily:1200, security_deposit:35000},
+  hyundai_tucson:{insurance_daily:1600, security_deposit:40000},
+  jetour_x90_plus:{insurance_daily:1800, security_deposit:40000},
+  soueast_s09:{insurance_daily:2000, security_deposit:40000},
+  kia_sportage:{insurance_daily:1400, security_deposit:40000}
+};
+/* real Full-Protection daily fee for a car's class (fallback keeps the UI priced if a car has
+   no insurance key yet) */
+function insDailyFor(car){
+  var rec = car && car.ins ? INSURANCE[car.ins] : null;
+  return rec ? rec.insurance_daily : 1000;
+}
+/* real refundable security deposit held under the Basic plan for a car's class */
+function depositFor(car){
+  var rec = car && car.ins ? INSURANCE[car.ins] : null;
+  return rec ? rec.security_deposit : 30000;
+}
+
 var EXTRAS = [
-  {id:"protection", name:"Full Protection (zero deposit)", desc:"No excess, no deposit held. Recommended.", perDay:true, price:350, checked:true},
-  {id:"driver", name:"Additional driver", desc:"Share the wheel, share the trip.", perDay:true, price:150, checked:false},
-  {id:"childseat", name:"Child seat", desc:"Fitted and ready at pickup.", perDay:true, price:80, checked:false},
-  {id:"gps", name:"GPS navigation", desc:"English maps, offline-ready.", perDay:true, price:60, checked:false},
-  {id:"delivery", name:"Airport delivery (meet & greet)", desc:"We're at arrivals with your name.", perDay:false, price:400, checked:true}
+  {id:"protection", name:"Full Protection (zero deposit)", desc:"No excess, no deposit held. Priced per day by car class.", perDay:true, insurance:true, price:0, checked:true},
+  {id:"driver", name:"Additional driver", desc:"Share the wheel, share the trip. Indicative — confirmed at booking.", perDay:true, price:150, checked:false},
+  {id:"childseat", name:"Child seat", desc:"Fitted and ready at pickup. Indicative — confirmed at booking.", perDay:true, price:80, checked:false},
+  {id:"km", name:"Extra-km package", desc:"Extra daily mileage bundle. Indicative — pick your package at booking.", perDay:true, price:120, checked:false}
 ];
 
 /* homepage tile copy aligned with the real TOURS_CATALOG used by the Trip Planner (Tool 3) */
@@ -1236,6 +1666,156 @@ function money(egp){
   return SYM[curCur] + Math.round(v).toLocaleString("en-US", opts);
 }
 
+/* ---------- REAL ERP locations + route delivery fees ----------
+   Exported live from the ERP (settings/main). 21 real pick-up/drop-off
+   places and 402 {from,to,cost} delivery routes. Keys in ROUTE_COSTS are
+   "<fromIndex>|<toIndex>" into LOCATION_PLACES to keep the inline map small.
+   Same-place = 0; a missing pair simply returns null (fee omitted). */
+var LOCATION_PLACES = ["Alexandria International Airport","Aswan","Brothers Office-Alexandria","Brothers Office-Cairo","Brothers Office-Hurghada","Cairo International Airport","EL Quoseir","El Gouna","Hurghada Airport","Hurghada Hotels","Luxor","Makadi Bay","Marsa Alam","Marsa Alam Airport","New Cairo","North Coast - Sidi Kerir","Port Ghalib","Safaga","Sahl Hasheesh","Soma Bay","Sphinx International Airport"];
+var ROUTE_COSTS = {"4|4":0,"4|2":4500,"4|3":3700,"4|8":500,"4|0":5300,"4|5":4000,"4|20":4900,"4|9":400,"4|11":1200,"4|7":1200,"4|18":1000,"4|17":1600,"4|19":1600,"4|6":2400,"4|16":3200,"4|12":3200,"4|10":3800,"4|1":4800,"4|13":3200,"4|14":4200,"2|4":4500,"2|2":0,"2|3":1800,"2|8":4880,"2|0":900,"2|5":1600,"2|20":1400,"2|9":4500,"2|11":4800,"2|7":4500,"2|18":4600,"2|17":5000,"2|19":5000,"2|6":6000,"2|16":7500,"2|12":7500,"2|10":7500,"2|1":7500,"2|13":7500,"2|14":1800,"3|4":3700,"3|2":1800,"3|3":0,"3|8":3800,"3|0":2200,"3|5":400,"3|20":1200,"3|9":3700,"3|11":4200,"3|7":4000,"3|18":4000,"3|17":4500,"3|19":4500,"3|6":5500,"3|16":6000,"3|12":6000,"3|10":5500,"3|1":6500,"3|13":6000,"3|14":800,"8|4":400,"8|2":4880,"8|3":3800,"8|8":800,"8|0":5000,"8|5":4000,"8|20":4500,"8|9":800,"8|11":1200,"8|7":1200,"8|18":1000,"8|17":1600,"8|19":1600,"8|6":2600,"8|16":3200,"8|12":3600,"8|10":4200,"8|1":5200,"8|13":3600,"8|14":4600,"0|4":5300,"0|2":900,"0|3":2200,"0|8":5000,"0|0":1800,"0|5":2500,"0|20":2200,"0|9":5700,"0|11":6100,"0|7":5300,"0|18":5100,"0|17":6200,"0|19":6200,"0|6":6800,"0|16":8300,"0|12":8300,"0|10":8300,"0|1":9300,"0|13":8300,"0|14":2600,"5|4":3700,"5|2":1600,"5|3":400,"5|8":4000,"5|0":2500,"5|5":800,"5|20":1600,"5|9":4400,"5|11":4900,"5|7":4400,"5|18":4100,"5|17":5700,"5|19":5700,"5|6":5900,"5|16":6400,"5|12":6400,"5|10":5900,"5|1":6900,"5|13":6400,"5|14":2200,"20|4":4900,"20|2":1400,"20|3":1200,"20|8":4500,"20|0":2300,"20|5":1600,"20|20":2400,"20|9":5300,"20|11":5700,"20|7":5200,"20|18":4900,"20|17":5700,"20|19":5700,"20|6":6700,"20|16":7200,"20|12":7200,"20|10":6700,"20|1":7700,"20|13":7200,"20|14":2000,"9|4":400,"9|2":4500,"9|3":3700,"9|8":800,"9|0":4900,"9|5":4900,"9|20":5300,"9|9":800,"9|11":1200,"9|7":1200,"9|18":1000,"9|17":1600,"9|19":1600,"9|6":2600,"9|16":6400,"9|12":3600,"9|10":5900,"9|1":5200,"9|13":3600,"9|14":4600,"11|4":800,"11|2":4800,"11|3":4200,"11|8":1200,"11|0":6100,"11|5":5300,"11|20":5600,"11|9":1200,"11|11":1600,"11|7":1600,"11|18":1400,"11|17":2000,"11|19":2000,"11|6":3000,"11|16":6800,"11|12":4000,"11|10":6300,"11|1":5600,"11|13":4000,"11|14":5200,"7|4":800,"7|2":4500,"7|3":4000,"7|8":1200,"7|0":6100,"7|5":5300,"7|20":5600,"7|9":1200,"7|11":1600,"7|7":1600,"7|18":1400,"7|17":2000,"7|19":2000,"7|6":3000,"7|16":6800,"7|12":4000,"7|10":6300,"7|1":5600,"7|13":4000,"7|14":5200,"18|4":600,"18|2":4600,"18|3":4000,"18|8":1000,"18|0":5900,"18|5":5100,"18|20":5600,"18|9":1100,"18|11":1400,"18|7":1400,"18|18":1200,"18|17":1800,"18|19":1800,"18|6":2800,"18|16":6600,"18|12":3800,"18|10":6100,"18|1":5400,"18|13":3800,"18|14":5000,"17|4":1200,"17|2":5000,"17|3":4500,"17|8":1600,"17|0":5700,"17|5":5300,"17|20":6000,"17|9":1600,"17|11":2000,"17|7":2000,"17|18":2000,"17|17":2400,"17|19":2400,"17|6":3400,"17|16":7200,"17|12":4400,"17|10":6700,"17|1":6000,"17|13":4400,"17|14":5400,"19|4":1200,"19|2":5000,"19|3":4500,"19|8":1600,"19|0":5700,"19|5":5300,"19|20":6000,"19|9":1600,"19|11":2000,"19|7":2000,"19|18":2000,"19|17":2400,"19|19":2400,"19|6":3400,"19|16":7200,"19|12":4400,"19|10":6700,"19|1":5000,"19|13":4400,"19|14":5400,"6|4":2200,"6|2":6000,"6|3":5500,"6|8":2600,"6|0":6700,"6|5":5900,"6|20":6700,"6|9":2600,"6|11":3000,"6|7":3000,"6|18":2800,"6|17":3400,"6|19":3400,"6|6":4400,"6|16":4000,"6|12":5400,"6|10":6000,"6|1":6000,"6|13":5400,"6|14":6800,"16|4":2800,"16|2":7500,"16|3":6000,"16|8":3200,"16|0":7300,"16|5":6400,"16|20":7400,"16|9":3200,"16|11":3600,"16|7":3600,"16|18":3400,"16|17":4000,"16|19":4000,"16|6":5000,"16|16":5600,"16|12":6000,"16|10":6600,"16|1":7600,"16|13":6000,"16|14":7000,"12|4":3200,"12|2":7500,"12|3":6000,"12|8":3600,"12|0":7700,"12|5":6400,"12|20":7400,"12|9":3600,"12|11":4000,"12|7":4000,"12|18":3800,"12|17":4400,"12|19":4400,"12|6":5400,"12|16":6000,"12|12":6400,"12|10":7000,"12|1":8000,"12|13":6400,"12|14":7600,"10|4":3800,"10|2":7500,"10|3":5500,"10|8":4200,"10|0":8300,"10|5":5900,"10|20":7400,"10|9":4200,"10|11":4600,"10|7":4600,"10|18":4400,"10|17":5000,"10|19":5000,"10|6":6000,"10|16":6600,"10|12":7000,"10|10":7600,"10|1":8600,"10|13":7000,"10|14":8000,"1|4":4800,"1|2":7500,"1|3":6500,"1|8":5200,"1|0":9300,"1|5":6900,"1|20":8400,"1|9":5200,"1|11":5600,"1|7":5600,"1|18":5400,"1|17":6000,"1|19":6000,"1|6":7000,"1|16":7600,"1|12":8000,"1|10":8600,"1|1":9600,"1|13":8000,"1|14":9000,"13|4":3200,"13|2":7500,"13|3":6000,"13|8":3600,"13|0":7700,"13|5":6400,"13|20":7400,"13|9":3600,"13|11":4000,"13|7":4000,"13|18":3800,"13|17":4400,"13|19":4400,"13|6":6000,"13|16":6000,"13|12":6400,"13|10":7000,"13|1":8000,"13|13":6400,"13|14":7600,"14|4":4200,"14|2":1800,"14|3":800,"14|8":4600,"14|0":2400,"14|5":1200,"14|20":2000,"14|9":4600,"14|11":5300,"14|7":5000,"14|18":5000,"14|17":5400,"14|19":5400,"14|6":6400,"14|16":6800,"14|12":6800,"14|10":6300,"14|1":5600,"14|13":6800,"14|14":1600,"15|2":800,"2|15":800};
+/* map each real place to the nearest branch region for pricing context in Smart Build
+   (we still SHOW the real location name — this only picks a fleet/branch pool) */
+var LOCATION_BRANCH = {
+  "Alexandria International Airport":"alexandria","Brothers Office-Alexandria":"alexandria","North Coast - Sidi Kerir":"alexandria",
+  "Brothers Office-Cairo":"cairo","Cairo International Airport":"cairo","New Cairo":"cairo","Sphinx International Airport":"cairo",
+  "Brothers Office-Hurghada":"hurghada","Hurghada Airport":"hurghada","Hurghada Hotels":"hurghada","El Gouna":"hurghada",
+  "Makadi Bay":"hurghada","Sahl Hasheesh":"hurghada","Safaga":"hurghada","Soma Bay":"hurghada","EL Quoseir":"hurghada",
+  "Port Ghalib":"hurghada","Marsa Alam":"hurghada","Marsa Alam Airport":"hurghada","Luxor":"hurghada","Aswan":"hurghada"
+};
+function branchForLocation(place){ return LOCATION_BRANCH[place] || "hurghada"; }
+/* real delivery fee for a pick-up→drop-off pair, straight from the ERP route table.
+   SAME-PLACE IS NOT FREE except at an actual office: the ERP stores a real same-place
+   delivery/collection cost for every non-office location (e.g. Cairo Airport→Cairo
+   Airport = 800, El Gouna→El Gouna = 1600), and only the Brothers offices are 0. So we
+   do NOT short-circuit same place — we look up its real value like any other pair.
+   Tries both directions; returns null if the pair isn't in the export (fee omitted). */
+function routeFee(fromPlace, toPlace){
+  var fi = LOCATION_PLACES.indexOf(fromPlace), ti = LOCATION_PLACES.indexOf(toPlace);
+  if (fi < 0 || ti < 0) return null;
+  var v = ROUTE_COSTS[fi+"|"+ti];
+  if (typeof v === "number") return v;
+  v = ROUTE_COSTS[ti+"|"+fi];
+  return typeof v === "number" ? v : null;
+}
+
+/* ============================================================
+   REUSABLE TYPE-AHEAD LOCATION COMBOBOX (no external library)
+   Enhances a populated <select> into a type-to-search combobox:
+   the real <select> is kept (hidden) as the source of truth so
+   all existing code that reads .value / listens for "change"
+   keeps working unchanged. Keyboard: ArrowUp/Down, Enter, Esc,
+   Home/End; aria-combobox/listbox roles; mobile-friendly input.
+   ============================================================ */
+var __comboSeq = 0;
+function makeCombobox(sel){
+  if (!sel || sel.__combo) return sel.__combo;      // enhance once
+  var values = $all("option", sel).map(function(o){ return o.value; });
+  var wrap = document.createElement("div");
+  wrap.className = "combo";
+  var listId = "combo-list-" + (++__comboSeq);
+  var input = document.createElement("input");
+  input.type = "text";
+  input.className = "combo-input";
+  input.setAttribute("role", "combobox");
+  input.setAttribute("aria-expanded", "false");
+  input.setAttribute("aria-autocomplete", "list");
+  input.setAttribute("aria-controls", listId);
+  input.setAttribute("autocomplete", "off");
+  input.setAttribute("autocapitalize", "off");
+  input.setAttribute("spellcheck", "false");
+  input.placeholder = "Type or choose a place…";
+  if (sel.getAttribute("aria-label")) input.setAttribute("aria-label", sel.getAttribute("aria-label"));
+  var caret = document.createElement("span");
+  caret.className = "combo-caret"; caret.setAttribute("aria-hidden","true");
+  caret.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+  var list = document.createElement("div");
+  list.className = "combo-list"; list.id = listId; list.setAttribute("role","listbox"); list.hidden = true;
+
+  // insert wrapper right before the select, then move the (now hidden) select inside it
+  sel.parentNode.insertBefore(wrap, sel);
+  wrap.appendChild(sel);
+  wrap.appendChild(input);
+  wrap.appendChild(caret);
+  wrap.appendChild(list);
+  sel.style.display = "none";
+  sel.setAttribute("tabindex", "-1");
+  sel.setAttribute("aria-hidden", "true");
+
+  var activeIdx = -1, filtered = values.slice();
+
+  function esc(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+  function highlight(text, q){
+    if (!q) return text;
+    var re = new RegExp("("+esc(q)+")", "ig");
+    return text.replace(re, '<span class="match">$1</span>');
+  }
+  function renderList(q){
+    var ql = (q||"").trim().toLowerCase();
+    filtered = values.filter(function(v){ return !ql || v.toLowerCase().indexOf(ql) > -1; });
+    list.innerHTML = "";
+    if (!filtered.length){
+      var em = document.createElement("div"); em.className = "combo-empty"; em.textContent = "No place matches \""+q+"\".";
+      list.appendChild(em); return;
+    }
+    filtered.forEach(function(v, i){
+      var opt = document.createElement("div");
+      opt.className = "combo-opt" + (i===activeIdx ? " active" : "");
+      opt.setAttribute("role","option");
+      opt.id = listId + "-opt-" + i;
+      opt.setAttribute("aria-selected", v===sel.value ? "true" : "false");
+      opt.innerHTML = highlight(v, (q||"").trim());
+      opt.addEventListener("mousedown", function(ev){ ev.preventDefault(); choose(v); });
+      list.appendChild(opt);
+    });
+  }
+  function open(){
+    if (input.disabled) return;
+    activeIdx = Math.max(0, filtered.indexOf(sel.value));
+    renderList("");
+    list.hidden = false; input.setAttribute("aria-expanded","true");
+    syncActiveAttr();
+  }
+  function close(){ list.hidden = true; input.setAttribute("aria-expanded","false"); input.removeAttribute("aria-activedescendant"); activeIdx = -1; }
+  function syncActiveAttr(){
+    $all(".combo-opt", list).forEach(function(o,i){ o.classList.toggle("active", i===activeIdx); });
+    if (activeIdx>=0 && filtered[activeIdx]!=null){
+      input.setAttribute("aria-activedescendant", listId+"-opt-"+activeIdx);
+      var el = list.children[activeIdx]; if (el && el.scrollIntoView) el.scrollIntoView({block:"nearest"});
+    }
+  }
+  function choose(v){
+    sel.value = v;
+    input.value = v;
+    close();
+    // fire the SAME change event existing wiring already listens for
+    sel.dispatchEvent(new Event("change", {bubbles:true}));
+  }
+  function reflect(){ input.value = sel.value; input.disabled = sel.disabled; } // mirror select state
+
+  // on focus, CLEAR the field so you type into a blank box (not the pre-filled value);
+  // the full list opens, and blur restores the real value if nothing new is chosen.
+  input.addEventListener("focus", function(){ input.value=""; open(); });
+  input.addEventListener("click", function(){ if (list.hidden){ input.value=""; open(); } });
+  input.addEventListener("input", function(){ activeIdx = 0; renderList(input.value); list.hidden=false; input.setAttribute("aria-expanded","true"); syncActiveAttr(); });
+  input.addEventListener("keydown", function(e){
+    if (e.key==="ArrowDown"){ e.preventDefault(); if (list.hidden){ open(); return; } activeIdx = Math.min(filtered.length-1, activeIdx+1); syncActiveAttr(); }
+    else if (e.key==="ArrowUp"){ e.preventDefault(); if (list.hidden){ open(); return; } activeIdx = Math.max(0, activeIdx-1); syncActiveAttr(); }
+    else if (e.key==="Home" && !list.hidden){ e.preventDefault(); activeIdx=0; syncActiveAttr(); }
+    else if (e.key==="End" && !list.hidden){ e.preventDefault(); activeIdx=filtered.length-1; syncActiveAttr(); }
+    else if (e.key==="Enter"){ if (!list.hidden && activeIdx>=0 && filtered[activeIdx]!=null){ e.preventDefault(); choose(filtered[activeIdx]); } }
+    else if (e.key==="Escape"){ if (!list.hidden){ e.preventDefault(); e.stopPropagation(); reflect(); close(); } }
+  });
+  input.addEventListener("blur", function(){ setTimeout(function(){ reflect(); close(); }, 120); });
+  // keep the input text in sync when OTHER code sets the select value then fires change
+  sel.addEventListener("change", reflect);
+  // expose a reflect hook so callers that set .value programmatically can refresh the text
+  sel.__combo = { reflect: reflect, input: input };
+  reflect();
+  return sel.__combo;
+}
+/* refresh a combobox-enhanced select's visible text after a programmatic .value change */
+function comboReflect(sel){ if (sel && sel.__combo) sel.__combo.reflect(); }
+
 /* ---------- pricing engine ---------- */
 function daysBetween(fromStr, toStr){
   var a = new Date(fromStr), b = new Date(toStr);
@@ -1247,6 +1827,18 @@ function rateForDays(car, days){
   return car.tiers[car.tiers.length-1].r; // longest tier for anything beyond
 }
 function carFromRate(car){ return car.tiers[0].r; } // headline "from" uses short tier
+function carToRate(car){ return car.tiers[car.tiers.length-1].r; } // cheapest (longest-stay) tier
+/* compact old→new price block, AT MOST 2 lines (fit fix): line 1 = struck old price +
+   the current LOWEST–HIGHEST /day range together; line 2 = small "/day · varies by duration".
+   No stray lone "EGP"/"FROM" tokens on their own lines. */
+function carPriceRangeHTML(car){
+  var lo = carToRate(car), hi = carFromRate(car);
+  var hiNum = money(hi).replace(/^[^\d]*/,"");
+  var range = lo===hi ? money(lo) : (money(lo)+"–"+hiNum);
+  return '<div class="prow"><span class="old">'+money(car.old)+'</span>'+
+         '<span class="amt">'+range+'</span></div>'+
+         '<div class="per">/day · varies by rental duration</div>';
+}
 
 /* ---------- state ---------- */
 var state = { branch:"hurghada", from:"", to:"", carId:null,
@@ -1267,7 +1859,9 @@ function carMediaHTML(car, cls){
   }
   return silhouetteSVG();
 }
-function guaranteeLine(car){ return car.make+" "+car.model+" or similar — same category or higher, never lower."; }
+/* ONE global class-guarantee phrase — stated once (fleet header + reservation panes),
+   never repeated on each car card (fit fix). */
+var GUARANTEE_PHRASE = "Reserve a class — you get that model or an upgrade, never less.";
 
 /* ---------- render fleet ---------- */
 var typeFilter="all", branchFilter="all";
@@ -1285,21 +1879,22 @@ function renderFleet(){
         '<span class="cat">'+c.cat+'</span>'+
       '</div>'+
       '<div class="body">'+
-        '<h4>'+c.name+' <small style="color:var(--txt-mute);font-size:.7rem;font-family:Space Grotesk">'+c.year+'</small></h4>'+
-        '<div class="specs"><span><i class="fa-solid fa-user-group"></i> '+c.seats+' seats</span>'+
-          '<span><i class="fa-solid fa-suitcase"></i> '+c.bags+' bags</span>'+
-          '<span><i class="fa-solid fa-gauge-high"></i> '+c.type.charAt(0).toUpperCase()+c.type.slice(1)+'</span></div>'+
-        '<div class="guarantee"><i class="fa-solid fa-shield-halved"></i> '+guaranteeLine(c)+'</div>'+
-        '<div class="foot"><div class="price"><div class="from">from</div>'+
-          '<div><span class="old">'+money(c.old)+'</span><span class="amt">'+money(carFromRate(c))+'</span></div>'+
-          '<div class="per">per day · '+curCur+'</div></div>'+
+        '<h4>'+c.name+'</h4>'+
+        '<div class="cartype">'+c.cat+'</div>'+
+        '<div class="specs"><span><i class="fa-solid fa-user-group"></i> '+c.seats+'</span>'+
+          '<span><i class="fa-solid fa-suitcase"></i> '+c.bags+'</span></div>'+
+        '<div class="foot"><div class="price">'+carPriceRangeHTML(c)+'</div>'+
           '<button class="btn btn-gold" data-book-car="'+c.id+'"><i class="fa-solid fa-arrow-right"></i> Reserve</button>'+
         '</div>'+
       '</div>';
     grid.appendChild(el);
   });
   $all("[data-book-car]",grid).forEach(function(b){
-    b.addEventListener("click",function(){ openWizard(this.getAttribute("data-book-car")); });
+    b.addEventListener("click",function(){
+      var id=this.getAttribute("data-book-car");
+      sb.carId=id; sb.branch=carById(id).branches[0]; // seed Smart Build with the chosen car
+      location.hash="build"; // the one two-pane booking experience, prefilled
+    });
   });
 }
 
@@ -1369,20 +1964,33 @@ function renderClassGrid(){
     g.appendChild(el);
   });
 }
+function extraPriceLabel(e, car){
+  if (e.insurance){
+    return car ? (money(insDailyFor(car))+" /day") : "priced per class /day";
+  }
+  return money(e.price)+(e.perDay?" /day":"");
+}
 function renderExtras(){
   var g=$("#extrasList"); g.innerHTML="";
+  var car = state.carId ? carById(state.carId) : null;
   EXTRAS.forEach(function(e){
     var el=document.createElement("label"); el.className="extra";
     el.innerHTML='<input type="checkbox" '+(state.extras[e.id]?"checked":"")+' data-extra="'+e.id+'">'+
       '<span class="ex-main"><b>'+e.name+'</b><small>'+e.desc+'</small></span>'+
-      '<span class="ex-pr">'+money(e.price)+(e.perDay?" /day":"")+'</span>';
+      '<span class="ex-pr">'+extraPriceLabel(e, car)+'</span>';
     el.querySelector("input").addEventListener("change",function(){ state.extras[e.id]=this.checked; recalc(); });
     g.appendChild(el);
   });
 }
 
+/* per-day price of an extra for a given car — the Full Protection line uses the REAL
+   per-class insurance/day (insDailyFor); every other extra uses its flat per-day price */
+function extraPerDay(e, car){ return e.insurance ? insDailyFor(car) : e.price; }
 function extrasTotal(days){
-  return EXTRAS.reduce(function(sum,e){ if(!state.extras[e.id]) return sum; return sum + (e.perDay? e.price*days : e.price); },0);
+  var car = state.carId ? carById(state.carId) : null;
+  return EXTRAS.reduce(function(sum,e){ if(!state.extras[e.id]) return sum;
+    var per = extraPerDay(e, car);
+    return sum + (e.perDay ? per*days : per); },0);
 }
 function recalc(){
   state.branch=$("#wBranch").value; state.from=$("#wFrom").value; state.to=$("#wTo").value;
@@ -1400,8 +2008,8 @@ function recalc(){
   $("#sExtras").textContent=ex?money(ex):"—";
   $("#sNow").textContent=c?money(Math.round(total*0.3)):"—";
   $("#sLater").textContent=c?money(total-Math.round(total*0.3)):"—";
-  $("#sGuarantee").innerHTML=c?'<i class="fa-solid fa-shield-halved"></i> '+guaranteeLine(c):"";
-  $("#guaranteeMsg").textContent=c?guaranteeLine(c):"Pick a class — you're guaranteed that category or higher, never lower.";
+  $("#sGuarantee").innerHTML=c?'<i class="fa-solid fa-shield-halved"></i> '+GUARANTEE_PHRASE:"";
+  $("#guaranteeMsg").textContent=GUARANTEE_PHRASE;
   animatePriceTo($("#sTotal"), c?total:0, c);
 }
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
@@ -1483,7 +2091,7 @@ function openTool(key){
   el.classList.add("open");
   activeTool = key;
   document.body.style.overflow = "hidden";
-  if (key==="build") sbInit();
+  if (key==="build"){ sbInit(); var rb=$("#resvBar"); if(rb){ rb.hidden=false; rb.classList.add("show"); } }
   if (key==="budget") bgInit();
   if (key==="planner") tpInit();
   setTimeout(function(){ var f=el.querySelector("[data-tool-close]"); if(f) f.focus(); },50);
@@ -1493,6 +2101,7 @@ function closeToolEl(el, skipHash){
   el.classList.remove("open");
   el.hidden = true;
   document.body.style.overflow = "";
+  if (el.id==="toolBuild"){ var rb=$("#resvBar"); if(rb){ rb.classList.remove("show"); rb.hidden=true; } var rp=$(".resv-pane"); if(rp) rp.classList.remove("resv-open"); }
   if (!skipHash && location.hash.replace("#","")===Object.keys(TOOL_IDS).find(function(k){return TOOL_IDS[k]===el.id;})){
     history.pushState("", document.title, location.pathname+location.search);
   }
@@ -1540,7 +2149,7 @@ function initToolRouting(){
    booking overview. KEY FEATURE: visible day-rate tiers + a
    smart nudge toward the best-value rental length.
    ============================================================ */
-var sb = { branch:"hurghada", from:"", to:"", carId:null,
+var sb = { branch:"hurghada", from:"", to:"", carId:null, pickupLoc:"", dropoffLoc:"", type:"all",
   extras: EXTRAS.reduce(function(o,e){o[e.id]=e.checked;return o;},{}) };
 
 function sbInit(){
@@ -1549,9 +2158,27 @@ function sbInit(){
     var d2=new Date(d); d2.setDate(d2.getDate()+3);
     sb.from=toLocal(d); sb.to=toLocal(d2);
   }
-  $("#sbBranch").value = sb.branch;
+  // populate the pick-up / drop-off location selects with the 21 real ERP places (once)
+  var pSel=$("#sbPickupLoc"), dSel=$("#sbDropoffLoc");
+  if (!pSel.options.length){
+    LOCATION_PLACES.forEach(function(p){
+      var o1=document.createElement("option"); o1.value=p; o1.textContent=p; pSel.appendChild(o1);
+      var o2=document.createElement("option"); o2.value=p; o2.textContent=p; dSel.appendChild(o2);
+    });
+    makeCombobox(pSel); makeCombobox(dSel); // type-to-search, same component as the hero
+  }
+  if (!sb.pickupLoc){ sb.pickupLoc = (LOCATION_PLACES.indexOf("Cairo International Airport")>-1?"Cairo International Airport":LOCATION_PLACES[0]); }
+  if (!sb.dropoffLoc){ sb.dropoffLoc = sb.pickupLoc; }
+  // branch is derived behind the scenes from the pick-up location (no client branch picker)
+  sb.branch = branchForLocation(sb.pickupLoc);
+  pSel.value = sb.pickupLoc; dSel.value = sb.dropoffLoc;
+  comboReflect(pSel); comboReflect(dSel);
+  var same=$("#sbSameLoc"); same.checked = (sb.pickupLoc===sb.dropoffLoc); dSel.disabled = same.checked; comboReflect(dSel);
   $("#sbFrom").value = sb.from;
   $("#sbTo").value = sb.to;
+  // reflect current type filter on the chips
+  $all("#sbTypeFilters .chipbtn").forEach(function(x){ x.setAttribute("aria-pressed", x.getAttribute("data-sbtype")===sb.type?"true":"false"); });
+  var step1=$("#sbStep1"); if (step1) step1.__forceOpen=false;
   sbRenderCars();
   sbRenderExtras();
   sbRecalc();
@@ -1559,32 +2186,59 @@ function sbInit(){
 function sbRenderCars(){
   var grid=$("#sbCars"); grid.innerHTML="";
   var days=daysBetween(sb.from,sb.to);
-  var list = FLEET.filter(function(c){ return c.branches.indexOf(sb.branch)>-1; });
-  if (!list.length) list = FLEET.slice();
+  var list = FLEET.filter(function(c){
+    return c.branches.indexOf(sb.branch)>-1 && (sb.type==="all"||c.type===sb.type);
+  });
+  if (!list.length){
+    grid.innerHTML='<div class="empty-fleet" style="grid-column:1/-1"><i class="fa-solid fa-car-on"></i><br>No cars match that branch + type — try another type.</div>';
+    return;
+  }
   list.forEach(function(c){
-    var el=document.createElement("button"); el.type="button";
+    var pinned = compareBuilds.some(function(cfg){ return cfg.carId===c.id; });
+    var el=document.createElement("div");
     el.className="sb-car"+(sb.carId===c.id?" sel":"");
-    el.setAttribute("data-pick",c.id);
+    var sbLo=carToRate(c), sbHi=carFromRate(c);
+    var sbRange=sbLo===sbHi ? money(sbLo) : (money(sbLo)+"–"+money(sbHi).replace(/^[^\d]*/,""));
     el.innerHTML='<div class="thumb">'+carMediaHTML(c)+'</div>'+
-      '<b>'+c.name+'</b><small>'+c.cat+' · or similar — same category or higher, never lower</small>'+
-      '<span class="pr">'+money(rateForDays(c,days))+' <small style="color:var(--txt-mute);font-size:.7rem">/day</small></span>';
-    el.addEventListener("click", function(){ sb.carId=c.id; sbRenderCars(); sbRecalc(); });
+      '<b>'+c.name+'</b><small>'+c.cat+'</small>'+
+      '<span class="pr">from '+sbRange+' <small style="color:var(--txt-mute);font-size:.7rem">/day</small></span>'+
+      '<button type="button" class="pin'+(pinned?" on":"")+'" data-pin="'+c.id+'" title="Pin to compare" aria-label="Pin '+c.name+' to compare"><i class="fa-solid fa-layer-group"></i></button>';
+    el.addEventListener("click", function(ev){
+      if (ev.target.closest("[data-pin]")) return; // pin handled separately
+      sb.carId=c.id; sbRenderCars(); sbRecalc();
+    });
+    el.querySelector("[data-pin]").addEventListener("click", function(ev){
+      ev.stopPropagation();
+      var prev=sb.carId; sb.carId=c.id; sbPinCurrent(); sb.carId=prev||c.id; sbRenderCars(); sbRecalc();
+    });
     grid.appendChild(el);
   });
 }
 function sbRenderExtras(){
   var g=$("#sbExtras"); g.innerHTML="";
+  var car = sb.carId ? carById(sb.carId) : null;
   EXTRAS.forEach(function(e){
     var el=document.createElement("label"); el.className="extra";
     el.innerHTML='<input type="checkbox" '+(sb.extras[e.id]?"checked":"")+' data-extra="'+e.id+'">'+
       '<span class="ex-main"><b>'+e.name+'</b><small>'+e.desc+'</small></span>'+
-      '<span class="ex-pr">'+money(e.price)+(e.perDay?" /day":"")+'</span>';
+      '<span class="ex-pr" data-ex-pr="'+e.id+'">'+extraPriceLabel(e, car)+'</span>';
     el.querySelector("input").addEventListener("change", function(){ sb.extras[e.id]=this.checked; sbRecalc(); });
     g.appendChild(el);
   });
 }
+/* refresh just the extras' per-day price labels (the Full Protection line is per-class) */
+function sbRefreshExtraPrices(){
+  var car = sb.carId ? carById(sb.carId) : null;
+  EXTRAS.forEach(function(e){
+    var el=$('#sbExtras [data-ex-pr="'+e.id+'"]');
+    if (el) el.textContent = extraPriceLabel(e, car);
+  });
+}
 function sbExtrasTotal(days){
-  return EXTRAS.reduce(function(sum,e){ if(!sb.extras[e.id]) return sum; return sum + (e.perDay? e.price*days : e.price); },0);
+  var car = sb.carId ? carById(sb.carId) : null;
+  return EXTRAS.reduce(function(sum,e){ if(!sb.extras[e.id]) return sum;
+    var per = extraPerDay(e, car);
+    return sum + (e.perDay ? per*days : per); },0);
 }
 /* THE KEY VALUE FEATURE: tier ladder + smart nudge toward a cheaper tier */
 function sbRenderTiers(c, days){
@@ -1634,57 +2288,314 @@ function sbFindNudge(c, days){
   }
   return null;
 }
-function sbRecalc(){
-  sb.branch=$("#sbBranch").value; sb.from=$("#sbFrom").value; sb.to=$("#sbTo").value;
-  var days=daysBetween(sb.from,sb.to);
-  var c=sb.carId?carById(sb.carId):null;
-  var rate=c?rateForDays(c,days):0;
-  var base=rate*days;
-  var ex=sbExtrasTotal(days);
-  var total=base+ex;
-  var hasFullProtection = !!sb.extras.protection;
-  $("#sbSBranch").textContent=cap(sb.branch);
-  $("#sbSDates").textContent = sb.from && sb.to ? (sb.from.replace("T"," ")+" → "+sb.to.replace("T"," ")) : "—";
-  $("#sbSDays").textContent=days+(days===1?" day":" days");
-  $("#sbSClass").textContent=c?c.name:"—";
-  $("#sbSRate").textContent=c?money(rate)+" /day":"—";
-  $("#sbSBase").textContent=c?money(base):"—";
-  var linesEl=$("#sbSExtrasLines"); linesEl.innerHTML="";
+/* ONE shared build-math helper — every surface (reservation pane, mobile bar,
+   compare entries) reads from this. No forked pricing: it only calls the shared
+   rateForDays()/daysBetween()/routeFee()/EXTRAS already used everywhere. */
+function sbComputeBuild(cfg){
+  var c = cfg.carId ? carById(cfg.carId) : null;
+  var days = daysBetween(cfg.from, cfg.to);
+  var rate = c ? rateForDays(c, days) : 0;
+  var base = rate * days;
+  // insurance plan: Full Protection = a DAILY fee (real per-class insurance_daily * days)
+  // vs Basic = free but holds the real refundable per-class security deposit.
+  var hasFullProtection = !!cfg.extras.protection;
+  var protDaily = insDailyFor(c);                                   // real per-class /day
+  var protFee = hasFullProtection ? (protDaily * days) : 0;         // daily * rentalDays
+  var depositAmt = hasFullProtection ? 0 : depositFor(c);          // 0 with Full, real hold with Basic
+  // other extras (everything except the protection line, which is shown separately)
+  var extraLines = [], extrasTot = 0;
   EXTRAS.forEach(function(e){
-    if (!sb.extras[e.id]) return;
-    var lineTotal = e.perDay ? e.price*days : e.price;
+    if (e.id === "protection") return;
+    if (!cfg.extras[e.id]) return;
+    var lineTotal = e.perDay ? e.price * days : e.price;
+    extrasTot += lineTotal; extraLines.push({name:e.name, total:lineTotal});
+  });
+  // REAL ERP route delivery fee (shared helper); missing pair => quoted on request (0 in total)
+  var feeRaw = (cfg.pickupLoc && cfg.dropoffLoc) ? routeFee(cfg.pickupLoc, cfg.dropoffLoc) : null;
+  var fee = (feeRaw === null) ? 0 : feeRaw;
+  var grand = base + protFee + extrasTot + fee;
+  var now = Math.round(grand * 0.3);
+  return {
+    car:c, days:days, rate:rate, base:base,
+    hasFullProtection:hasFullProtection, protDaily:protDaily, protFee:protFee,
+    extraLines:extraLines, extrasTot:extrasTot,
+    feeRaw:feeRaw, fee:fee, grand:grand,
+    now:now, later:grand - now,
+    depositAmt: depositAmt,
+    deposit: hasFullProtection ? "EGP 0 (Full Protection)" : (money(depositAmt)+" refundable hold")
+  };
+}
+/* PROMINENT security-deposit callout (shared by the reservation pane + compare columns).
+   Full Protection -> a bold positive ZERO DEPOSIT badge; Basic -> the real per-class
+   refundable hold + a note it's refunded on safe return, plus an upgrade nudge. */
+function renderDepositBox(box, badge, note, b, c){
+  if (!box) return;
+  if (!c){
+    box.classList.remove("zero","hold");
+    badge.textContent = "—";
+    if (note) note.textContent = "Pick a car to see your deposit.";
+    return;
+  }
+  if (b.hasFullProtection){
+    box.classList.add("zero"); box.classList.remove("hold");
+    badge.textContent = "ZERO";
+    if (note) note.innerHTML = '<i class="fa-solid fa-circle-check"></i> Full Protection = no refundable hold on your card at all.';
+  } else {
+    box.classList.add("hold"); box.classList.remove("zero");
+    badge.textContent = money(b.depositAmt);
+    if (note) note.innerHTML = 'A refundable hold, not a charge — returned in full on safe return of the car. <span class="dep-upsell"><i class="fa-solid fa-arrow-up"></i> Upgrade to Full Protection → security deposit drops to ZERO.</span>';
+  }
+}
+function sbUpdateTripSummary(){
+  // once pick-up/drop-off/dates are all set, collapse step 1 to a slim one-line bar
+  // so the car grid (the point of this screen) gets the vertical room (fit fix)
+  var step1=$("#sbStep1"); if (!step1) return;
+  var ready = !!(sb.pickupLoc && sb.dropoffLoc && sb.from && sb.to);
+  var collapsed = ready && !step1.__forceOpen;
+  step1.classList.toggle("collapsed", collapsed);
+  var editBtn=$("#sbTripEdit");
+  if (editBtn && collapsed){ editBtn.setAttribute("aria-expanded","false"); editBtn.textContent="Edit"; }
+  if (ready){
+    // show the real trip in the collapsed bar: locations + the actual date/time range.
+    // (duration is NOT repeated here — it already shows in the reservation pane on the right)
+    var loc = sb.pickupLoc + (sb.dropoffLoc!==sb.pickupLoc ? (" → "+sb.dropoffLoc) : " · round trip");
+    var when = fmtTripWhen(sb.from) + " → " + fmtTripWhen(sb.to);
+    var el=$("#sbTripSummaryText"); if (el) el.textContent = loc + "  ·  " + when;
+  }
+}
+/* compact "Oct 13, 10:00 AM" formatter for a datetime-local value, for the collapsed
+   step-1 summary bar (locale-friendly, falls back to the raw value if unparseable) */
+function fmtTripWhen(v){
+  if (!v) return "—";
+  var d = new Date(v);
+  if (isNaN(d.getTime())) return v;
+  var date = d.toLocaleDateString(undefined, { month:"short", day:"numeric" });
+  var time = d.toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
+  return date + ", " + time;
+}
+function sbRecalc(){
+  sb.from=$("#sbFrom").value; sb.to=$("#sbTo").value;
+  // branch is derived behind the scenes from the pick-up location (no client branch picker)
+  sb.branch = branchForLocation(sb.pickupLoc);
+  sbUpdateTripSummary();
+  var b = sbComputeBuild(sb);
+  var c = b.car, days = b.days;
+  // car identity + image in the reservation pane
+  $("#sbSThumb").innerHTML = c ? carMediaHTML(c) : "";
+  $("#sbSClass").textContent = c ? c.name : "Pick a car";
+  $("#sbSClassCat").textContent = c ? c.cat : "Choose your class on the left";
+  // helpful empty state until a car is chosen (dates/locations/delivery still shown)
+  var prompt=$("#sbSPrompt"); if (prompt) prompt.hidden = !!c;
+  // real ERP pick-up / drop-off + delivery route fee (priced line, folded into grand total)
+  var locRow=$("#sbSLocRow"), dropRow=$("#sbSDropRow"), feeRow=$("#sbSFeeRow");
+  if (sb.pickupLoc){ locRow.hidden=false; $("#sbSPickup").textContent=sb.pickupLoc; } else { locRow.hidden=true; }
+  if (sb.dropoffLoc){ dropRow.hidden=false; $("#sbSDropoff").textContent=sb.dropoffLoc; } else { dropRow.hidden=true; }
+  if (sb.pickupLoc && sb.dropoffLoc){
+    feeRow.hidden=false;
+    $("#sbSFee").textContent = b.feeRaw===null ? "Quoted on request"
+      : (b.feeRaw===0 ? "EGP 0 (included)" : money(b.feeRaw));
+  } else { feeRow.hidden=true; }
+  $("#sbSDays").textContent=days+(days===1?" day":" days");
+  // car-specific rows only make sense once a car is chosen — hide them in the empty state
+  // (the empty state keeps dates/duration/locations/delivery + the 'pick a car' prompt)
+  $("#sbSRate").closest(".sumline").hidden = !c;
+  $("#sbSBase").closest(".sumline").hidden = !c;
+  $("#sbSProtRow").hidden = !c;
+  $("#sbSRate").textContent=c?money(b.rate)+" /day":"—";
+  $("#sbSBase").textContent=c?money(b.base):"—";
+  // insurance line: Full Protection = real per-class daily × days (explicit /day basis);
+  // Basic = free but shows the real refundable deposit for that class
+  var protLabel=$("#sbSProtLabel");
+  if (b.hasFullProtection){
+    protLabel.textContent = c ? ("Full Protection ("+money(b.protDaily)+"/day × "+days+")") : "Full Protection";
+    $("#sbSProt").textContent = c ? money(b.protFee) : "—";
+  } else {
+    protLabel.textContent = "Basic (free · security hold applies)";
+    $("#sbSProt").textContent = c ? "EGP 0 /day" : "—";
+  }
+  sbRefreshExtraPrices();
+  // other extras
+  var linesEl=$("#sbSExtrasLines"); linesEl.innerHTML="";
+  b.extraLines.forEach(function(l){
     var row=document.createElement("div"); row.className="sumline";
-    row.innerHTML="<span>"+e.name+"</span><b>"+money(lineTotal)+"</b>";
+    row.innerHTML="<span>"+l.name+"</span><b>"+money(l.total)+"</b>";
     linesEl.appendChild(row);
   });
-  $("#sbSNow").textContent=c?money(Math.round(total*0.3)):"—";
-  $("#sbSLater").textContent=c?money(total-Math.round(total*0.3)):"—";
-  $("#sbSDeposit").textContent = hasFullProtection ? "EGP 0 (Full Protection)" : "Refundable at return";
-  $("#sbSGuarantee").innerHTML=c?'<i class="fa-solid fa-shield-halved"></i> '+guaranteeLine(c):"";
-  animatePriceTo($("#sbSTotal"), c?total:0, c);
+  // pay-now block + mobile bar
+  $("#sbSNow").textContent=c?money(b.now):"—";
+  $("#sbSLater").textContent=c?money(b.later):"—";
+  // PROMINENT deposit callout: ZERO with Full Protection, real refundable hold with Basic
+  renderDepositBox($("#sbSDepositBox"), $("#sbSDepBadge"), $("#sbSDepNote"), b, c);
+  $("#sbSGuarantee").innerHTML=c?'<i class="fa-solid fa-shield-halved"></i> '+GUARANTEE_PHRASE:"";
+  animatePriceTo($("#sbSTotal"), c?b.grand:0, c);
+  // mobile sticky bar reflects live
+  var bar=$("#resvBar");
+  if (bar){
+    $("#rbCar").textContent = c ? c.name : "Pick a car";
+    $("#rbNow").textContent = c ? money(b.now) : "—";
+  }
+  sbUpdateRail();
   sbRenderTiers(c, days);
+}
+/* light-touch step-rail: mark steps done/active from the current state */
+function sbUpdateRail(){
+  var rail=$("#sbRail"); if(!rail) return;
+  var hasDates = !!(sb.from && sb.to);
+  var hasCar = !!sb.carId;
+  var states = [ hasDates, hasCar, hasCar, hasCar ]; // done flags per step
+  $all("#sbRail li").forEach(function(li,i){
+    li.classList.toggle("done", states[i]);
+    li.classList.toggle("active", (i===0&&!hasDates) || (i===1&&hasDates&&!hasCar) || (i===3&&hasCar));
+  });
 }
 function sbReserve(){
   var c=sb.carId?carById(sb.carId):null;
   if (!c){ return; }
-  var days=daysBetween(sb.from,sb.to);
-  var rate=rateForDays(c,days), base=rate*days, ex=sbExtrasTotal(days), total=base+ex;
+  var b = sbComputeBuild(sb); // same shared math as the pane (car+days+protection+extras+delivery)
+  var days=b.days;
   var chosen=EXTRAS.filter(function(e){return sb.extras[e.id];}).map(function(e){return e.name;});
   var hub=sb.branch;
   var url=productUrl(c.slug,hub);
   // TODO Part-A cart hand-off: replace the WhatsApp compose below with the real cart/checkout
   // hand-off once Part A is wired. For now we open the product page + a pre-composed WA message.
+  var locLine = sb.pickupLoc ? ("• Pick-up place: "+sb.pickupLoc+"%0A• Drop-off place: "+sb.dropoffLoc+"%0A"+
+    "• Delivery: "+(b.feeRaw===null?"quoted on request":(b.feeRaw===0?"EGP 0 (included)":("EGP "+b.feeRaw.toLocaleString("en-US"))))+"%0A") : "";
+  var protLine = b.hasFullProtection
+    ? ("Full Protection (EGP "+b.protDaily.toLocaleString("en-US")+"/day × "+days+" = EGP "+b.protFee.toLocaleString("en-US")+", security deposit ZERO)")
+    : ("Basic (free · refundable security deposit EGP "+b.depositAmt.toLocaleString("en-US")+")");
   var msg="Hi Brothers EGY! I built my own quote with Smart Build:%0A"+
     "• Car: "+c.name+" ("+c.cat+")%0A"+
+    "• Insurance: "+protLine+"%0A"+
+    locLine+
     "• Branch: "+cap(hub)+"%0A"+
     "• Pick-up: "+sb.from+"%0A"+
     "• Drop-off: "+sb.to+"  ("+days+(days===1?" day":" days")+")%0A"+
     "• Services: "+(chosen.length?chosen.join(", "):"none")+"%0A"+
-    "• Total: EGP "+total.toLocaleString("en-US")+" (30%% now = EGP "+Math.round(total*0.3).toLocaleString("en-US")+")%0A"+
+    "• Grand total (incl. delivery): EGP "+b.grand.toLocaleString("en-US")+"%0A"+
+    "• Reservation deposit to confirm (30%%): EGP "+b.now.toLocaleString("en-US")+" · balance at pick-up (70%%): EGP "+b.later.toLocaleString("en-US")+"%0A"+
     "Guarantee understood: "+c.make+" "+c.model+" or similar, same category or higher.%0A"+
     "Product: "+url;
   window.open(url,"_blank","noopener");
   openWhatsApp(msg);
+}
+
+/* ============================================================
+   COMPARE — pin 2-3 fully-priced builds (incl. same car with
+   different protection) side by side. Reuses sbComputeBuild()
+   so there is no forked pricing math.
+   ============================================================ */
+/* Each compare slot is a FULL, independently-editable build config. It inherits the
+   current dates + locations when created, but the car, the insurance plan (Basic vs Full
+   Protection) and each extra are chosen PER COLUMN, right in the tray. */
+var compareBuilds = []; // array of {carId, from, to, branch, pickupLoc, dropoffLoc, extras:{}}
+function sbSnapshot(overrides){
+  var snap = { carId:sb.carId, from:sb.from, to:sb.to, branch:sb.branch,
+    pickupLoc:sb.pickupLoc, dropoffLoc:sb.dropoffLoc,
+    extras: JSON.parse(JSON.stringify(sb.extras)) };
+  if (overrides){ for (var k in overrides){ snap[k]=overrides[k]; } }
+  return snap;
+}
+function sbPinCurrent(){
+  if (compareBuilds.length >= 3){ compareBuilds.shift(); } // keep max 3
+  compareBuilds.push(sbSnapshot());
+  renderCompare();
+}
+/* add a fresh editable slot that inherits the current dates/locations; the user then
+   picks the car + plan + extras inside the column (free choice per slot) */
+function sbAddCompareSlot(){
+  if (compareBuilds.length >= 3){ return; }
+  compareBuilds.push(sbSnapshot({ carId: sb.carId || (FLEET[0] && FLEET[0].id) || null }));
+  renderCompare();
+}
+function sbCompareBasicVsFull(){
+  var carId = sb.carId || (FLEET[0] && FLEET[0].id);
+  if (!carId){ return; }
+  var full = sbSnapshot({carId:carId}); full.extras = JSON.parse(JSON.stringify(sb.extras)); full.extras.protection = true;
+  var basic = sbSnapshot({carId:carId}); basic.extras = JSON.parse(JSON.stringify(sb.extras)); basic.extras.protection = false;
+  compareBuilds = [full, basic];
+  renderCompare();
+}
+function renderCompare(){
+  var tray=$("#compareTray"), cols=$("#ctCols");
+  var addBtn=$("#ctAdd"); if (addBtn){ addBtn.disabled = compareBuilds.length>=3; }
+  var countEl=$("#ctCount"); if (countEl){ countEl.textContent = compareBuilds.length ? ("("+compareBuilds.length+")") : ""; }
+  if (!compareBuilds.length){ tray.hidden=true; tray.classList.remove("collapsed"); return; }
+  tray.hidden=false; cols.innerHTML="";
+  // find the cheapest grand total so we can highlight it + show the delta
+  var totals = compareBuilds.map(function(cfg){ return cfg.carId ? sbComputeBuild(cfg).grand : Infinity; });
+  var minTot = Math.min.apply(null, totals);
+  compareBuilds.forEach(function(cfg, idx){
+    var b = cfg.carId ? sbComputeBuild(cfg) : null;
+    var c = b ? b.car : null;
+    var col=document.createElement("div"); col.className="ct-col"+(b && b.grand===minTot && isFinite(minTot) ? " best":"");
+    // --- editable controls: car + plan + extras ---
+    var carOpts = FLEET.map(function(fc){
+      return '<option value="'+fc.id+'"'+(cfg.carId===fc.id?" selected":"")+'>'+fc.name+' · '+fc.cat+'</option>';
+    }).join("");
+    var full = !!cfg.extras.protection;
+    var extraChecks = EXTRAS.filter(function(e){return e.id!=="protection";}).map(function(e){
+      return '<label class="ct-ex"><input type="checkbox" data-ct-extra="'+e.id+'" '+(cfg.extras[e.id]?"checked":"")+'> '+e.name+'</label>';
+    }).join("");
+    var controls =
+      '<div class="ct-controls">'+
+        '<select class="ct-carsel" data-ct-car aria-label="Choose car for this build"><option value="">Pick a car…</option>'+carOpts+'</select>'+
+        '<div class="ct-plan-toggle" role="group" aria-label="Insurance plan">'+
+          '<button type="button" data-ct-plan="basic" class="'+(full?"":"on")+'">Basic</button>'+
+          '<button type="button" data-ct-plan="full" class="'+(full?"on":"")+'">Full Protection</button>'+
+        '</div>'+
+        '<details class="ct-extras"><summary>Extras</summary>'+extraChecks+'</details>'+
+      '</div>';
+    var body="";
+    if (b && c){
+      var feeTxt = b.feeRaw===null ? "quoted on request" : (b.feeRaw===0 ? "EGP 0" : money(b.feeRaw));
+      var delta = (isFinite(minTot) && b.grand>minTot) ? ('<div class="ct-delta">+'+money(b.grand-minTot)+' vs cheapest</div>') :
+                  (b.grand===minTot && compareBuilds.length>1 ? '<div class="ct-delta best"><i class="fa-solid fa-circle-check"></i> Cheapest</div>' : '');
+      body =
+        '<div class="ct-plan">'+(b.hasFullProtection?"Full Protection · zero deposit":"Basic · refundable deposit")+'</div>'+
+        '<div class="ct-line"><span>Daily rate × '+b.days+'d</span><b>'+money(b.base)+'</b></div>'+
+        '<div class="ct-line"><span>'+(b.hasFullProtection?("Full Protection ("+money(b.protDaily)+"/day × "+b.days+")"):"Protection")+'</span><b>'+(b.hasFullProtection?money(b.protFee):"— (Basic)")+'</b></div>'+
+        '<div class="ct-line"><span>Extras</span><b>'+(b.extrasTot?money(b.extrasTot):"—")+'</b></div>'+
+        '<div class="ct-line"><span>Delivery</span><b>'+feeTxt+'</b></div>'+
+        '<div class="ct-grand"><span>Grand total</span><span class="big">'+money(b.grand)+'</span></div>'+
+        delta+
+        // MONEY CONCEPT 1: reservation/booking deposit (30% prepayment to confirm) + 70% balance
+        '<div class="ct-line" style="margin-top:6px"><span>Reservation deposit (30% to confirm)</span><b>'+money(b.now)+'</b></div>'+
+        '<div class="ct-line"><span>Balance at pick-up (70%)</span><b>'+money(b.later)+'</b></div>'+
+        // MONEY CONCEPT 2 (separate): refundable security hold
+        '<div class="deposit-box '+(b.hasFullProtection?"zero":"hold")+'">'+
+          '<div class="dep-row"><span class="dep-label"><i class="fa-solid fa-shield-halved"></i> Security deposit (refundable hold)</span>'+
+          '<span class="dep-badge">'+(b.hasFullProtection?"ZERO":money(b.depositAmt))+'</span></div>'+
+          (b.hasFullProtection
+            ? '<p class="dep-note"><i class="fa-solid fa-circle-check"></i> No refundable hold with Full Protection.</p>'
+            : '<p class="dep-note">Refundable hold, returned on safe return. <span class="dep-upsell"><i class="fa-solid fa-arrow-up"></i> Full Protection → ZERO.</span></p>')+
+        '</div>';
+    } else {
+      body = '<p class="ct-empty-col">Pick a car above to price this build.</p>';
+    }
+    col.innerHTML =
+      '<button class="ct-x" data-ct-remove="'+idx+'" aria-label="Remove this build">✕</button>'+
+      '<h5>'+(c?c.name:"New build")+'</h5>'+
+      controls + body;
+    cols.appendChild(col);
+    // wire the per-column controls
+    var carSel = col.querySelector("[data-ct-car]");
+    carSel.addEventListener("change", function(){ compareBuilds[idx].carId = this.value || null; renderCompare(); });
+    $all("[data-ct-plan]", col).forEach(function(btn){
+      btn.addEventListener("click", function(){
+        compareBuilds[idx].extras.protection = (this.getAttribute("data-ct-plan")==="full");
+        renderCompare();
+      });
+    });
+    $all("[data-ct-extra]", col).forEach(function(chk){
+      chk.addEventListener("change", function(){
+        compareBuilds[idx].extras[this.getAttribute("data-ct-extra")] = this.checked;
+        renderCompare();
+      });
+    });
+  });
+  $all("[data-ct-remove]",cols).forEach(function(x){
+    x.addEventListener("click", function(){ compareBuilds.splice(+this.getAttribute("data-ct-remove"),1); renderCompare(); sbRenderCars(); });
+  });
 }
 
 /* ============================================================
@@ -1699,6 +2610,19 @@ function bgInit(){
     var d2=new Date(d); d2.setDate(d2.getDate()+3);
     $("#bgFrom").value=toLocal(d); $("#bgTo").value=toLocal(d2);
   }
+  var pSel=$("#bgPickupLoc"), dSel=$("#bgDropoffLoc");
+  if (!pSel.options.length){ // populate once with the 21 real ERP places
+    LOCATION_PLACES.forEach(function(p){
+      var o1=document.createElement("option"); o1.value=p; o1.textContent=p; pSel.appendChild(o1);
+      var o2=document.createElement("option"); o2.value=p; o2.textContent=p; dSel.appendChild(o2);
+    });
+    makeCombobox(pSel); makeCombobox(dSel); // same type-to-search component
+  }
+  // seed from the search card / Smart Build selection if present, else sensible default
+  var defP = sb.pickupLoc || (LOCATION_PLACES.indexOf("Cairo International Airport")>-1 ? "Cairo International Airport" : LOCATION_PLACES[0]);
+  var defD = sb.dropoffLoc || defP;
+  pSel.value=defP; dSel.value=defD;
+  comboReflect(pSel); comboReflect(dSel);
   bgRecalc();
 }
 function bgRecalc(){
@@ -1711,11 +2635,24 @@ function bgRecalc(){
     out.innerHTML='<div class="bud-empty"><i class="fa-solid fa-wallet"></i><br>Enter a budget above to see which cars fit for your dates.</div>';
     return;
   }
+  // REAL ERP route delivery fee for the chosen pick-up/drop-off pair — folded into each car's
+  // total so "does it fit my budget?" is honest (same shared routeFee helper, no forked pricing)
+  var pickup=$("#bgPickupLoc").value, dropoff=$("#bgDropoffLoc").value;
+  var fee = (pickup && dropoff) ? routeFee(pickup, dropoff) : null;
+  var feeInTotal = (fee===null) ? 0 : fee;
+  var feeNote=$("#bgFeeNote");
+  if (pickup && dropoff){
+    feeNote.hidden=false;
+    $("#bgFeeNoteText").textContent = fee===null
+      ? ("Delivery "+pickup+" → "+dropoff+": quoted on request (not in route list) — budget check excludes it.")
+      : (fee===0 ? ("Delivery "+pickup+" → "+dropoff+": EGP 0 (same place) — included in every total below.")
+                 : ("Delivery "+pickup+" → "+dropoff+": "+fee.toLocaleString("en-US")+" EGP — included in every total below."));
+  } else { feeNote.hidden=true; }
   var pool = FLEET.filter(function(c){
     return (branch==="all"||c.branches.indexOf(branch)>-1) && (type==="all"||c.type===type);
   }).map(function(c){
-    var rate=rateForDays(c,days), total=rate*days;
-    return {c:c, rate:rate, total:total};
+    var rate=rateForDays(c,days), carTotal=rate*days, total=carTotal+feeInTotal;
+    return {c:c, rate:rate, carTotal:carTotal, fee:feeInTotal, total:total};
   });
   var within = pool.filter(function(p){ return p.total<=budget; }).sort(function(a,b){ return b.total-a.total; }); // closest to budget first = best value used
   var upgrades = pool.filter(function(p){ return p.total>budget; }).sort(function(a,b){ return a.total-b.total; }).slice(0,3);
@@ -1747,15 +2684,17 @@ function bgRecalc(){
       var id=this.getAttribute("data-bg-build");
       sb.carId=id; sb.branch = branch==="all" ? carById(id).branches[0] : branch;
       sb.from=from; sb.to=to;
+      sb.pickupLoc=pickup||""; sb.dropoffLoc=dropoff||""; // carry locations so Smart Build keeps the real delivery fee
       location.hash="build";
     });
   });
 }
 function bgCardHTML(p, diff, isUpgrade){
   var c=p.c;
+  var feeBit = p.fee ? (' + '+money(p.fee)+' delivery') : '';
   return '<div class="bud-card">'+
     '<div class="thumb">'+carMediaHTML(c)+'</div>'+
-    '<div class="info"><b>'+c.name+'</b><small>'+c.cat+' · '+money(p.rate)+' /day</small></div>'+
+    '<div class="info"><b>'+c.name+'</b><small>'+c.cat+' · '+money(p.rate)+' /day'+feeBit+'</small></div>'+
     '<div class="amt"><span class="tot">'+money(p.total)+'</span>'+
       '<span class="diff'+(isUpgrade?' more':'')+'">'+(isUpgrade?('+'+money(diff)+' more'):(money(diff)+' under budget'))+'</span></div>'+
     '<button class="btn btn-ghost" data-bg-build="'+c.id+'" style="margin-left:10px">'+(isUpgrade?'Build this':'Reserve')+'</button>'+
@@ -1930,11 +2869,16 @@ function initChapters(){
   var ids=["top","journey","fleet","tours","transfers","trust","tools","book"];
   var btns=$all("#chapters button");
   btns.forEach(function(b){ b.addEventListener("click",function(){ var t=document.getElementById(this.getAttribute("data-goto")); if(t) t.scrollIntoView({behavior:reduceMotion?"auto":"smooth"}); }); });
+  var nav=$("#chapters");
   var secIO=new IntersectionObserver(function(entries){
     entries.forEach(function(en){
       if(en.isIntersecting){
         var id=en.target.id;
         btns.forEach(function(b){ b.setAttribute("aria-current", b.getAttribute("data-goto")===id ? "true":"false"); });
+        // fit fix: the dot-nav crowds/overlaps the hero's "Find your car" card on the
+        // first viewport, so hide it while the hero is in view and fade it in once
+        // the visitor scrolls past (CSS has an inset fallback for the no-JS case)
+        if (nav) nav.classList.toggle("on-hero", id==="top");
       }
     });
   },{threshold:.4, rootMargin:"-20% 0px -40% 0px"});
@@ -2007,6 +2951,39 @@ function initMagneticButtons(){
   });
 }
 
+/* ---------- search-first hero card ---------- */
+function initSearchCard(){
+  var fromSel=$("#qbFromLoc"), toSel=$("#qbToLoc");
+  // populate both selects with the 21 real ERP places
+  LOCATION_PLACES.forEach(function(p){
+    var o1=document.createElement("option"); o1.value=p; o1.textContent=p; fromSel.appendChild(o1);
+    var o2=document.createElement("option"); o2.value=p; o2.textContent=p; toSel.appendChild(o2);
+  });
+  // sensible defaults: pick-up at Cairo International Airport, same drop-off
+  var def = LOCATION_PLACES.indexOf("Cairo International Airport")>-1 ? "Cairo International Airport" : LOCATION_PLACES[0];
+  fromSel.value=def; toSel.value=def;
+  // enhance both into type-to-search comboboxes (keyboard + aria + mobile-friendly)
+  makeCombobox(fromSel); makeCombobox(toSel);
+  // default dates: pickup +2 days 10:00, dropoff +9 days 10:00
+  var d1=new Date(); d1.setDate(d1.getDate()+2); d1.setHours(10,0,0,0);
+  var d2=new Date(); d2.setDate(d2.getDate()+9); d2.setHours(10,0,0,0);
+  $("#qbFrom").value=toLocal(d1); $("#qbTo").value=toLocal(d2);
+
+  var same=$("#qbSameLoc");
+  function syncSame(){ if(same.checked){ toSel.value=fromSel.value; comboReflect(toSel); toSel.disabled=true; comboReflect(toSel); } else { toSel.disabled=false; comboReflect(toSel); } updateFee(); }
+  function updateFee(){
+    var feeEl=$("#qbFee"), txt=$("#qbFeeText");
+    var fee=routeFee(fromSel.value, toSel.value);
+    if (fee===null || fee===0){ feeEl.classList.remove("show"); return; }
+    txt.textContent="Delivery: "+fromSel.value+" → "+toSel.value+" = "+fee.toLocaleString("en-US")+" EGP";
+    feeEl.classList.add("show");
+  }
+  same.addEventListener("change", syncSame);
+  fromSel.addEventListener("change", function(){ if(same.checked){ toSel.value=fromSel.value; comboReflect(toSel); } updateFee(); });
+  toSel.addEventListener("change", function(){ if(toSel.value!==fromSel.value){ same.checked=false; toSel.disabled=false; comboReflect(toSel); } updateFee(); });
+  syncSame();
+}
+
 /* ---------- wiring ---------- */
 function wire(){
   $("#yr").textContent=new Date().getFullYear();
@@ -2050,27 +3027,108 @@ function wire(){
     recalc(); renderFleet();
   });});
 
-  // quick bar -> prefill + open wizard (or scroll to fleet with filter)
+  // search-first hero card -> seed Smart Build with the REAL pick-up/drop-off locations + dates
+  initSearchCard();
   $("#quickBar").addEventListener("submit",function(e){
     e.preventDefault();
-    state.branch=$("#qbBranch").value; state.from=$("#qbFrom").value; state.to=$("#qbTo").value;
+    var pickup=$("#qbFromLoc").value, dropoff=$("#qbToLoc").value;
+    var from=$("#qbFrom").value, to=$("#qbTo").value;
     var qbType=$("#qbClass").value;
-    if(qbType){ typeFilter=qbType==="luxury"?"luxury":qbType; $all("#typeFilters .chipbtn").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-type")===typeFilter?"true":"false");}); renderFleet(); }
-    openWizard(null);
+    // carry chosen locations + branch region into Smart Build (shows real place, prices by branch pool)
+    sb.pickupLoc=pickup; sb.dropoffLoc=dropoff;
+    sb.branch=branchForLocation(pickup);
+    sb.from=from; sb.to=to;
+    sb.carId=null; // let the shopper pick within the matched branch pool
+    sb.type = qbType || "all"; // carry the class quick-filter into Smart Build's car box
+    if(qbType){ typeFilter=qbType==="luxury"?"luxury":qbType;
+      $all("#typeFilters .chipbtn").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-type")===typeFilter?"true":"false");});
+      renderFleet();
+    }
+    location.hash="build"; // Smart Build opens via hash routing, prefilled from sb
   });
 
   // ---- Tool 1: Smart Build ----
-  ["sbBranch","sbFrom","sbTo"].forEach(function(id){ $("#"+id).addEventListener("change",sbRecalc); $("#"+id).addEventListener("input",sbRecalc); });
-  $("#sbBranch").addEventListener("change", sbRenderCars);
+  // live reflection: ANY change (dates, locations) recomputes the pane + price instantly
+  ["sbFrom","sbTo"].forEach(function(id){
+    $("#"+id).addEventListener("change",function(){ var s=$("#sbStep1"); if(s) s.__forceOpen=false; sbRecalc(); });
+    $("#"+id).addEventListener("input",sbRecalc);
+  });
+  // pick-up / drop-off location selects + "same place" behaviour.
+  // Pick-up also silently re-derives the branch pool (location -> branch region) and refreshes the car grid.
+  $("#sbPickupLoc").addEventListener("change", function(){
+    sb.pickupLoc=this.value;
+    sb.branch=branchForLocation(sb.pickupLoc);
+    if ($("#sbSameLoc").checked){ sb.dropoffLoc=this.value; $("#sbDropoffLoc").value=this.value; comboReflect($("#sbDropoffLoc")); }
+    sbRenderCars();
+    sbRecalc();
+  });
+  $("#sbDropoffLoc").addEventListener("change", function(){
+    sb.dropoffLoc=this.value;
+    if (this.value!==$("#sbPickupLoc").value){ $("#sbSameLoc").checked=false; this.disabled=false; comboReflect(this); }
+    sbRecalc();
+  });
+  $("#sbSameLoc").addEventListener("change", function(){
+    if (this.checked){ sb.dropoffLoc=sb.pickupLoc; $("#sbDropoffLoc").value=sb.pickupLoc; $("#sbDropoffLoc").disabled=true; }
+    else { $("#sbDropoffLoc").disabled=false; }
+    comboReflect($("#sbDropoffLoc"));
+    sbRecalc();
+  });
+  // "Edit" on the trip-summary bar is a TWO-WAY toggle (fit fix): click once to expand
+  // the fields, click again to collapse back to the one-line summary. __forceOpen is the
+  // state flag that flips; sbUpdateTripSummary() honours it so it collapses again.
+  $("#sbTripEdit").addEventListener("click", function(){
+    var step1=$("#sbStep1");
+    step1.__forceOpen = !step1.__forceOpen;           // flip the state flag both ways
+    if (step1.__forceOpen){
+      step1.classList.remove("collapsed");
+      var first=$("#sbPickupLoc"); if (first && first.__combo) first.__combo.input.focus(); else if(first) first.focus();
+    } else {
+      sbUpdateTripSummary();                          // re-collapse to the slim summary
+    }
+    this.setAttribute("aria-expanded", step1.__forceOpen ? "true" : "false");
+    this.textContent = step1.__forceOpen ? "Done" : "Edit";
+  });
+  // car-type filter chips inside the contained car box
+  $all("#sbTypeFilters .chipbtn").forEach(function(b){ b.addEventListener("click", function(){
+    sb.type=this.getAttribute("data-sbtype");
+    $all("#sbTypeFilters .chipbtn").forEach(function(x){ x.setAttribute("aria-pressed", x===b?"true":"false"); });
+    sbRenderCars();
+  });});
   $all("#sbCurToggle button").forEach(function(b){ b.addEventListener("click",function(){
     curCur=this.getAttribute("data-cur");
     $all("#sbCurToggle button").forEach(function(x){x.classList.toggle("on",x===b);});
-    sbRecalc();
+    sbRecalc(); renderCompare();
   });});
   $("#sbReserveBtn").addEventListener("click", sbReserve);
+  // per-step collapse: each step header toggles its own body so any finished step can be
+  // tucked away, giving the car grid the room. (Step 1 also auto-collapses to a summary.)
+  $all(".sb-left .sb-acc > .sb-acc-head, .sb-left .sb-pick-head .sb-acc-head").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var sec = btn.closest(".sb-acc");
+      if (!sec) return;
+      var collapsed = sec.classList.toggle("sb-collapsed");
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    });
+  });
+  // compare controls
+  $("#sbPinBtn").addEventListener("click", sbPinCurrent);
+  $("#sbCompareBasicFull").addEventListener("click", sbCompareBasicVsFull);
+  $("#ctAdd").addEventListener("click", sbAddCompareSlot);
+  $("#ctClose").addEventListener("click", function(){ $("#compareTray").hidden=true; });
+  $("#ctClear").addEventListener("click", function(){ compareBuilds=[]; renderCompare(); sbRenderCars(); });
+  // collapse/expand the compare tray so it never dominates the screen
+  $("#ctToggle").addEventListener("click", function(){
+    var tray=$("#compareTray"); var collapsed=tray.classList.toggle("collapsed");
+    this.setAttribute("aria-expanded", collapsed?"false":"true");
+  });
+  // mobile sticky reservation bar: tap to expand/collapse the pane
+  $("#resvBar").addEventListener("click", function(){
+    var pane=$(".resv-pane"); var open=pane.classList.toggle("resv-open");
+    this.setAttribute("aria-expanded", open?"true":"false");
+  });
 
   // ---- Tool 2: Budget Calculator ----
-  ["bgAmount","bgBranch","bgFrom","bgTo","bgType"].forEach(function(id){ $("#"+id).addEventListener("input",bgRecalc); $("#"+id).addEventListener("change",bgRecalc); });
+  ["bgAmount","bgBranch","bgFrom","bgTo","bgType","bgPickupLoc","bgDropoffLoc"].forEach(function(id){ $("#"+id).addEventListener("input",bgRecalc); $("#"+id).addEventListener("change",bgRecalc); });
 
   // ---- Tool 3: Tour Trip Planner ----
   $("#tpAddDay").addEventListener("click", tpAddDay);
@@ -2088,7 +3146,8 @@ document.addEventListener("DOMContentLoaded",wire);
    SELF-TEST  (open with ?selftest in the URL)
    ============================================================ */
 if (location.search.indexOf("selftest")>-1){
-  (function(){
+  // run AFTER wire() has built/populated the DOM (hero selects, etc.)
+  var runSelftest = function(){
     // 3 days 10 hours -> 4 days (part-day rounds up)
     var from="2026-03-01T10:00", to="2026-03-04T20:00";
     console.assert(daysBetween(from,to)===4, "FAIL: 3d10h should be 4 days, got "+daysBetween(from,to));
@@ -2142,8 +3201,326 @@ if (location.search.indexOf("selftest")>-1){
     console.assert(tpTotalDaysAll()===3, "FAIL: itinerary running days should sum to 3 (1+2), got "+tpTotalDaysAll());
     tpState.days=savedDays; // restore
 
+    // ---- Search-first hero: real ERP locations + route delivery fees ----
+    console.assert(LOCATION_PLACES.length===21, "FAIL: expected 21 real ERP places, got "+LOCATION_PLACES.length);
+    ["Cairo International Airport","Hurghada Hotels","Brothers Office-Hurghada","El Gouna","Makadi Bay","Marsa Alam","Luxor","Aswan"]
+      .forEach(function(p){ console.assert(LOCATION_PLACES.indexOf(p)>-1, "FAIL: missing real place "+p); });
+    // the hero pick-up / drop-off selects must contain all 21 real places
+    var optFrom=$all("#qbFromLoc option").map(function(o){return o.value;});
+    var optTo=$all("#qbToLoc option").map(function(o){return o.value;});
+    console.assert(optFrom.length===21 && optTo.length===21,
+      "FAIL: pick-up/drop-off selects should list 21 places, got "+optFrom.length+"/"+optTo.length);
+    console.assert(LOCATION_PLACES.every(function(p){return optFrom.indexOf(p)>-1 && optTo.indexOf(p)>-1;}),
+      "FAIL: a real place is missing from the hero selects");
+    // known route fee: Brothers Office-Hurghada -> El Gouna = 1200 (real ERP route)
+    console.assert(routeFee("Brothers Office-Hurghada","El Gouna")===1200,
+      "FAIL: Hurghada Office -> El Gouna should be 1200, got "+routeFee("Brothers Office-Hurghada","El Gouna"));
+    // same place is NOT free at a non-office location: the ERP charges a real same-place
+    // delivery/collection fee (El Gouna -> El Gouna = 1600, Cairo Airport -> itself = 800)
+    console.assert(routeFee("El Gouna","El Gouna")===1600, "FAIL: El Gouna same-place should be its real 1600, got "+routeFee("El Gouna","El Gouna"));
+    console.assert(routeFee("Cairo International Airport","Cairo International Airport")===800, "FAIL: Cairo Airport same-place should be 800, got "+routeFee("Cairo International Airport","Cairo International Airport"));
+    // only an actual Brothers OFFICE is 0 for same place
+    console.assert(routeFee("Brothers Office-Cairo","Brothers Office-Cairo")===0, "FAIL: office same-place should be 0, got "+routeFee("Brothers Office-Cairo","Brothers Office-Cairo"));
+    // real routes are directional: the export has El Gouna -> Hurghada Office = 800 (its own value),
+    // and routeFee returns that real forward value (does NOT force symmetry)
+    console.assert(routeFee("El Gouna","Brothers Office-Hurghada")===800,
+      "FAIL: El Gouna -> Hurghada Office should be its real 800, got "+routeFee("El Gouna","Brothers Office-Hurghada"));
+    // reverse fallback only kicks in when the forward pair is missing: 15->16 absent, 16->15 absent too -> null
+    console.assert(routeFee("North Coast - Sidi Kerir","Aswan")===null,
+      "FAIL: a missing route pair should return null");
+    // reverse-direction fallback works where only one direction exists in the data
+    // (North Coast - Sidi Kerir only lists routes with Brothers Office-Alexandria = 800 both ways)
+    console.assert(routeFee("North Coast - Sidi Kerir","Brothers Office-Alexandria")===800,
+      "FAIL: North Coast -> Alexandria Office should be 800, got "+routeFee("North Coast - Sidi Kerir","Brothers Office-Alexandria"));
+    // pick-up location maps to a branch pool for pricing context
+    console.assert(branchForLocation("Cairo International Airport")==="cairo", "FAIL: Cairo airport -> cairo branch");
+    console.assert(branchForLocation("El Gouna")==="hurghada", "FAIL: El Gouna -> hurghada branch");
+    // rentalDays still Math.ceil (part-day rounds up) with the hero's default-style window
+    console.assert(daysBetween("2026-03-01T10:00","2026-03-08T10:00")===7, "FAIL: 7-day window should be 7");
+    console.assert(daysBetween("2026-03-01T10:00","2026-03-08T11:00")===8, "FAIL: 7d1h window should ceil to 8");
+
+    // ---- Delivery fee folded into the GRAND TOTAL + 30/70 split (both tools, shared helper) ----
+    // Smart Build grand total = car×days + extras + routeFee; split is computed on that grand total.
+    var sbCar=carById("mg_zs"), sbDays=4;                 // MG ZS 4 days -> 2500/day
+    var sbRate=rateForDays(sbCar,sbDays), sbBase=sbRate*sbDays; // 10000
+    var sbFee=routeFee("Brothers Office-Hurghada","El Gouna");  // 1200
+    var sbExtras=0;                                            // no services for the assert
+    var sbGrand=sbBase+sbExtras+sbFee;                         // 11200
+    console.assert(sbGrand===11200, "FAIL: SB grand total (car+extras+delivery) should be 11200, got "+sbGrand);
+    console.assert(Math.round(sbGrand*0.3)===3360, "FAIL: 30%% of grand total should be 3360, got "+Math.round(sbGrand*0.3));
+    console.assert(sbGrand-Math.round(sbGrand*0.3)===7840, "FAIL: 70%% at pickup should be 7840");
+    // Budget Calculator compares budget against car total + delivery fee (honest "does it fit?")
+    var bgCarTotal=rateForDays(carById("mg_zs"),4)*4;   // 10000
+    var bgFee=routeFee("Brothers Office-Hurghada","El Gouna"); // 1200
+    var bgTotalWithFee=bgCarTotal+bgFee;                // 11200
+    console.assert(bgTotalWithFee===11200, "FAIL: budget total incl. delivery should be 11200, got "+bgTotalWithFee);
+    console.assert(10000>=bgCarTotal && 10000<bgTotalWithFee,
+      "FAIL: a 10000 budget fits the car alone but NOT once the 1200 delivery is added");
+
+    // ---- Compare: sbComputeBuild folds delivery+extras+insurance into grand total + 30/70 split ----
+    var baseCfg = { carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00", branch:"hurghada",
+      pickupLoc:"Brothers Office-Hurghada", dropoffLoc:"El Gouna",
+      extras:{protection:true, driver:true, childseat:false, gps:false, delivery:false} };
+    var cmpDays=daysBetween(baseCfg.from,baseCfg.to); // 4
+    var bFull=sbComputeBuild(baseCfg);
+    // car 2500*4=10000; Full Protection = REAL MG ZS 1200/day*4=4800; driver 150*4=600; delivery 1200 -> grand 16600
+    console.assert(bFull.days===4, "FAIL: compare days should be 4, got "+bFull.days);
+    console.assert(bFull.base===10000, "FAIL: compare base should be 10000, got "+bFull.base);
+    console.assert(bFull.protFee===4800, "FAIL: Full Protection fee (MG ZS 1200/day*4) should be 4800, got "+bFull.protFee);
+    console.assert(bFull.extrasTot===600, "FAIL: extras (driver) should be 600, got "+bFull.extrasTot);
+    console.assert(bFull.fee===1200, "FAIL: delivery fee should be 1200, got "+bFull.fee);
+    console.assert(bFull.grand===16600, "FAIL: grand total (car+prot+extras+delivery) should be 16600, got "+bFull.grand);
+    console.assert(bFull.now===Math.round(16600*0.3) && bFull.now===4980, "FAIL: 30%% of 16600 should be 4980, got "+bFull.now);
+    console.assert(bFull.later===16600-bFull.now && bFull.later===11620, "FAIL: 70%% should be 11620, got "+bFull.later);
+    console.assert(bFull.deposit.indexOf("0")>-1, "FAIL: Full Protection deposit should be EGP 0");
+    // same car, Basic (no protection) differs ONLY by the protection fee + the deposit
+    var basicCfg = JSON.parse(JSON.stringify(baseCfg)); basicCfg.extras.protection=false;
+    var bBasic=sbComputeBuild(basicCfg);
+    console.assert(bBasic.protFee===0, "FAIL: Basic should have no protection fee");
+    console.assert(bFull.grand-bBasic.grand===4800, "FAIL: Full vs Basic should differ by exactly the 4800 protection fee, got "+(bFull.grand-bBasic.grand));
+    console.assert(bBasic.base===bFull.base && bBasic.extrasTot===bFull.extrasTot && bBasic.fee===bFull.fee,
+      "FAIL: same-car Basic vs Full should match on car/extras/delivery");
+    console.assert(bBasic.deposit.toLowerCase().indexOf("refundable")>-1, "FAIL: Basic deposit should be refundable");
+
+    /* ======== REFINEMENT 1 — searchable location combobox ======== */
+    // the hero pick-up field is enhanced into a type-to-search combobox (role=combobox input)
+    var qbCombo = $("#qbFromLoc").__combo;
+    console.assert(!!qbCombo && !!qbCombo.input, "FAIL: hero pick-up should be an enhanced combobox");
+    console.assert(qbCombo.input.getAttribute("role")==="combobox", "FAIL: combobox input needs role=combobox");
+    console.assert($("#qbFromLoc").getAttribute("aria-hidden")==="true", "FAIL: underlying select should be aria-hidden");
+    // typing a substring filters the 21 places (case-insensitive): 'goun' -> only El Gouna
+    var filterPlaces = function(q){ var ql=q.toLowerCase(); return LOCATION_PLACES.filter(function(v){ return v.toLowerCase().indexOf(ql)>-1; }); };
+    console.assert(JSON.stringify(filterPlaces("goun"))===JSON.stringify(["El Gouna"]),
+      "FAIL: typing 'goun' should yield only El Gouna, got "+JSON.stringify(filterPlaces("goun")));
+    // typing 'office' must surface the three Brothers Offices
+    var offices = filterPlaces("office");
+    console.assert(offices.length===3 && offices.every(function(v){return v.indexOf("Office")>-1;}),
+      "FAIL: typing 'office' should yield the 3 Brothers Offices, got "+JSON.stringify(offices));
+    // the live hero combobox filters its rendered option list by typed substring too
+    (function(){
+      var ci=$("#qbFromLoc").__combo.input;
+      ci.value="goun"; ci.dispatchEvent(new Event("input",{bubbles:true}));
+      var shown=$all("#"+ci.getAttribute("aria-controls")+" .combo-opt").map(function(o){return o.textContent;});
+      console.assert(shown.length===1 && shown[0]==="El Gouna",
+        "FAIL: live combobox filtered by 'goun' should show only El Gouna, got "+JSON.stringify(shown));
+      ci.value=""; ci.dispatchEvent(new Event("input",{bubbles:true}));
+    })();
+    // sb + budget location fields use the SAME component (init them, then confirm identical behaviour)
+    sbInit(); bgInit();
+    console.assert(!!$("#sbPickupLoc").__combo && !!$("#sbDropoffLoc").__combo, "FAIL: Smart Build locations should be comboboxes");
+    console.assert(!!$("#bgPickupLoc").__combo && !!$("#bgDropoffLoc").__combo, "FAIL: Budget Calculator locations should be comboboxes");
+
+    /* ======== REFINEMENT 2 — Full Protection is a per-class DAILY fee ======== */
+    // real per-class insurance_daily (from insurance-export.json), e.g. Soueast S09 = 2000/day
+    console.assert(insDailyFor(carById("soueast_s09"))===2000, "FAIL: Soueast S09 insurance/day should be 2000");
+    console.assert(depositFor(carById("soueast_s09"))===40000, "FAIL: Soueast S09 deposit should be 40000");
+    // Full Protection total = insurance_daily * days (Soueast S09, 7 days = 2000*7 = 14000)
+    var s09cfg = { carId:"soueast_s09", from:"2026-03-01T10:00", to:"2026-03-08T10:00", branch:"hurghada",
+      pickupLoc:"", dropoffLoc:"", extras:{protection:true} };
+    var s09Full = sbComputeBuild(s09cfg);
+    console.assert(s09Full.days===7, "FAIL: S09 window should be 7 days, got "+s09Full.days);
+    console.assert(s09Full.protDaily===2000, "FAIL: S09 protection /day should be 2000, got "+s09Full.protDaily);
+    console.assert(s09Full.protFee===14000, "FAIL: S09 Full Protection 7d should be 2000*7=14000, got "+s09Full.protFee);
+    console.assert(s09Full.depositAmt===0, "FAIL: Full Protection deposit must be 0, got "+s09Full.depositAmt);
+    // Basic plan for the same car: no protection fee, real refundable deposit shown (40000)
+    var s09cfgBasic = JSON.parse(JSON.stringify(s09cfg)); s09cfgBasic.extras.protection=false;
+    var s09Basic = sbComputeBuild(s09cfgBasic);
+    console.assert(s09Basic.protFee===0, "FAIL: Basic plan should have no protection fee");
+    console.assert(s09Basic.depositAmt===40000, "FAIL: Basic deposit for S09 should be the real 40000, got "+s09Basic.depositAmt);
+    // MG ZS: real 1200/day, deposit 35000
+    console.assert(insDailyFor(carById("mg_zs"))===1200 && depositFor(carById("mg_zs"))===35000,
+      "FAIL: MG ZS insurance should be 1200/day, deposit 35000");
+
+    /* ======== REFINEMENT 3 — buildable compare: same car Full vs Basic ======== */
+    // Two independently-built slots for MG ZS, 4 days: Full vs Basic. They must differ ONLY by
+    // the protection fee (insurance_daily*days = 1200*4 = 4800) AND the deposit (0 vs 35000).
+    var cmpFull = { carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00", branch:"hurghada",
+      pickupLoc:"", dropoffLoc:"", extras:{protection:true} };
+    var cmpBasic = JSON.parse(JSON.stringify(cmpFull)); cmpBasic.extras.protection=false;
+    var mgF = sbComputeBuild(cmpFull), mgB = sbComputeBuild(cmpBasic);
+    console.assert(mgF.protFee===4800, "FAIL: MG ZS Full Protection 4d should be 1200*4=4800, got "+mgF.protFee);
+    console.assert(mgF.grand-mgB.grand===4800, "FAIL: Full vs Basic should differ by exactly 4800, got "+(mgF.grand-mgB.grand));
+    console.assert(mgF.base===mgB.base && mgF.extrasTot===mgB.extrasTot && mgF.fee===mgB.fee,
+      "FAIL: same-car Full vs Basic must match on car/extras/delivery");
+    console.assert(mgF.depositAmt===0 && mgB.depositAmt===35000,
+      "FAIL: deposit should be 0 (Full) vs real 35000 (Basic), got "+mgF.depositAmt+"/"+mgB.depositAmt);
+
+    /* ======== REFINEMENT 4 — grand total still = car + protection(/day*days) + extras + delivery, 30/70 ======== */
+    var r4cfg = { carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00", branch:"hurghada",
+      pickupLoc:"Brothers Office-Hurghada", dropoffLoc:"El Gouna",
+      extras:{protection:true, driver:true, childseat:false, gps:false, delivery:false} };
+    var r4=sbComputeBuild(r4cfg);
+    // car 2500*4=10000; protection 1200*4=4800; driver 150*4=600; delivery 1200 => grand 16600
+    console.assert(r4.base===10000 && r4.protFee===4800 && r4.extrasTot===600 && r4.fee===1200,
+      "FAIL: R4 line items wrong "+JSON.stringify({base:r4.base,prot:r4.protFee,extras:r4.extrasTot,fee:r4.fee}));
+    console.assert(r4.grand===16600, "FAIL: R4 grand (car+prot+extras+delivery) should be 16600, got "+r4.grand);
+    console.assert(r4.now===Math.round(16600*0.3) && r4.now===4980, "FAIL: 30%% of 16600 should be 4980, got "+r4.now);
+    console.assert(r4.later===16600-r4.now && r4.later===11620, "FAIL: 70%% should be 11620, got "+r4.later);
+
+    /* ======== THIS ITERATION — drop client branch field, derive branch, prominent deposit ======== */
+    // (a) NO client-facing branch picker exists in Smart Build step 1, and NO 'Branch' line in the pane
+    console.assert(document.getElementById("sbBranch")===null, "FAIL: client-facing Smart Build branch select must be removed");
+    console.assert(document.getElementById("sbSBranch")===null, "FAIL: 'Branch' line must be removed from the reservation pane");
+    // (b) branch is DERIVED behind the scenes from the pick-up location (region mapping)
+    console.assert(branchForLocation("Cairo International Airport")==="cairo", "FAIL: Cairo Airport -> cairo");
+    console.assert(branchForLocation("Brothers Office-Cairo")==="cairo", "FAIL: Office-Cairo -> cairo");
+    console.assert(branchForLocation("New Cairo")==="cairo", "FAIL: New Cairo -> cairo");
+    console.assert(branchForLocation("Hurghada Hotels")==="hurghada", "FAIL: Hurghada Hotels -> hurghada");
+    console.assert(branchForLocation("El Gouna")==="hurghada", "FAIL: El Gouna -> hurghada");
+    console.assert(branchForLocation("Makadi Bay")==="hurghada", "FAIL: Makadi Bay -> hurghada");
+    console.assert(branchForLocation("Brothers Office-Alexandria")==="alexandria", "FAIL: Office-Alexandria -> alexandria");
+    // (c) deposit is ZERO with Full Protection and the REAL per-class refundable hold with Basic
+    //     (Soueast S09: Basic 40000, Full 0 — rendered as a prominent badge, not a footer line)
+    var depFull = sbComputeBuild({ carId:"soueast_s09", from:"2026-03-01T10:00", to:"2026-03-04T10:00",
+      pickupLoc:"", dropoffLoc:"", extras:{protection:true} });
+    var depBasic = sbComputeBuild({ carId:"soueast_s09", from:"2026-03-01T10:00", to:"2026-03-04T10:00",
+      pickupLoc:"", dropoffLoc:"", extras:{protection:false} });
+    console.assert(depFull.depositAmt===0, "FAIL: Full Protection S09 deposit must be ZERO, got "+depFull.depositAmt);
+    console.assert(depBasic.depositAmt===40000, "FAIL: Basic S09 deposit must be the real 40000, got "+depBasic.depositAmt);
+    // (d) the prominent deposit box renders ZERO badge (Full) / refundable-hold badge (Basic)
+    sbInit();
+    sb.carId="soueast_s09"; sb.extras.protection=true; sbRecalc();
+    console.assert(/ZERO/i.test($("#sbSDepBadge").textContent) && $("#sbSDepositBox").classList.contains("zero"),
+      "FAIL: Full Protection should show a ZERO DEPOSIT badge, got "+$("#sbSDepBadge").textContent);
+    sb.extras.protection=false; sbRecalc();
+    // the "refundable hold" wording lives on the box LABEL; the badge shows the real money value
+    console.assert(/40,000|40000/.test($("#sbSDepBadge").textContent) && $("#sbSDepositBox").classList.contains("hold"),
+      "FAIL: Basic should show the real refundable hold value, got "+$("#sbSDepBadge").textContent);
+    console.assert(/security deposit \(refundable hold\)/i.test($("#sbSDepositBox .dep-label").textContent),
+      "FAIL: the security-deposit box label must name it a refundable hold");
+    sb.extras.protection=true; // restore default
+
+    /* ======== THIS ITERATION — two distinct money concepts, full-width SB, collapsible compare ======== */
+    // (a) reservation pane renders TWO clearly-separate, clearly-named money lines:
+    //     the 30%-to-confirm RESERVATION/BOOKING deposit (a prepayment, with its 70% balance)
+    //     AND a SEPARATE 'Security deposit (refundable hold)' box — never conflated.
+    sbInit(); sb.carId="mg_zs"; sb.extras.protection=false; sbRecalc();
+    var payNowLabel = $(".pay-now .pn-label").textContent.toLowerCase();
+    console.assert(payNowLabel.indexOf("reservation")>-1 && payNowLabel.indexOf("30%")>-1 && payNowLabel.indexOf("confirm")>-1,
+      "FAIL: pay-now line must be labelled as the 30%-to-confirm reservation deposit, got "+payNowLabel);
+    var balanceLine = $(".pay-now .pn-dep").textContent.toLowerCase();
+    console.assert(balanceLine.indexOf("balance")>-1 && balanceLine.indexOf("70%")>-1 && balanceLine.indexOf("pick-up")>-1,
+      "FAIL: pay-now block must show the 70% balance due at pick-up, got "+balanceLine);
+    var secLabel = $("#sbSDepositBox .dep-label").textContent.toLowerCase();
+    console.assert(secLabel.indexOf("security deposit")>-1 && secLabel.indexOf("refundable")>-1 && secLabel.indexOf("hold")>-1,
+      "FAIL: the security-deposit box must be labelled 'Security deposit (refundable hold)', got "+secLabel);
+    // the two concepts are DIFFERENT DOM nodes (reservation deposit vs security hold) — not the same line
+    console.assert($(".pay-now")!==$("#sbSDepositBox") && !$(".pay-now").contains($("#sbSDepositBox")),
+      "FAIL: reservation deposit and security deposit must be rendered as two separate blocks");
+    // (b) Full Protection security deposit = 0; Basic = real per-class refundable value (and the badge wording)
+    var two_full = sbComputeBuild({carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00", pickupLoc:"", dropoffLoc:"", extras:{protection:true}});
+    var two_basic = sbComputeBuild({carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00", pickupLoc:"", dropoffLoc:"", extras:{protection:false}});
+    console.assert(two_full.depositAmt===0, "FAIL: Full Protection security deposit must be 0, got "+two_full.depositAmt);
+    console.assert(two_basic.depositAmt===depositFor(carById("mg_zs")) && two_basic.depositAmt===35000,
+      "FAIL: Basic security deposit must be the real per-class value, got "+two_basic.depositAmt);
+    sb.carId="mg_zs"; sb.extras.protection=true; sbRecalc();
+    console.assert(/^zero$/i.test($("#sbSDepBadge").textContent.trim()), "FAIL: Full Protection badge should read ZERO, got "+$("#sbSDepBadge").textContent);
+    // (c) 30% = 0.3*grand and balance = 0.7*grand, where grand already includes delivery + protection + extras
+    var two_cfg = {carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00", pickupLoc:"Brothers Office-Hurghada", dropoffLoc:"El Gouna",
+      extras:{protection:true, driver:true}};
+    var two_b = sbComputeBuild(two_cfg);
+    console.assert(two_b.grand===(two_b.base+two_b.protFee+two_b.extrasTot+two_b.fee),
+      "FAIL: grand must = car + protection + extras + delivery");
+    console.assert(two_b.now===Math.round(two_b.grand*0.3), "FAIL: reservation deposit must be 30% of grand, got "+two_b.now);
+    console.assert(two_b.later===two_b.grand-two_b.now && two_b.later===(two_b.grand-Math.round(two_b.grand*0.3)),
+      "FAIL: balance must be the remaining 70% of grand, got "+two_b.later);
+    // the compare columns also carry the two separate, correctly-named deposit concepts
+    compareBuilds=[]; sb.carId="mg_zs"; sb.extras.protection=false; sbPinCurrent();
+    var colTxt=$("#ctCols").textContent.toLowerCase();
+    console.assert(colTxt.indexOf("reservation deposit (30% to confirm)")>-1 && colTxt.indexOf("balance at pick-up (70%)")>-1,
+      "FAIL: compare column must name the 30%-to-confirm reservation deposit + 70% balance");
+    console.assert($("#ctCols .deposit-box .dep-label").textContent.toLowerCase().indexOf("security deposit (refundable hold)")>-1,
+      "FAIL: compare column must label the separate security deposit as a refundable hold");
+    // (d) the compare panel has a collapse/expand control that slims the tray
+    var ctToggle=$("#ctToggle"), tray=$("#compareTray");
+    console.assert(!!ctToggle && ctToggle.getAttribute("aria-controls")==="ctBody",
+      "FAIL: compare tray must have a collapse/expand toggle controlling the body");
+    console.assert(!tray.classList.contains("collapsed"), "FAIL: tray should start expanded");
+    ctToggle.click();
+    console.assert(tray.classList.contains("collapsed") && ctToggle.getAttribute("aria-expanded")==="false",
+      "FAIL: clicking the toggle should collapse the compare tray to a slim bar");
+    ctToggle.click();
+    console.assert(!tray.classList.contains("collapsed") && ctToggle.getAttribute("aria-expanded")==="true",
+      "FAIL: clicking again should expand the compare tray");
+    compareBuilds=[]; renderCompare(); sb.extras.protection=true; // restore
+    // Smart Build is a FULL-WIDTH workspace: its body carries the sb-body class whose rule
+    // lifts the narrow centred cap (max-width:none). Confirm the rule exists in the stylesheet.
+    var sbBody=$(".sb-body");
+    console.assert(!!sbBody, "FAIL: Smart Build body (.sb-body) must exist");
+    var sbWidthRuleFound=false;
+    try {
+      for (var si=0; si<document.styleSheets.length && !sbWidthRuleFound; si++){
+        var rules=document.styleSheets[si].cssRules||[];
+        for (var ri=0; ri<rules.length; ri++){
+          var r=rules[ri];
+          if (r.selectorText && r.selectorText.indexOf(".sb-body")>-1 &&
+              /max-width\s*:\s*none/i.test(r.cssText||"")){ sbWidthRuleFound=true; break; }
+        }
+      }
+    } catch(e){}
+    console.assert(sbWidthRuleFound, "FAIL: .sb-body must have a max-width:none rule so Smart Build spans full width");
+
+    // ---- THIS ITERATION: compact car cards, single guarantee phrase, real extras, two-way edit ----
+    // (1) the per-car "or similar — same category or higher, never lower" line must NOT render on
+    //     any car card (fleet grid OR Smart Build picker); the guarantee is stated ONCE globally.
+    renderFleet();
+    var fleetHTML = $("#fleetGrid").textContent.toLowerCase();
+    console.assert(fleetHTML.indexOf("or similar")===-1 && fleetHTML.indexOf("never lower")===-1,
+      "FAIL: fleet car cards must NOT repeat the per-car class-guarantee line");
+    sb.branch="hurghada"; sbRenderCars();
+    var sbCarsHTML=$("#sbCars").textContent.toLowerCase();
+    console.assert(sbCarsHTML.indexOf("or similar")===-1 && sbCarsHTML.indexOf("never lower")===-1,
+      "FAIL: Smart Build car cards must NOT repeat the per-car class-guarantee line");
+    // the one global guarantee phrase exists exactly as the single source
+    console.assert(typeof GUARANTEE_PHRASE==="string" && /never less/i.test(GUARANTEE_PHRASE),
+      "FAIL: a single global GUARANTEE_PHRASE must exist");
+    var fleetBanner=document.querySelector(".guarantee-banner");
+    console.assert(fleetBanner && /never less/i.test(fleetBanner.textContent),
+      "FAIL: the single guarantee phrase must appear once as the fleet banner");
+
+    // (2)+(3) car card price = compact old→new range, AT MOST 2 lines (one range row + one "/day" row)
+    var mgCar=carById("mg_zs");
+    var priceHTML=carPriceRangeHTML(mgCar);
+    var tmp=document.createElement("div"); tmp.innerHTML=priceHTML;
+    console.assert(tmp.children.length===2, "FAIL: car price block must be at most 2 lines, got "+tmp.children.length);
+    console.assert(tmp.querySelector(".old") && /line-through/i.test(getComputedStyle(tmp.querySelector(".old")).textDecorationLine||getComputedStyle(tmp.querySelector(".old")).textDecoration||"line-through"),
+      "FAIL: car price must show a struck-through old price");
+    var rangeTxt=tmp.querySelector(".amt").textContent;
+    console.assert(rangeTxt.indexOf(carToRate(mgCar).toLocaleString("en-US"))>-1 && rangeTxt.indexOf("–")>-1,
+      "FAIL: car price must show a LOWEST–HIGHEST range, got "+rangeTxt);
+    console.assert(tmp.querySelector(".per").textContent.indexOf("/day")>-1,
+      "FAIL: car price second line must read /day · varies by rental duration");
+
+    // (8) extras = exactly additional driver + child seat + km packages (plus protection);
+    //     NO 'gps' extra and NO duplicate selectable 'airport delivery' extra.
+    var extraIds=EXTRAS.map(function(e){return e.id;});
+    console.assert(extraIds.indexOf("gps")===-1, "FAIL: GPS must be removed from the extras list");
+    console.assert(extraIds.indexOf("delivery")===-1, "FAIL: the duplicate airport-delivery extra must be removed (delivery is the real ERP route line)");
+    console.assert(extraIds.indexOf("driver")>-1 && extraIds.indexOf("childseat")>-1 && extraIds.indexOf("km")>-1,
+      "FAIL: extras must offer additional driver + child seat + km package");
+    console.assert(EXTRAS.filter(function(e){return !e.insurance;}).length===3,
+      "FAIL: exactly three selectable (non-protection) extras expected: driver, child seat, km");
+    // the real route delivery line still exists as its own pane line (NOT an extra)
+    console.assert(!!$("#sbSFeeRow") && $("#sbSFeeRow").textContent.toLowerCase().indexOf("delivery")>-1,
+      "FAIL: the delivery line must remain in the reservation pane");
+
+    // (7) Where & when Edit is a TWO-WAY toggle: a state flag flips both ways
+    var step1El=$("#sbStep1"), editBtn=$("#sbTripEdit");
+    sb.pickupLoc="Brothers Office-Hurghada"; sb.dropoffLoc="El Gouna";
+    sb.from="2026-03-01T10:00"; sb.to="2026-03-05T10:00";
+    step1El.__forceOpen=false; sbUpdateTripSummary();
+    console.assert(step1El.classList.contains("collapsed"), "FAIL: trip row should collapse once all fields are set");
+    editBtn.click(); // expand
+    console.assert(step1El.__forceOpen===true && !step1El.classList.contains("collapsed"),
+      "FAIL: Edit must expand the trip row (flag -> true)");
+    editBtn.click(); // collapse again — the one-way bug this fixes
+    console.assert(step1El.__forceOpen===false && step1El.classList.contains("collapsed"),
+      "FAIL: Edit must collapse the trip row again (flag -> false) — two-way toggle");
+
     console.log("%c[selftest] Brothers EGY · The Journey — all assertions ran.", "color:#d4a24e;font-weight:bold");
-  })();
+  };
+  if (document.readyState==="complete" || document.readyState==="interactive"){ setTimeout(runSelftest,0); }
+  else { window.addEventListener("DOMContentLoaded", function(){ setTimeout(runSelftest,0); }); }
 }
 </script>
 </body>
