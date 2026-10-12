@@ -935,8 +935,26 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 .bg-pane-extras .extra:last-child{margin-bottom:0}
 .bg-pane-trip .field,.bg-pane-trip .bg-fld{margin-bottom:10px}
 .bg-pane-trip .field:last-child,.bg-pane-trip .bg-fld:last-child{margin-bottom:0}
+/* collapsible Trip details: once complete it collapses to a one-line summary + Edit */
+.bg-trip-summary{display:none;align-items:center;gap:9px;flex-wrap:wrap;border:1px solid var(--line);background:var(--card);
+  border-radius:12px;padding:9px 13px;font-size:.84rem;color:var(--txt-dim)}
+.bg-trip-summary b{color:var(--txt);font-weight:600}
+.bg-trip-summary button{margin-left:auto;background:transparent;border:none;color:var(--gold-2);font-size:.78rem;font-weight:600;cursor:pointer}
+.bg-pane-trip.collapsed .bg-trip-body{display:none}
+.bg-pane-trip.collapsed>h3{display:none}
+.bg-pane-trip.collapsed .bg-trip-summary{display:flex}
 .bg-fld .req-star{color:#e2896f;font-weight:700;margin-left:1px}
 .bg-fld.sc-valid .req-star{color:#2da46e}
+/* dark field styling for the Budget trip date inputs so they match the other fields
+   (they were rendering as browser-default WHITE boxes) */
+.bg-fld>label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-dim)}
+.bg-fld input,.bg-fld select{background:var(--bg-2);color:var(--txt);border:1px solid var(--line);border-radius:12px;
+  padding:11px 12px;font-family:inherit;font-size:.9rem;width:100%;box-sizing:border-box;min-width:0}
+.bg-fld input[type="datetime-local"]{font-size:.84rem;letter-spacing:-.1px}
+/* whiten the native calendar picker icon so it's visible on the dark field */
+.bg-fld input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:invert(1) brightness(1.6);opacity:.85;cursor:pointer}
+.bg-fld input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover{opacity:1}
+html[data-theme="light"] .bg-fld input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:none}
 .bg-fld.sc-invalid select,.bg-fld.sc-invalid input,.bg-fld.sc-invalid .combo-input{border-color:#d66d4e !important;box-shadow:0 0 0 2px rgba(214,109,78,.16)}
 .bg-fld.sc-valid select,.bg-fld.sc-valid .combo-input{border-color:rgba(45,164,110,.65) !important}
 .bg-fld .fld-err{display:none;font-size:.7rem;color:#e2896f;margin-top:3px}
@@ -1801,8 +1819,15 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
   </div>
   <div class="tool-body bg-body">
     <div class="bg-pane">
-      <div class="bg-pane-block bg-pane-trip">
+      <div class="bg-pane-block bg-pane-trip" id="bgTripBlock">
         <h3><i class="fa-solid fa-route"></i> Trip details</h3>
+        <!-- once pick-up/drop-off/dates are all set, this block collapses to a slim one-line
+             summary (like Smart Build step 1) to free pane space; "Edit" reopens it. -->
+        <div class="bg-trip-summary" id="bgTripSummary">
+          <i class="fa-solid fa-route"></i> <b id="bgTripSummaryText">—</b>
+          <button type="button" id="bgTripEdit" aria-expanded="false">Edit</button>
+        </div>
+        <div class="bg-trip-body" id="bgTripBody">
         <div class="bg-fld" data-req="bgPickupLoc"><label for="bgPickupLoc">Pick-up location <span class="req-star" aria-hidden="true">*</span></label><select id="bgPickupLoc" aria-label="Pick-up location"></select><span class="fld-err">Choose a pick-up location.</span></div>
         <div class="bg-fld" data-req="bgDropoffLoc">
           <label for="bgDropoffLoc">Drop-off location <span class="req-star" aria-hidden="true">*</span></label>
@@ -1832,6 +1857,7 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
           </select>
         </div>
         <p class="mock-note" id="bgFeeNote" hidden><i class="fa-solid fa-route"></i> <span id="bgFeeNoteText"></span></p>
+        </div>
       </div>
 
       <div class="bg-pane-block bg-pane-budget">
@@ -3664,6 +3690,20 @@ function bgSyncDropoffDate(){
   else { bgT.removeAttribute("min"); }
   if (bgT.value){ bgF.max=bgT.value; } else { bgF.removeAttribute("max"); }
 }
+/* auto-collapse the Budget "Trip details" block to a one-line summary once pickup/dropoff/dates
+   are all set (same idea as Smart Build step 1), freeing pane space. "Edit" reopens it. */
+function bgUpdateTripCollapse(){
+  var block=$("#bgTripBlock"); if (!block) return;
+  var pickup=$("#bgPickupLoc").value, dropoff=$("#bgDropoffLoc").value, from=$("#bgFrom").value, to=$("#bgTo").value;
+  var ready = !!(pickup && dropoff && from && to);
+  var collapsed = ready && !block.__tripForceOpen;
+  block.classList.toggle("collapsed", collapsed);
+  if (ready){
+    var loc = pickup + (dropoff!==pickup ? (" → "+dropoff) : " · round trip");
+    var when = (typeof fmtTripWhen==="function") ? (fmtTripWhen(from)+" → "+fmtTripWhen(to)) : (from+" → "+to);
+    var el=$("#bgTripSummaryText"); if (el) el.textContent = loc + "  ·  " + when;
+  }
+}
 function bgDropoffHint(){
   showToast("Please select the pick-up date & time first.");
   var bgFromFld=$("#bgFrom").closest(".bg-fld");
@@ -3719,6 +3759,7 @@ function bgCountUp(el, to){
   __bgCountRaf=requestAnimationFrame(step);
 }
 function bgInit(){
+  var tripBlock=$("#bgTripBlock"); if (tripBlock) tripBlock.__tripForceOpen=false; // fresh open -> allow auto-collapse
   var pSel=$("#bgPickupLoc"), dSel=$("#bgDropoffLoc");
   if (!pSel.options.length){ // populate once with the 21 real ERP places
     LOCATION_PLACES.forEach(function(p){
@@ -3827,6 +3868,7 @@ function bgCollectState(){
 }
 function bgRecalc(){
   bgValidate();
+  bgUpdateTripCollapse();
   bgState.budget=parseFloat($("#bgAmount").value);
   bgState.branch=$("#bgBranch").value; bgState.type=$("#bgType").value;
   bgState.from=$("#bgFrom").value; bgState.to=$("#bgTo").value;
@@ -4570,6 +4612,16 @@ function wire(){
 
   // ---- Tool 2: Budget Calculator ----
   window.__bgSyncDropoffDate = bgSyncDropoffDate; // parity with Smart Build's exposed hook
+  // Trip details "Edit": reopen the collapsed block (two-way, like Smart Build's trip Edit)
+  (function(){
+    var ed=$("#bgTripEdit"), block=$("#bgTripBlock");
+    if (ed && block){
+      ed.addEventListener("click", function(){
+        block.__tripForceOpen = true; block.classList.remove("collapsed");
+        var first=$("#bgPickupLoc"); if (first && first.__combo) first.__combo.input.focus();
+      });
+    }
+  })();
   (function(){
     var bgF=$("#bgFrom"), bgT=$("#bgTo");
     // Hard gate: while pick-up is empty, drop-off can NEVER hold a value — block the picker AND
