@@ -585,9 +585,10 @@ html[data-theme="light"] .pay-now{background:#241d10}
 .sb-step1.sb-collapsed .sb-trip-summary{display:flex}
 /* when step 1 auto-collapses to its summary bar, the chevron header is redundant
    (the summary's own Edit button re-opens it) — hide the header to avoid two toggles.
-   BUT never hide it while step 1 is the ACTIVE step (the user is on it): then we want
-   the full header + fields, not the collapsed summary. */
-.sb-step1.collapsed:not(.sb-active) > .sb-acc-head{display:none}
+   KEEP the title visible (consistent with the other steps + shows the green ✓ once done),
+   but hide only its chevron since the summary bar's own Edit button is the toggle. */
+.sb-step1.collapsed:not(.sb-active) > .sb-acc-head{display:flex;cursor:default;margin-bottom:6px}
+.sb-step1.collapsed:not(.sb-active) > .sb-acc-head .sb-acc-chev{display:none}
 /* an ACTIVE step 1 always shows its fields + header, never the collapsed summary */
 .sb-step1.sb-active > .sb-acc-head{display:flex}
 .sb-step1.sb-active .sb-acc-body{display:block}
@@ -3552,6 +3553,12 @@ function wire(){
     btn.addEventListener("click", function(){
       var sec = btn.closest(".sb-acc");
       if (!sec) return;
+      // step 1 while showing its one-line summary: the title is just a label — clicking it
+      // re-opens the fields via the same path as its "Edit" button (don't toggle sb-collapsed).
+      if (sec.id==="sbStep1" && sec.classList.contains("collapsed") && !sec.classList.contains("sb-active")){
+        var ed=$("#sbTripEdit"); if (ed) ed.click();
+        return;
+      }
       var collapsed = sec.classList.toggle("sb-collapsed");
       btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
       // remember the user chose this state by hand, so the auto step-flow (which
