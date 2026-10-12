@@ -360,6 +360,8 @@ html[data-theme="light"] .field input[type="datetime-local"]::-webkit-calendar-p
 .sb-prot-opt.on{border-color:var(--gold);background:rgba(212,162,78,.12)}
 .sb-prot-opt .pt-t{font-weight:600;font-size:.9rem}
 .sb-prot-opt .pt-s{font-size:.72rem;color:var(--txt-dim);line-height:1.3}
+.sb-prot-prompt{display:flex;align-items:center;gap:7px;font-size:.74rem;color:#e2896f;margin:0 0 7px}
+.sb-prot-block.sb-prot-unchosen .sb-prot-opt{border-color:rgba(214,109,78,.5)}
 .extra.extra-compact{padding:8px 10px;gap:10px}
 .extra.extra-compact .ex-main small{font-size:.72rem}
 #sbKmControl.km-control{padding:10px}
@@ -1984,8 +1986,9 @@ function carPriceRangeHTML(car){
 }
 
 /* ---------- state ---------- */
-var state = { branch:"hurghada", from:"", to:"", carId:null, kmBase:"standard", kmExtra:"", driverQty:0,
+var state = { branch:"hurghada", from:"", to:"", carId:null, kmBase:"standard200", kmExtra:"", driverQty:0,
   extras:EXTRAS.reduce(function(o,e){o[e.id]=e.checked;return o;},{}) };
+state.extras.protection = null; // unchosen by default — client picks Basic or Full
 
 /* ---------- helpers ---------- */
 function $(s,ctx){return (ctx||document).querySelector(s);}
@@ -2181,21 +2184,19 @@ function extrasTotal(days){
    EXTRA-KM package selector (flat cost, NOT per day) + a live allowed-KM readout. */
 function renderKmControl(container, stateObj, onChange){
   if (!container) return;
+  // BASE allowance is FIXED at 200 KM/day (no dropdown — the client just adds extra packages).
+  if (!stateObj.kmBase) stateObj.kmBase = "standard200";
   var days = daysBetween(stateObj.from, stateObj.to);
-  var baseOpts = KM_PACKAGES.filter(function(p){return p.type==="base";}).map(function(p){
-    return '<option value="'+p.id+'"'+(stateObj.kmBase===p.id?" selected":"")+'>'+p.label+'</option>';
-  }).join("");
-  var extraOpts = '<option value=""'+(!stateObj.kmExtra?" selected":"")+'>None (base allowance only)</option>'+
+  var baseKm = (kmBaseById(stateObj.kmBase).basePerDay) || 200;
+  var extraOpts = '<option value=""'+(!stateObj.kmExtra?" selected":"")+'>None (included allowance only)</option>'+
     KM_PACKAGES.filter(function(p){return p.type==="extra";}).map(function(p){
       var costTxt = p.id==="unlimited" ? "Unlimited KM · +"+money(p.cost)+" one-time" : (p.label+" · +"+money(p.cost)+" one-time");
       return '<option value="'+p.id+'"'+(stateObj.kmExtra===p.id?" selected":"")+'>'+costTxt+'</option>';
     }).join("");
   container.innerHTML =
-    '<div class="km-row"><label>Base KM allowance</label><select class="km-base-sel">'+baseOpts+'</select></div>'+
-    '<div class="km-row"><label>Extra KM package (one-time)</label><select class="km-extra-sel">'+extraOpts+'</select></div>'+
+    '<div class="km-row"><label>Included: '+baseKm+' KM/day</label><select class="km-extra-sel" aria-label="Extra KM package (one-time)">'+extraOpts+'</select></div>'+
     '<div class="km-readout">Allowed KM for your trip: '+kmAllowedLabel(stateObj.kmBase, stateObj.kmExtra, days)+'</div>'+
     '<div class="km-note">Beyond your allowance: EGP '+KM_EXCESS_RATE+'/km, settled at return.</div>';
-  container.querySelector(".km-base-sel").addEventListener("change", function(){ stateObj.kmBase=this.value; onChange(); });
   container.querySelector(".km-extra-sel").addEventListener("change", function(){ stateObj.kmExtra=this.value; onChange(); });
 }
 function recalc(){
@@ -2366,8 +2367,9 @@ function initToolRouting(){
    smart nudge toward the best-value rental length.
    ============================================================ */
 var sb = { branch:"hurghada", from:"", to:"", carId:null, pickupLoc:"", dropoffLoc:"", type:"all",
-  kmBase:"standard", kmExtra:"", driverQty:0,
+  kmBase:"standard200", kmExtra:"", driverQty:0,
   extras: EXTRAS.reduce(function(o,e){o[e.id]=e.checked;return o;},{}) };
+sb.extras.protection = null; // protection is UNCHOSEN by default — the client must pick Basic or Full (that completes step 3)
 
 function sbInit(){
   if (!sb.from){
@@ -2398,6 +2400,7 @@ function sbInit(){
   var step1=$("#sbStep1"); if (step1) step1.__forceOpen=false;
   // restart the interactive step-flow fresh on each open (clear manual-toggle memory + rail selection)
   sbSelectedStep = 0;
+  if (sb.extras.protection !== true && sb.extras.protection !== false) sb.extras.protection = null; // keep protection UNCHOSEN until the client picks
   ["sbStep1","sbStep2","sbStep3"].forEach(function(id){ var s=$("#"+id); if(s){ s.__userToggled=false; s.classList.remove("sb-collapsed"); } });
   sbRenderCars();
   sbRenderExtras();
@@ -2437,23 +2440,31 @@ function sbRenderCars(){
 /* compact two-option protection toggle markup — "Basic" (free, refundable hold) vs
    "Full Protection" (per-day fee, zero deposit). Drives the SAME sb.extras.protection
    boolean as the old checkbox; no forked pricing. */
-function sbProtToggleHTML(car, isFull){
+function sbProtToggleHTML(car, protVal){
+  // protVal: true=Full, false=Basic, null/undefined=unchosen (neither highlighted)
+  var isFull = (protVal === true);
+  var isBasic = (protVal === false);
+  var chosen = (protVal === true || protVal === false);
   var basicNote = car ? ("Free · refundable hold "+money(depositFor(car))) : "Free · refundable hold per class";
   var fullNote = (car ? (money(insDailyFor(car))+"/day") : "priced per class /day") + " · Security deposit: ZERO";
-  return '<div class="sb-prot-toggle" role="group" aria-label="Protection plan">'+
-    '<button type="button" class="sb-prot-opt'+(!isFull?" on":"")+'" data-prot-opt="basic" aria-pressed="'+(!isFull)+'">'+
-      '<span class="pt-t">Basic</span><span class="pt-s" data-prot-basic>'+basicNote+'</span>'+
-    '</button>'+
-    '<button type="button" class="sb-prot-opt'+(isFull?" on":"")+'" data-prot-opt="full" aria-pressed="'+isFull+'">'+
-      '<span class="pt-t">Full Protection</span><span class="pt-s" data-prot-full>'+fullNote+'</span>'+
-    '</button>'+
+  // when nothing is chosen yet, prompt the client to pick a plan (and neither pill is "on")
+  var prompt = chosen ? "" : '<p class="sb-prot-prompt"><i class="fa-solid fa-circle-exclamation"></i> Choose a protection plan to continue.</p>';
+  return '<div class="sb-prot-block'+(chosen?"":" sb-prot-unchosen")+'">'+prompt+
+    '<div class="sb-prot-toggle" role="group" aria-label="Protection plan">'+
+      '<button type="button" class="sb-prot-opt'+(isBasic?" on":"")+'" data-prot-opt="basic" aria-pressed="'+isBasic+'">'+
+        '<span class="pt-t">Basic</span><span class="pt-s" data-prot-basic>'+basicNote+'</span>'+
+      '</button>'+
+      '<button type="button" class="sb-prot-opt'+(isFull?" on":"")+'" data-prot-opt="full" aria-pressed="'+isFull+'">'+
+        '<span class="pt-t">Full Protection</span><span class="pt-s" data-prot-full>'+fullNote+'</span>'+
+      '</button>'+
+    '</div>'+
   '</div>';
 }
 function sbRenderExtras(){
   var g=$("#sbExtras"); g.innerHTML="";
   var car = sb.carId ? carById(sb.carId) : null;
   var protWrap=document.createElement("div");
-  protWrap.innerHTML = sbProtToggleHTML(car, !!sb.extras.protection);
+  protWrap.innerHTML = sbProtToggleHTML(car, sb.extras.protection);
   g.appendChild(protWrap.firstChild);
   g.querySelector('[data-prot-opt="basic"]').addEventListener("click", function(){ sb.extras.protection=false; sbRenderExtras(); sbRecalc(); });
   g.querySelector('[data-prot-opt="full"]').addEventListener("click", function(){ sb.extras.protection=true; sbRenderExtras(); sbRecalc(); });
@@ -2553,7 +2564,10 @@ function sbComputeBuild(cfg){
   var base = rate * days;
   // insurance plan: Full Protection = a DAILY fee (real per-class insurance_daily * days)
   // vs Basic = free but holds the real refundable per-class security deposit.
-  var hasFullProtection = !!cfg.extras.protection;
+  // protection is TRI-STATE: null = not chosen yet, false = Basic, true = Full.
+  // Unchosen prices like Basic (no fee) but is flagged so the UI can show "choose a plan".
+  var protectionChosen = (cfg.extras.protection === true || cfg.extras.protection === false);
+  var hasFullProtection = (cfg.extras.protection === true);
   var protDaily = insDailyFor(c);                                   // real per-class /day
   var protFee = hasFullProtection ? (protDaily * days) : 0;         // daily * rentalDays
   var depositAmt = hasFullProtection ? 0 : depositFor(c);          // 0 with Full, real hold with Basic
@@ -2593,7 +2607,7 @@ function sbComputeBuild(cfg){
   var now = Math.round(grand * 0.3);
   return {
     car:c, days:days, rate:rate, base:base,
-    hasFullProtection:hasFullProtection, protDaily:protDaily, protFee:protFee,
+    hasFullProtection:hasFullProtection, protectionChosen:protectionChosen, protDaily:protDaily, protFee:protFee,
     extraLines:extraLines, extrasTot:extrasTot,
     driverQty:driverQty, driverDaily:driverDaily, driverFee:driverFee,
     kmBaseId:kmBaseId, kmExtraId:kmExtraId, kmCost:kmCost, kmLabel:kmLabel, allowedKm:allowedKm,
@@ -2660,7 +2674,11 @@ function fmtTripWhen(v){
 function sbStepIsDone(n){
   if (n===1) return !!(sb.pickupLoc && sb.dropoffLoc && sb.from && sb.to);
   if (n===2) return !!sb.carId;
-  return false; // step 3 (extras) is optional — never a hard "done" gate
+  // step 3 is DONE only once a car is chosen AND the client has PICKED a protection plan
+  // (Basic or Full). Protection is unchosen (null) by default, so step 3 is NOT auto-green
+  // just because a car was selected.
+  if (n===3) return !!sb.carId && (sb.extras.protection === true || sb.extras.protection === false);
+  return false;
 }
 function sbSetStepState(sec, state){
   if (!sec) return;
@@ -2757,7 +2775,10 @@ function sbRecalc(){
   // insurance line: Full Protection = real per-class daily × days (explicit /day basis);
   // Basic = free but shows the real refundable deposit for that class
   var protLabel=$("#sbSProtLabel");
-  if (b.hasFullProtection){
+  if (c && !b.protectionChosen){
+    protLabel.textContent = "Protection — choose a plan";
+    $("#sbSProt").textContent = "—";
+  } else if (b.hasFullProtection){
     protLabel.textContent = c ? ("Full Protection ×"+days+(days===1?" day":" days")) : "Full Protection";
     $("#sbSProt").textContent = c ? money(b.protFee) : "—";
   } else {
