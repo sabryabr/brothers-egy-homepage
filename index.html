@@ -897,7 +897,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 #toolBudget .tool-head{position:static;padding:10px clamp(16px,3vw,28px);flex:0 0 auto}
 #toolBudget .tool-head h2{font-size:clamp(1.05rem,2vw,1.3rem)}
 #toolBudget .tool-body.bg-body{flex:1 1 auto;min-height:0;overflow:hidden;display:grid;
-  grid-template-columns:minmax(260px,320px) 1fr;gap:16px;
+  grid-template-columns:minmax(320px,390px) 1fr;gap:16px;
   padding:clamp(10px,1.4vw,16px) clamp(18px,3vw,34px) clamp(12px,1.6vw,18px)}
 .bg-pane{min-width:0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-right:4px}
 .bg-pane-block{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:11px 14px;flex:0 0 auto}
@@ -4441,12 +4441,18 @@ function wire(){
     sync();
     if (raf) cancelAnimationFrame(raf);
     raf = requestAnimationFrame(tick);
-    // RE-MEASURE after the car images load / layout settles — on first paint scrollWidth can be
-    // wrong (images not yet sized), so re-sync a few times and when the window finishes loading
-    // so the marquee reliably knows it's scrollable and starts moving.
-    [250, 800, 1800].forEach(function(ms){ setTimeout(sync, ms); });
+    // RE-MEASURE after images load / layout settles — on first paint (and on a slow live/
+    // network load) scrollWidth can be wrong (images not yet sized), so re-sync. SELF-HEALING:
+    // poll for the first ~8s until the row is actually scrollable, so the marquee reliably
+    // starts drifting even when images arrive late over the network (the live-Pages case).
     window.addEventListener("load", sync);
     $all("img", grid).forEach(function(im){ if(!im.complete){ im.addEventListener("load", sync, {once:true}); } });
+    var healTries=0, healTimer=setInterval(function(){
+      sync();
+      healTries++;
+      // stop polling once it's scrollable (and will animate) or after ~8s
+      if (loopable() || healTries>40){ clearInterval(healTimer); }
+    }, 200);
   })();
 
   // open/close wizard
