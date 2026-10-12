@@ -894,14 +894,14 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 /* ---- Budget: left filter pane -> right live results configurator ---- */
 #toolBudget.tool-overlay{display:none;overflow:hidden}
 #toolBudget.tool-overlay.open{display:flex;flex-direction:column;height:100vh}
-#toolBudget .tool-head{position:static;padding:10px clamp(16px,3vw,28px);flex:0 0 auto}
+#toolBudget .tool-head{position:static;padding:7px clamp(16px,3vw,28px);flex:0 0 auto}
 #toolBudget .tool-head h2{font-size:clamp(1.05rem,2vw,1.3rem)}
 #toolBudget .tool-body.bg-body{flex:1 1 auto;min-height:0;overflow:hidden;display:grid;
   grid-template-columns:minmax(320px,390px) 1fr;gap:16px;
-  padding:clamp(10px,1.4vw,16px) clamp(18px,3vw,34px) clamp(12px,1.6vw,18px)}
-.bg-pane{min-width:0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-right:4px}
-.bg-pane-block{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:11px 14px;flex:0 0 auto}
-.bg-pane-block h3{font-family:"Fraunces";font-size:.92rem;margin:0 0 8px;display:flex;align-items:center;gap:7px}
+  padding:clamp(8px,1.1vw,12px) clamp(18px,3vw,34px) clamp(8px,1.1vw,12px)}
+.bg-pane{min-width:0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding-right:4px}
+.bg-pane-block{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:8px 11px;flex:0 0 auto}
+.bg-pane-block h3{font-family:"Fraunces";font-size:.8rem;margin:0 0 5px;display:flex;align-items:center;gap:6px}
 .bg-slider-row{display:grid;grid-template-columns:160px 1fr;grid-template-rows:auto auto;column-gap:16px;align-items:center}
 .bg-fld{display:flex;flex-direction:column;gap:4px;grid-row:1/3}
 .bg-amount-wrap{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface-solid);border-radius:12px;padding:6px 10px}
@@ -923,25 +923,51 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 .bg-pane-km #bgKmSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid var(--surface-solid);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer}
 .bg-pane-km #bgKmSlider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid var(--surface-solid);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer}
 .bg-pane-km #bgKmSlider::-moz-range-track{height:6px;border-radius:6px;background:transparent}
-.bg-km-readout{margin:6px 0 0;font-size:.82rem;color:var(--txt-dim)}
-.bg-presets{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.bg-km-readout{margin:4px 0 0;font-size:.74rem;line-height:1.35;color:var(--txt-dim)}
+.bg-presets{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
 .bg-presets .chipbtn[data-bg-preset]{padding:6px 13px;font-size:.8rem}
-.bg-gauge{margin-top:10px}
+.bg-gauge{margin-top:7px}
 .bg-gauge-track{height:10px;border-radius:6px;background:var(--glass);border:1px solid var(--line);overflow:hidden}
 .bg-gauge-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-2));border-radius:6px;transition:width .4s ease}
 .bg-gauge-count{margin-top:6px;font-size:.84rem;color:var(--txt-dim)}
-.bg-pane-extras .extra{margin-bottom:8px}
+.bg-pane-extras .extra{margin-bottom:6px}
 .bg-pane-extras .extra:last-child{margin-bottom:0}
-.bg-pane-trip .field,.bg-pane-trip .bg-fld{margin-bottom:10px}
+/* Budget-scoped override only (does not touch the shared .sb-prot-toggle rule Smart Build
+   also uses) — trims the small gap below the protection toggle in this tighter pane. */
+.bg-pane-prot .sb-prot-toggle{margin-bottom:0}
+.bg-pane-trip .field,.bg-pane-trip .bg-fld{margin-bottom:0}
 .bg-pane-trip .field:last-child,.bg-pane-trip .bg-fld:last-child{margin-bottom:0}
+/* two-up the six Trip-details fields: pairs fall out of DOM order
+   (pickup|dropoff), (pick-up date|drop-off date), (branch|car type). Drops to one
+   column on narrow screens. Spacing now comes from the grid gap, not field margins. */
+#bgTripBody{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+/* .bg-fld{grid-row:1/3} (above) is sized for .bg-slider-row's 2-row layout; reset it here so
+   the trip fields auto-place normally into this grid's 2-per-row flow instead of all cramming
+   into row 1 as extra implicit columns. */
+#bgTripBody .bg-fld{grid-row:auto}
+#bgTripBody #bgFeeNote{grid-column:1 / -1}
+#bgTripBody .sc-same{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--txt-dim);margin-top:4px;white-space:nowrap}
+#bgTripBody .sc-same input{width:auto;margin:0}
+@media(max-width:1180px){ #bgTripBody{grid-template-columns:1fr} }
 /* collapsible Trip details: once complete it collapses to a one-line summary + Edit */
 .bg-trip-summary{display:none;align-items:center;gap:9px;flex-wrap:wrap;border:1px solid var(--line);background:var(--card);
   border-radius:12px;padding:9px 13px;font-size:.84rem;color:var(--txt-dim)}
 .bg-trip-summary b{color:var(--txt);font-weight:600}
 .bg-trip-summary button{margin-left:auto;background:transparent;border:none;color:var(--gold-2);font-size:.78rem;font-weight:600;cursor:pointer}
-.bg-pane-trip.collapsed .bg-trip-body{display:none}
+.bg-pane-trip.collapsed #bgTripBody{display:none}
 .bg-pane-trip.collapsed>h3{display:none}
 .bg-pane-trip.collapsed .bg-trip-summary{display:flex}
+/* MANUAL fold (independent of the auto .collapsed state above): the chevron on the h3
+   can fold the body ANY time, even before the trip is complete. Unlike .collapsed, this
+   keeps the h3 (+chevron) visible, and shows the summary too if one is available. */
+.bg-trip-h3{justify-content:flex-start}
+.bg-trip-fold{margin-left:auto;background:transparent;border:none;color:var(--gold-2);
+  cursor:pointer;font-size:.85rem;line-height:1;padding:2px 4px}
+.bg-trip-fold i{transition:transform .25s var(--ease)}
+.bg-trip-fold[aria-expanded="false"] i{transform:rotate(180deg)}
+.bg-pane-trip.bg-trip-manfold #bgTripBody{display:none}
+.bg-pane-trip.bg-trip-manfold>h3{display:flex}
+.bg-pane-trip.bg-trip-manfold .bg-trip-summary{display:flex}
 .bg-fld .req-star{color:#e2896f;font-weight:700;margin-left:1px}
 .bg-fld.sc-valid .req-star{color:#2da46e}
 /* dark field styling for the Budget trip date inputs so they match the other fields
@@ -1822,7 +1848,11 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
   <div class="tool-body bg-body">
     <div class="bg-pane">
       <div class="bg-pane-block bg-pane-trip" id="bgTripBlock">
-        <h3><i class="fa-solid fa-route"></i> Trip details</h3>
+        <h3 class="bg-trip-h3"><i class="fa-solid fa-route"></i> Trip details
+          <button type="button" class="bg-trip-fold" id="bgTripFold" aria-expanded="true" aria-controls="bgTripBody" aria-label="Collapse trip details">
+            <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+          </button>
+        </h3>
         <!-- once pick-up/drop-off/dates are all set, this block collapses to a slim one-line
              summary (like Smart Build step 1) to free pane space; "Edit" reopens it. -->
         <div class="bg-trip-summary" id="bgTripSummary">
@@ -3758,7 +3788,12 @@ function bgCountUp(el, to){
   __bgCountRaf=requestAnimationFrame(step);
 }
 function bgInit(){
-  var tripBlock=$("#bgTripBlock"); if (tripBlock) tripBlock.__tripForceOpen=false; // fresh open -> allow auto-collapse
+  var tripBlock=$("#bgTripBlock");
+  if (tripBlock){
+    tripBlock.__tripForceOpen=false; // fresh open -> allow auto-collapse
+    tripBlock.classList.remove("bg-trip-manfold"); // fresh open -> always start expanded
+  }
+  var tripFold=$("#bgTripFold"); if (tripFold) tripFold.setAttribute("aria-expanded","true");
   var pSel=$("#bgPickupLoc"), dSel=$("#bgDropoffLoc");
   if (!pSel.options.length){ // populate once with the 21 real ERP places
     LOCATION_PLACES.forEach(function(p){
@@ -4410,13 +4445,20 @@ function wire(){
     var grid=$("#fleetGrid"), prev=$("#fleetPrev"), next=$("#fleetNext");
     if (!grid || !prev || !next) return;
     var paused=false, raf=null, SPEED=0.4; // px per frame (~24px/s) — gentle, readable
+    // FLOAT ACCUMULATOR: browsers round element.scrollLeft to an integer on read-back, so
+    // doing `grid.scrollLeft += SPEED` (SPEED<1) loses the sub-pixel remainder every single
+    // frame and the marquee never actually moves. `pos` accumulates in a plain JS float and
+    // is ASSIGNED to scrollLeft each frame (never read back into itself) so the drift survives.
+    var pos = grid.scrollLeft || 0;
     function step(){ var card=grid.querySelector(".car"); return card ? (card.getBoundingClientRect().width + 16) : 260; }
     function loopable(){ return grid.scrollWidth - grid.clientWidth > 4; }
     function halfWidth(){ return grid.scrollWidth / 2; } // one copy's width (list rendered twice)
     function tick(){
       if (!paused && loopable()){
-        grid.scrollLeft += SPEED;
-        if (grid.scrollLeft >= halfWidth()) grid.scrollLeft -= halfWidth(); // seamless wrap
+        var half = halfWidth();
+        pos += SPEED;                 // accumulate in a FLOAT (survives sub-pixel rounding)
+        if (pos >= half) pos -= half; // seamless wrap against one copy's width
+        grid.scrollLeft = pos;        // assign — do NOT read scrollLeft back into pos
       }
       raf = requestAnimationFrame(tick);
     }
@@ -4425,16 +4467,19 @@ function wire(){
       prev.style.display = hide ? "none" : "grid";
       next.style.display = hide ? "none" : "grid";
       prev.disabled = false; next.disabled = false; // in a loop, both always work
+      pos = grid.scrollLeft; // resync the accumulator to the real position after any rebuild
     }
-    prev.addEventListener("click", function(){ grid.scrollBy({left:-step()*1.5, behavior:"smooth"}); });
-    next.addEventListener("click", function(){ grid.scrollBy({left: step()*1.5, behavior:"smooth"}); });
-    // pause ONLY on hover + keyboard focus (so people can read/click). We deliberately do NOT
-    // pause on pointerdown/touchstart — those can get stuck paused when the matching up/end
-    // event lands outside the grid, which is what stopped the marquee from ever moving.
+    prev.addEventListener("click", function(){ grid.scrollBy({left:-step()*1.5, behavior:"smooth"}); setTimeout(function(){ pos=grid.scrollLeft; }, 350); });
+    next.addEventListener("click", function(){ grid.scrollBy({left: step()*1.5, behavior:"smooth"}); setTimeout(function(){ pos=grid.scrollLeft; }, 350); });
+    // pause ONLY while the pointer/focus is genuinely over the carousel (so people can read/
+    // click). We deliberately do NOT pause on pointerdown/touchstart — those can get stuck
+    // paused when the matching up/end event lands outside the grid. The resume handlers also
+    // guard against stranding the loop paused: only stay paused if the pointer/focus is still
+    // actually over the grid (covers e.g. focusout firing while the mouse is still hovering).
     grid.addEventListener("mouseenter", function(){ paused=true; });
     grid.addEventListener("mouseleave", function(){ paused=false; });
     grid.addEventListener("focusin", function(){ paused=true; });
-    grid.addEventListener("focusout", function(){ paused=false; });
+    grid.addEventListener("focusout", function(){ paused = !!(grid.matches && grid.matches(":hover")); });
     [prev,next].forEach(function(btn){ btn.addEventListener("mouseenter", function(){ paused=true; }); btn.addEventListener("mouseleave", function(){ paused=false; }); });
     window.addEventListener("resize", sync);
     window.__fleetCarouselSync = sync;
@@ -4651,7 +4696,24 @@ function wire(){
     if (ed && block){
       ed.addEventListener("click", function(){
         block.__tripForceOpen = true; block.classList.remove("collapsed");
+        block.classList.remove("bg-trip-manfold");
+        var fold=$("#bgTripFold"); if (fold) fold.setAttribute("aria-expanded","true");
         var first=$("#bgPickupLoc"); if (first && first.__combo) first.__combo.input.focus();
+      });
+    }
+  })();
+  // Trip details: MANUAL fold/unfold chevron on the header — independent of the
+  // auto-collapse-to-summary above, so the block can be folded ANY time, not only once
+  // pickup/dropoff/dates are complete.
+  (function(){
+    var fold=$("#bgTripFold"), block=$("#bgTripBlock");
+    if (fold && block){
+      fold.addEventListener("click", function(e){
+        e.stopPropagation();
+        var folded = block.classList.toggle("bg-trip-manfold");
+        fold.setAttribute("aria-expanded", folded ? "false" : "true");
+        // manual fold should win over an auto-collapse-to-summary while folded:
+        if (folded){ block.__tripForceOpen = false; }
       });
     }
   })();
