@@ -899,10 +899,9 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 #toolBudget .tool-body.bg-body{flex:1 1 auto;min-height:0;overflow:hidden;display:grid;
   grid-template-columns:minmax(260px,320px) 1fr;gap:16px;
   padding:clamp(10px,1.4vw,16px) clamp(18px,3vw,34px) clamp(12px,1.6vw,18px)}
-.bg-pane{min-width:0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-right:4px}
-.bg-pane-block{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:14px 16px;flex:0 0 auto}
-.bg-pane-block h3{font-family:"Fraunces";font-size:1rem;margin:0 0 2px;display:flex;align-items:center;gap:7px}
-.bg-pane-block .hint{color:var(--txt-dim);font-size:.78rem;margin:0 0 10px}
+.bg-pane{min-width:0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-right:4px}
+.bg-pane-block{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:11px 14px;flex:0 0 auto}
+.bg-pane-block h3{font-family:"Fraunces";font-size:.92rem;margin:0 0 8px;display:flex;align-items:center;gap:7px}
 .bg-slider-row{display:grid;grid-template-columns:160px 1fr;grid-template-rows:auto auto;column-gap:16px;align-items:center}
 .bg-fld{display:flex;flex-direction:column;gap:4px;grid-row:1/3}
 .bg-amount-wrap{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface-solid);border-radius:12px;padding:6px 10px}
@@ -924,10 +923,10 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 .bg-pane-km #bgKmSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid var(--surface-solid);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer}
 .bg-pane-km #bgKmSlider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid var(--surface-solid);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer}
 .bg-pane-km #bgKmSlider::-moz-range-track{height:6px;border-radius:6px;background:transparent}
-.bg-km-readout{margin:8px 0 0;font-size:.82rem;color:var(--txt-dim)}
-.bg-presets{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.bg-km-readout{margin:6px 0 0;font-size:.82rem;color:var(--txt-dim)}
+.bg-presets{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
 .bg-presets .chipbtn[data-bg-preset]{padding:6px 13px;font-size:.8rem}
-.bg-gauge{margin-top:12px}
+.bg-gauge{margin-top:10px}
 .bg-gauge-track{height:10px;border-radius:6px;background:var(--glass);border:1px solid var(--line);overflow:hidden}
 .bg-gauge-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-2));border-radius:6px;transition:width .4s ease}
 .bg-gauge-count{margin-top:6px;font-size:.84rem;color:var(--txt-dim)}
@@ -979,6 +978,9 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
 .bg-tile .amt .diff{font-size:.7rem;color:var(--nile-2)}
 .bg-tile .amt .diff.more{color:var(--rose)}
 .bg-tile button{padding:6px 10px;font-size:.76rem;white-space:nowrap}
+.bg-tile .bg-pin{flex:none;width:34px;min-width:34px;height:34px;padding:0;display:grid;place-items:center;background:transparent;border:1px solid var(--line);border-radius:9px;color:var(--txt-dim);cursor:pointer}
+.bg-tile .bg-pin:hover{border-color:var(--gold);color:var(--gold-2)}
+.bg-tile .bg-pin.on{border-color:var(--gold);color:var(--gold-2);background:rgba(212,162,78,.12)}
 .bg-tile .bg-dep{flex:0 0 100%;font-size:.72rem;border-radius:8px;padding:4px 8px;display:flex;align-items:center;gap:6px}
 .bg-tile .bg-dep.zero{background:rgba(45,164,110,.12);color:#2da46e;border:1px solid rgba(45,164,110,.4)}
 .bg-tile .bg-dep.hold{background:rgba(212,162,78,.1);color:var(--gold-2);border:1px solid rgba(212,162,78,.4)}
@@ -1220,7 +1222,7 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
       <p>Per-day rates in EGP that drop the longer you stay — indicative, confirmed at booking.</p>
       <p class="guarantee-banner"><i class="fa-solid fa-shield-halved"></i> Reserve a class — you get that model or an upgrade, never less.</p>
       <div class="hero-cta" style="margin-top:18px">
-        <a class="btn btn-gold" href="#build"><i class="fa-solid fa-sliders"></i> Build your reservation</a>
+        <a class="btn btn-gold" href="#build"><i class="fa-solid fa-sliders"></i> Build your rental</a>
         <a class="btn btn-ghost" href="#budget"><i class="fa-solid fa-calculator"></i> Shop by budget</a>
       </div>
     </div>
@@ -1470,13 +1472,13 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
     <div class="tools-strip reveal">
       <a class="tool-card" href="#build">
         <div class="ic"><i class="fa-solid fa-sliders"></i></div>
-        <h4>Smart Build</h4>
+        <h4>Build your rental</h4>
         <p>Pick a car, add or drop services, and watch your total — and the best-value rental length — update instantly.</p>
-        <span class="go">Build your drive <i class="fa-solid fa-arrow-right"></i></span>
+        <span class="go">Build your rental <i class="fa-solid fa-arrow-right"></i></span>
       </a>
       <a class="tool-card" href="#budget">
         <div class="ic"><i class="fa-solid fa-calculator"></i></div>
-        <h4>Budget Calculator</h4>
+        <h4>Shop by budget</h4>
         <p>Tell us what you've got to spend — we'll show every car that fits, plus a few tasteful upgrades worth the extra.</p>
         <span class="go">Shop by budget <i class="fa-solid fa-arrow-right"></i></span>
       </a>
@@ -1497,7 +1499,7 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
     <h2>Ready when you are.</h2>
     <p style="margin-inline:auto">Build your booking in four quick steps with a live price. No card, no deposit — just a confirmed car and a family waiting at arrivals.</p>
     <div class="hero-cta" style="justify-content:center;margin-top:24px">
-      <a class="btn btn-gold" href="#build"><i class="fa-solid fa-sliders"></i> Build your reservation</a>
+      <a class="btn btn-gold" href="#build"><i class="fa-solid fa-sliders"></i> Build your rental</a>
       <a class="btn btn-wa" href="https://wa.me/201554446744" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</a>
     </div>
   </div>
@@ -1522,8 +1524,8 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
       <a href="#tours">Guided tours</a>
       <a href="#transfers">Airport transfers</a>
       <a href="#trust">Why us</a>
-      <a href="#build">Build your drive</a>
-      <a href="#budget">Budget calculator</a>
+      <a href="#build">Build your rental</a>
+      <a href="#budget">Shop by budget</a>
       <a href="#planner">Trip planner</a>
     </div>
     <div>
@@ -1629,14 +1631,14 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
 <!-- ============ TOOL 1: SMART BUILD (full-screen overlay, #build) ============ -->
 <div class="tool-overlay" id="toolBuild" role="dialog" aria-modal="true" aria-labelledby="buildTitle" hidden>
   <div class="tool-head">
-    <button class="icon-btn" data-tool-close aria-label="Close Smart Build"><i class="fa-solid fa-arrow-left"></i></button>
+    <button class="icon-btn" data-tool-close aria-label="Close Build your rental"><i class="fa-solid fa-arrow-left"></i></button>
     <div>
-      <h2 id="buildTitle">Smart Build</h2>
+      <h2 id="buildTitle">Build your rental</h2>
       <div class="sub">The Egyptian brother · build your own quote, see the best-value days as you go</div>
     </div>
     <div class="tool-tabs" role="tablist" aria-label="Switch tool">
-      <button type="button" class="tool-tab on" data-tool-tab="build" role="tab" aria-selected="true">Smart Build</button>
-      <button type="button" class="tool-tab" data-tool-tab="budget" role="tab" aria-selected="false">Budget</button>
+      <button type="button" class="tool-tab on" data-tool-tab="build" role="tab" aria-selected="true">Build your rental</button>
+      <button type="button" class="tool-tab" data-tool-tab="budget" role="tab" aria-selected="false">Shop by budget</button>
     </div>
     <span class="spacer"></span>
     <button class="icon-btn" data-tool-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
@@ -1805,14 +1807,14 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
 <!-- ============ TOOL 2: BUDGET CALCULATOR (full-screen overlay, #budget) ============ -->
 <div class="tool-overlay" id="toolBudget" role="dialog" aria-modal="true" aria-labelledby="budgetTitle" hidden>
   <div class="tool-head">
-    <button class="icon-btn" data-tool-close aria-label="Close Budget Calculator"><i class="fa-solid fa-arrow-left"></i></button>
+    <button class="icon-btn" data-tool-close aria-label="Close Shop by budget"><i class="fa-solid fa-arrow-left"></i></button>
     <div>
-      <h2 id="budgetTitle">Budget Calculator</h2>
+      <h2 id="budgetTitle">Shop by budget</h2>
       <div class="sub">Tell us what you've got — we'll show what it gets you</div>
     </div>
     <div class="tool-tabs" role="tablist" aria-label="Switch tool">
-      <button type="button" class="tool-tab" data-tool-tab="build" role="tab" aria-selected="false">Smart Build</button>
-      <button type="button" class="tool-tab on" data-tool-tab="budget" role="tab" aria-selected="true">Budget</button>
+      <button type="button" class="tool-tab" data-tool-tab="build" role="tab" aria-selected="false">Build your rental</button>
+      <button type="button" class="tool-tab on" data-tool-tab="budget" role="tab" aria-selected="true">Shop by budget</button>
     </div>
     <span class="spacer"></span>
     <button class="icon-btn" data-tool-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
@@ -1862,7 +1864,6 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
 
       <div class="bg-pane-block bg-pane-budget">
         <h3>What's your budget?</h3>
-        <p class="hint">Drag the slider or pick a preset — the fleet reacts instantly.</p>
         <div class="bg-slider-row">
           <div class="bg-fld" data-req="bgAmount">
             <label for="bgAmount" class="sr-only">Your budget (EGP, total) <span class="req-star" aria-hidden="true">*</span></label>
@@ -1889,7 +1890,6 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
 
       <div class="bg-pane-block bg-pane-km">
         <h3>How many KM do you need?</h3>
-        <p class="hint">We'll auto-pick the cheapest KM package for you — no guesswork.</p>
         <div class="bg-km-row">
           <input type="range" id="bgKmSlider" class="bg-slider" min="0" max="5000" step="100" value="0" aria-label="KM needed slider">
           <input type="number" id="bgKmInput" class="bg-km-input" min="0" max="5000" step="100" value="0" aria-label="KM needed (type)">
@@ -1900,7 +1900,6 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
 
       <div class="bg-pane-block bg-pane-prot">
         <h3>Protection plan</h3>
-        <p class="hint">Basic keeps a refundable hold; Full Protection drops it to zero.</p>
         <div class="sb-prot-toggle" id="bgProtToggle" role="group" aria-label="Protection plan">
           <button type="button" class="sb-prot-opt on" data-bg-prot-opt="basic" aria-pressed="true">
             <span class="pt-t">Basic</span><span class="pt-s" id="bgProtBasicNote">Free · refundable hold</span>
@@ -2004,7 +2003,7 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
     <div class="choice-opts">
       <button class="choice-opt" data-choice="build" type="button">
         <span class="ic"><i class="fa-solid fa-sliders"></i></span>
-        <b>Build your reservation</b>
+        <b>Build your rental</b>
         <small>Pick a car, protection &amp; extras with a live price.</small>
       </button>
       <button class="choice-opt" data-choice="budget" type="button">
@@ -3968,6 +3967,12 @@ function bgRecalc(){
       location.hash="build";
     });
   });
+  $all("[data-bg-pin]", $("#bgResults")).forEach(function(btn){
+    btn.addEventListener("click", function(ev){
+      ev.stopPropagation();
+      bgPinToCompare(this.getAttribute("data-bg-pin"));
+    });
+  });
 }
 function bgCardHTML(p, diff, isUpgrade){
   var c=p.c, b=p.b;
@@ -3975,14 +3980,36 @@ function bgCardHTML(p, diff, isUpgrade){
   var depHTML = b.hasFullProtection
     ? '<span class="bg-dep zero"><i class="fa-solid fa-shield-halved"></i> No deposit · ZERO hold</span>'
     : '<span class="bg-dep hold"><i class="fa-solid fa-shield-halved"></i> Refundable hold: '+money(b.depositAmt)+'</span>';
+  var isPinned = compareBuilds.some(function(cfg){ return cfg.carId===c.id; });
   return '<div class="bg-tile">'+
     '<div class="thumb">'+carMediaHTML(c)+'</div>'+
     '<div class="info"><b>'+c.name+'</b><small>'+c.cat+' · '+money(b.rate)+' /day'+feeBit+'</small></div>'+
     '<div class="amt"><span class="tot">'+money(p.total)+'</span>'+
       '<span class="diff'+(isUpgrade?' more':'')+'">'+(isUpgrade?('+'+money(diff)+' more'):(money(diff)+' under'))+'</span></div>'+
     depHTML+
-    '<button class="btn btn-ghost" data-bg-build="'+c.id+'">Build this</button>'+
+    '<button class="btn btn-ghost" data-bg-build="'+c.id+'">Choose this car</button>'+
+    '<button type="button" class="bg-pin'+(isPinned?" on":"")+'" data-bg-pin="'+c.id+'" title="Pin to compare" aria-label="Pin '+c.name+' to compare"><i class="fa-solid fa-layer-group"></i></button>'+
   '</div>';
+}
+/* D4: resolve the pinned config straight from bgState (the live, normalized budget-pane
+   selection) — the same source the "Choose this car" hand-off reads — so a Budget-pinned
+   compare column prices identically to the same config in Smart Build. Reuses the SHARED
+   compareBuilds array + renderCompare(); no forked pricing. */
+function bgPinToCompare(carId){
+  if (!carId) return;
+  var c = carById(carId); if (!c) return;
+  if (compareBuilds.length >= 3){ compareBuilds.shift(); } // D3: match sbPinCurrent's cap
+  compareBuilds.push({
+    carId: carId,
+    from: bgState.from, to: bgState.to,
+    branch: (bgState.branch==="all" ? c.branches[0] : bgState.branch),
+    pickupLoc: bgState.pickupLoc, dropoffLoc: bgState.dropoffLoc,
+    kmBase: "standard200",
+    kmExtra: bgState.kmExtra,
+    driverQty: bgState.driverQty,
+    extras: { protection: bgState.protection, childseat: bgState.childseat }
+  });
+  renderCompare();
 }
 
 /* ============================================================
@@ -5487,6 +5514,33 @@ if (location.search.indexOf("selftest")>-1){
       kmBase:sb.kmBase, kmExtra:sb.kmExtra, driverQty:sb.driverQty, extras:{protection:sb.extras.protection, childseat:sb.extras.childseat}});
     console.assert(money(handoffB.grand).replace(/\s/g,"")===buildBtn.closest(".bg-tile").querySelector(".tot").textContent.replace(/\s/g,""),
       "FAIL: sbComputeBuild(sb).grand must equal the clicked tile's displayed total, got "+handoffB.grand+" vs tile "+buildBtn.closest(".bg-tile").querySelector(".tot").textContent);
+
+    // (vii) "Pin to compare" on a Budget tile pushes a correctly-shaped config into the
+    // SHARED compareBuilds array and shows it in the SHARED #compareTray — same tray, same
+    // renderCompare(), no forked pricing (CHANGE 1).
+    compareBuilds=[]; renderCompare();
+    bgState.kmExtra="100"; bgState.driverQty=1; bgState.protection=true; bgState.childseat=true;
+    bgState.from=$("#bgFrom").value; bgState.to=$("#bgTo").value;
+    bgState.pickupLoc=$("#bgPickupLoc").value; bgState.dropoffLoc=$("#bgDropoffLoc").value; bgState.branch="all";
+    bgPinToCompare("mg_zs");
+    console.assert(compareBuilds.length===1 && compareBuilds[0].carId==="mg_zs",
+      "FAIL: bgPinToCompare must push exactly one config with the chosen carId, got length "+compareBuilds.length+" carId "+(compareBuilds[0]&&compareBuilds[0].carId));
+    console.assert(compareBuilds[0].kmBase==="standard200" && compareBuilds[0].kmExtra===bgState.kmExtra &&
+      compareBuilds[0].driverQty===bgState.driverQty && compareBuilds[0].extras.protection===bgState.protection &&
+      compareBuilds[0].extras.childseat===bgState.childseat,
+      "FAIL: pinned Budget config must carry kmBase/kmExtra/driverQty/extras straight from bgState");
+    console.assert($("#compareTray").hidden===false, "FAIL: #compareTray must be visible (not hidden) after pinning a Budget tile");
+    var pinnedGrand = sbComputeBuild(compareBuilds[0]).grand;
+    var sameCfgGrand = sbComputeBuild({carId:"mg_zs", from:bgState.from, to:bgState.to,
+      branch: compareBuilds[0].branch, pickupLoc:bgState.pickupLoc, dropoffLoc:bgState.dropoffLoc,
+      kmBase:"standard200", kmExtra:bgState.kmExtra, driverQty:bgState.driverQty,
+      extras:{protection:bgState.protection, childseat:bgState.childseat}}).grand;
+    console.assert(pinnedGrand===sameCfgGrand && isFinite(pinnedGrand),
+      "FAIL: a Budget-pinned compare column must price identically to the same config in Smart Build, got "+pinnedGrand+" vs "+sameCfgGrand);
+    bgPinToCompare("mg_zs"); bgPinToCompare("mg_zs"); bgPinToCompare("mg_zs"); // push 3 more (4 total attempts)
+    console.assert(compareBuilds.length===3, "FAIL: compareBuilds must cap at 3 (oldest shifted), got "+compareBuilds.length);
+    compareBuilds=[]; renderCompare(); // restore so later asserts/visual state are unaffected
+    bgState.kmExtra=""; bgState.driverQty=0; bgState.protection=false; bgState.childseat=false;
 
     console.log("%c[selftest] Brothers EGY · The Journey — all assertions ran.", "color:#d4a24e;font-weight:bold");
   };
