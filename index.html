@@ -659,6 +659,7 @@ html[data-theme="light"] .pay-now{background:#241d10}
   background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--txt-dim);
   font-size:.78rem;font-weight:600;cursor:pointer;padding:8px 11px;margin:2px 0 2px;font-family:inherit}
 .resv-bd-toggle:hover{border-color:var(--gold);color:var(--gold-2)}
+.resv-bd-toggle .bd-hint{font-weight:400;font-size:.7rem;color:var(--txt-mute);margin-left:4px}
 .resv-bd-toggle i{font-size:.72rem;transition:transform .25s var(--ease)}
 .resv-bd-toggle[aria-expanded="true"] i{transform:rotate(180deg)}
 #sbSBreakdown.collapsed{display:none}
@@ -734,7 +735,28 @@ html[data-theme="light"] .pay-now{background:#241d10}
 .sb-pick.sb-collapsed .sb-filters{display:none}
 .sb-pick.sb-collapsed .sb-pick-head{margin-bottom:0}
 .sb-trip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.sb-trip-grid .field{min-width:0}
+.sb-trip-grid .field{min-width:0;position:relative}
+/* drop-off "pick the pick-up first" lock hint (friendly, keeps the calendar icon visible) */
+.sb-trip-grid .field.sb-date-lock input{border-color:#d66d4e !important;box-shadow:0 0 0 2px rgba(214,109,78,.16)}
+.sb-date-hint{display:block;font-size:.7rem;color:#e2896f;margin-top:3px}
+/* floating toast notification (e.g. "select pick-up first") — pinned to the TOP so it stays
+   visible above a downward-opening date picker, in a RED alert style. */
+.app-toast{position:fixed;left:50%;top:calc(var(--nav-h) + 14px);transform:translateX(-50%) translateY(-16px);z-index:2000;
+  background:#3a1510;color:#ffe6df;border:1px solid #d66d4e;border-radius:12px;
+  padding:12px 18px;font-size:.9rem;font-weight:600;box-shadow:0 18px 44px -16px rgba(0,0,0,.75);
+  display:flex;align-items:center;gap:10px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:90vw}
+.app-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* left-nudged variant (main page): anchor toward the left third so it clears the hero
+   search-card's calendar popup on the right */
+.app-toast.app-toast-left{left:44%;transform:translateX(-50%) translateY(-16px)}
+.app-toast.app-toast-left.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:860px){ .app-toast.app-toast-left{left:50%} } /* re-centre on small screens */
+.app-toast i{color:#ff9b7d}
+html[data-theme="light"] .app-toast{background:#fff1ec;color:#8a2c12;border-color:#d66d4e}
+html[data-theme="light"] .app-toast i{color:#c8502b}
+/* brief highlight on the pick-up field to point the user there (no auto-picker, no focus steal) */
+.sb-trip-grid .field.sb-date-focusme input{border-color:var(--gold) !important;box-shadow:0 0 0 3px rgba(212,162,78,.25);transition:box-shadow .2s}
+.search-card .fld.sb-date-focusme input{border-color:var(--gold) !important;box-shadow:0 0 0 3px rgba(212,162,78,.25)}
 .sb-trip-grid .sc-same{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--txt-dim);margin-top:7px;text-transform:none;letter-spacing:0;white-space:nowrap}
 .sb-trip-grid .sc-same span{white-space:nowrap}
 @media(min-width:980px){.sb-trip-grid{grid-template-columns:repeat(4,1fr)}}
@@ -1559,12 +1581,10 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
           <div class="resv-thumb" id="sbSThumb"></div>
           <div class="resv-car-id"><b id="sbSClass">Pick a car</b><small id="sbSClassCat">Choose your class on the left</small></div>
         </div>
-        <!-- empty-state helper shown until a car is picked (dates / duration / locations / delivery) -->
-        <p class="resv-prompt" id="sbSPrompt" hidden><i class="fa-solid fa-hand-pointer"></i> Pick a car for your full price.</p>
         <!-- collapsible price breakdown: the per-line-item rows are secondary detail, hidden by
              default so the essentials (car, grand total, pay-now, deposit, Reserve) fit on screen
              without scrolling. Toggling this never changes any number — only its visibility. -->
-        <button type="button" class="resv-bd-toggle" id="sbSBreakdownToggle" aria-expanded="false" aria-controls="sbSBreakdown">Price details <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+        <button type="button" class="resv-bd-toggle" id="sbSBreakdownToggle" aria-expanded="false" aria-controls="sbSBreakdown"><span>Price details <span class="bd-hint" id="sbSBreakdownHint">(tap to see full breakdown)</span></span> <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
         <div id="sbSBreakdown" class="resv-breakdown collapsed">
         <div class="sumline" id="sbSLocRow" hidden><span>Pick-up</span><b id="sbSPickup">—</b></div>
         <div class="sumline" id="sbSDropRow" hidden><span>Drop-off</span><b id="sbSDropoff">—</b></div>
@@ -1588,7 +1608,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
         <div class="pay-now">
           <div class="pn-label">Reservation deposit · 30% to confirm</div>
           <div class="pn-amt" id="sbSNow">—</div>
-          <div class="pn-rest">Pay now to confirm your booking · goes toward your rental.</div>
+          <div class="pn-rest">Confirms your booking · goes toward the rental.</div>
           <div class="pn-dep">Balance due at pick-up (70%): <b id="sbSLater">—</b></div>
         </div>
         <!-- MONEY CONCEPT 2 (completely separate): the refundable SECURITY DEPOSIT, a damage
@@ -1600,7 +1620,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
           </div>
           <p class="dep-note" id="sbSDepNote"></p>
         </div>
-        <p class="resv-promise resv-fineprint"><i class="fa-solid fa-handshake-angle"></i> Our promise: reserve a class — receive that model, or an upgrade. Never less.</p>
+        <p class="resv-promise resv-fineprint"><i class="fa-solid fa-handshake-angle"></i> Reserve a class — get that model or an upgrade, never less.</p>
         <div class="resv-actions">
           <div class="resv-sec-actions">
             <button type="button" class="btn btn-ghost" id="sbPinBtn"><i class="fa-solid fa-layer-group"></i> Pin</button>
@@ -2164,6 +2184,23 @@ state.extras.protection = null; // unchosen by default — client picks Basic or
 /* ---------- helpers ---------- */
 function $(s,ctx){return (ctx||document).querySelector(s);}
 function $all(s,ctx){return Array.prototype.slice.call((ctx||document).querySelectorAll(s));}
+/* floating toast — one reused element, auto-hides. Dedupes rapid repeats of the same message. */
+var __toastEl=null, __toastTimer=null, __toastLast=0;
+function showToast(msg, align){
+  var now=Date.now(); if (now-__toastLast<400) return; __toastLast=now; // ignore event-storm repeats
+  if (!__toastEl){
+    __toastEl=document.createElement("div"); __toastEl.className="app-toast"; __toastEl.setAttribute("role","status");
+    document.body.appendChild(__toastEl);
+  }
+  // align:"left" nudges the toast off-centre (used on the main page so it clears the hero's
+  // search-card calendar popup on the right); default stays centred (Smart Build).
+  __toastEl.classList.toggle("app-toast-left", align==="left");
+  __toastEl.innerHTML='<i class="fa-solid fa-circle-exclamation"></i> <span></span>';
+  __toastEl.querySelector("span").textContent=msg;
+  __toastEl.classList.add("show");
+  clearTimeout(__toastTimer);
+  __toastTimer=setTimeout(function(){ __toastEl.classList.remove("show"); }, 2600);
+}
 function silhouetteSVG(){
   return '<svg class="silhouette" viewBox="0 0 120 48" fill="none" aria-hidden="true">'+
     '<path d="M6 34c0-3 2-5 5-5h3l6-10c2-3 5-5 9-5h28c4 0 8 2 11 5l8 9 20 3c4 1 7 4 7 8v2c0 2-2 4-4 4h-8a8 8 0 01-16 0H42a8 8 0 01-16 0h-9c-3 0-5-2-5-5z" fill="currentColor"/>'+
@@ -2577,6 +2614,7 @@ function sbInit(){
   var same=$("#sbSameLoc"); same.checked = (!!sb.pickupLoc && sb.pickupLoc===sb.dropoffLoc); dSel.disabled = same.checked; comboReflect(dSel);
   $("#sbFrom").value = sb.from || "";
   $("#sbTo").value = sb.to || "";
+  if (window.__sbSyncDropoffDate) window.__sbSyncDropoffDate(); // apply drop-off min / pick-up max constraints
   // reflect current type filter on the chips
   $all("#sbTypeFilters .chipbtn").forEach(function(x){ x.setAttribute("aria-pressed", x.getAttribute("data-sbtype")===sb.type?"true":"false"); });
   var step1=$("#sbStep1"); if (step1) step1.__forceOpen=false;
@@ -2813,11 +2851,11 @@ function renderDepositBox(box, badge, note, b, c){
   if (b.hasFullProtection){
     box.classList.add("zero"); box.classList.remove("hold");
     badge.textContent = "ZERO";
-    if (note) note.innerHTML = '<i class="fa-solid fa-circle-check"></i> Full Protection = no refundable hold on your card at all.';
+    if (note) note.innerHTML = '<i class="fa-solid fa-circle-check"></i> Full Protection = no hold on your card.';
   } else {
     box.classList.add("hold"); box.classList.remove("zero");
     badge.textContent = money(b.depositAmt);
-    if (note) note.innerHTML = 'A refundable hold, not a charge — returned in full on safe return of the car. <span class="dep-upsell"><i class="fa-solid fa-arrow-up"></i> Upgrade to Full Protection → security deposit drops to ZERO.</span>';
+    if (note) note.innerHTML = 'Refundable hold, not a charge — returned on safe return. <span class="dep-upsell"><i class="fa-solid fa-arrow-up"></i> Full Protection drops this to ZERO.</span>';
   }
 }
 function sbUpdateTripSummary(){
@@ -2900,6 +2938,11 @@ function sbUpdateStepStates(){
       // When it is the ACTIVE step, force the full fields open (clear the summary) so the
       // title + inputs show. Otherwise let sbUpdateTripSummary() manage its summary collapse.
       if (state==="active"){ s.sec.__forceOpen=true; s.sec.classList.remove("collapsed","sb-collapsed"); }
+      else if (done && !s.sec.__userToggled){
+        // step 1 is DONE and no longer the active step -> clear the sticky __forceOpen flag and
+        // collapse it to its one-line summary (this is what wasn't happening before).
+        s.sec.__forceOpen=false; if (typeof sbUpdateTripSummary==="function") sbUpdateTripSummary();
+      }
     } else if (s.sec && !s.sec.__userToggled){
       // auto-collapse DONE steps and auto-expand the ACTIVE one — unless the user manually
       // toggled this step, in which case we respect their choice.
@@ -2938,8 +2981,6 @@ function sbRecalc(){
   $("#sbSThumb").innerHTML = c ? carMediaHTML(c) : "";
   $("#sbSClass").textContent = c ? c.name : "Pick a car";
   $("#sbSClassCat").textContent = c ? c.cat : "Choose your class on the left";
-  // helpful empty state until a car is chosen (dates/locations/delivery still shown)
-  var prompt=$("#sbSPrompt"); if (prompt) prompt.hidden = !!c;
   // real ERP pick-up / drop-off + delivery route fee (priced line, folded into grand total)
   var locRow=$("#sbSLocRow"), dropRow=$("#sbSDropRow"), feeRow=$("#sbSFeeRow");
   if (sb.pickupLoc){ locRow.hidden=false; $("#sbSPickup").textContent=sb.pickupLoc; } else { locRow.hidden=true; }
@@ -3645,18 +3686,30 @@ function initSearchCard(){
   same.addEventListener("change", syncSame);
   fromSel.addEventListener("change", function(){ if(same.checked){ toSel.value=fromSel.value; comboReflect(toSel); } updateFee(); validateSearchCard(); });
   toSel.addEventListener("change", function(){ if(toSel.value!==fromSel.value){ same.checked=false; toSel.disabled=false; comboReflect(toSel); } updateFee(); validateSearchCard(); });
-  // drop-off date/time rules: (1) DISABLED until a pick-up date/time is chosen; (2) its
-  // minimum = the pick-up value, so the native picker blocks any earlier date/time. If an
-  // already-chosen drop-off becomes earlier than a new pick-up, clear it.
-  var qbF=$("#qbFrom"), qbT=$("#qbTo");
+  // drop-off date/time rules. We do NOT use disabled (that hides the calendar icon and gives
+  // no feedback). Instead: the field stays enabled with its icon; its min = the pick-up value
+  // so the native picker blocks any earlier date/time; and if the user tries to open it BEFORE
+  // choosing a pick-up, we show a hint and bounce focus to the pick-up field.
+  var qbF=$("#qbFrom"), qbT=$("#qbTo"), qbToFld=document.querySelector('.search-card .fld[data-req="qbTo"]');
   function syncDropoffDate(){
-    if (qbF.value){
-      qbT.disabled=false; qbT.min=qbF.value;
-      if (qbT.value && qbT.value < qbF.value){ qbT.value=""; }
-    } else {
-      qbT.disabled=true; qbT.value=""; qbT.removeAttribute("min");
-    }
+    if (qbF.value){ qbF.__pickerOpening=false; qbT.min=qbF.value; if (qbT.value && qbT.value < qbF.value){ qbT.value=""; } }
+    else { qbT.removeAttribute("min"); }
   }
+  var qbFromFld = qbF.closest(".fld");
+  function dropoffHint(){
+    // Just BLOCK + flash a floating toast (no auto-focus / no auto-picker — avoids the
+    // duplicate-calendar loop). Brief gold highlight points to the pick-up field. On the main
+    // page the toast is left-nudged so it clears the hero search-card's calendar on the right.
+    showToast("Please select the pick-up date & time first.", "left");
+    if (qbFromFld){ qbFromFld.classList.add("sb-date-focusme"); setTimeout(function(){ qbFromFld.classList.remove("sb-date-focusme"); }, 1400); }
+  }
+  // Hard gate: while pick-up is empty, drop-off can NEVER hold a value — block the picker AND
+  // reject any value that slips in (icon, typing, showPicker) by clearing it on input/change.
+  qbT.addEventListener("pointerdown", function(e){ if (!qbF.value){ e.preventDefault(); e.stopPropagation(); dropoffHint(); } });
+  qbT.addEventListener("keydown", function(e){ if (!qbF.value){ e.preventDefault(); dropoffHint(); } });
+  function qbRejectDropoffIfNoPickup(){ if (!qbF.value && qbT.value){ qbT.value=""; dropoffHint(); } }
+  qbT.addEventListener("input", qbRejectDropoffIfNoPickup);
+  qbT.addEventListener("change", qbRejectDropoffIfNoPickup);
   qbF.addEventListener("change", syncDropoffDate);
   qbF.addEventListener("input", syncDropoffDate);
   // live validation: red border + * while empty/invalid, green the moment it's filled
@@ -3793,17 +3846,36 @@ function wire(){
   });
 
   // ---- Tool 1: Smart Build ----
-  // live reflection: ANY change (dates, locations) recomputes the pane + price instantly
-  // Smart Build drop-off date rules (same as the hero): disabled until pick-up is set, and
-  // its minimum = the pick-up value so earlier date/times are blocked by the native picker.
-  function sbSyncDropoffDate(){
-    var f=$("#sbFrom"), t=$("#sbTo");
-    if (f.value){ t.disabled=false; t.min=f.value; if (t.value && t.value < f.value){ t.value=""; sb.to=""; } }
-    else { t.disabled=true; t.value=""; sb.to=""; t.removeAttribute("min"); }
+  // Drop-off date rules (same friendly treatment as the hero — NOT disabled, so the calendar
+  // icon stays visible): drop-off's min = pick-up (can't be earlier); pick-up's max = drop-off
+  // (can't be set after it); and if the user opens drop-off before choosing a pick-up, show a
+  // hint and bounce focus to the pick-up field.
+  var sbF=$("#sbFrom"), sbT=$("#sbTo"), sbToFld=sbT.closest(".field");
+  function sbClearDropoffHint(){
+    if (!sbToFld) return;
+    sbToFld.classList.remove("sb-date-lock");
+    var h=sbToFld.querySelector(".sb-date-hint"); if (h) h.remove(); // fully remove the note, not just the class
   }
+  function sbSyncDropoffDate(){
+    if (sbF.value){ sbF.__pickerOpening=false; sbT.min=sbF.value; if (sbT.value && sbT.value < sbF.value){ sbT.value=""; sb.to=""; } sbClearDropoffHint(); }
+    else { sbT.removeAttribute("min"); }
+    if (sbT.value){ sbF.max=sbT.value; } else { sbF.removeAttribute("max"); } // pick-up can't be after drop-off
+  }
+  function sbDropoffHint(){
+    // Just BLOCK + flash a floating toast. We do NOT auto-focus or auto-open the pick-up
+    // picker — that caused the duplicate-calendar loop. A brief gold highlight points to pick-up.
+    showToast("Please select the pick-up date & time first.");
+    if (sbF){ sbF.classList.add("sb-date-focusme"); setTimeout(function(){ sbF.classList.remove("sb-date-focusme"); }, 1400); }
+  }
+  // Hard gate: while pick-up is empty, the drop-off can NEVER hold a value. We block opening
+  // the picker AND reject any value that still slips in (icon click, typing, showPicker) by
+  // clearing it immediately on input/change. This catches every path.
+  sbT.addEventListener("pointerdown", function(e){ if (!sbF.value){ e.preventDefault(); e.stopPropagation(); sbDropoffHint(); } });
+  sbT.addEventListener("keydown", function(e){ if (!sbF.value){ e.preventDefault(); sbDropoffHint(); } });
+  function sbRejectDropoffIfNoPickup(){ if (!sbF.value && sbT.value){ sbT.value=""; sb.to=""; sbDropoffHint(); return true; } return false; }
   ["sbFrom","sbTo"].forEach(function(id){
-    $("#"+id).addEventListener("change",function(){ var s=$("#sbStep1"); if(s) s.__forceOpen=false; sbSyncDropoffDate(); sbRecalc(); });
-    $("#"+id).addEventListener("input",function(){ sbSyncDropoffDate(); sbRecalc(); });
+    $("#"+id).addEventListener("change",function(){ var s=$("#sbStep1"); if(s) s.__forceOpen=false; if(id==="sbTo") sbRejectDropoffIfNoPickup(); sbSyncDropoffDate(); sbRecalc(); });
+    $("#"+id).addEventListener("input",function(){ if(id==="sbTo") sbRejectDropoffIfNoPickup(); sbSyncDropoffDate(); sbRecalc(); });
   });
   window.__sbSyncDropoffDate = sbSyncDropoffDate;
   // pick-up / drop-off location selects + "same place" behaviour.
@@ -3858,6 +3930,7 @@ function wire(){
   $("#sbSBreakdownToggle").addEventListener("click", function(){
     var bd=$("#sbSBreakdown"); var collapsed=bd.classList.toggle("collapsed");
     this.setAttribute("aria-expanded", collapsed?"false":"true");
+    var hint=$("#sbSBreakdownHint"); if (hint) hint.textContent = collapsed ? "(tap to see full breakdown)" : "(tap to hide)";
   });
   // per-step collapse: each step header toggles its own body so any finished step can be
   // tucked away, giving the car grid the room. (Step 1 also auto-collapses to a summary.)
