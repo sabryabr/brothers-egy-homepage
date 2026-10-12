@@ -531,6 +531,27 @@ footer a:hover{color:var(--gold-2)}
 .mock-note{display:flex;gap:8px;align-items:flex-start;font-size:.78rem;color:var(--txt-mute);background:var(--glass);border:1px dashed var(--line);border-radius:10px;padding:9px 12px;margin-top:10px}
 .mock-note i{color:var(--gold-2);margin-top:1px}
 
+/* ---- choice popup ("how would you like to book?") ---- */
+.choice-pop{position:fixed;inset:0;z-index:1800;display:none;align-items:center;justify-content:center;padding:20px}
+.choice-pop.open{display:flex}
+.choice-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
+.choice-card{position:relative;z-index:1;max-width:520px;width:100%;background:var(--surface-solid,var(--surface));
+  border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:var(--shadow)}
+.choice-card h2{margin:0 0 4px;font-family:"Fraunces";font-size:1.4rem}
+.choice-sub{margin:0;color:var(--txt-dim);font-size:.9rem}
+.choice-x{position:absolute;top:14px;right:14px}
+.choice-opts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.choice-opt{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;
+  border:1px solid var(--line);background:var(--card);border-radius:14px;padding:18px;cursor:pointer;
+  font-family:inherit;color:var(--txt);transition:border-color .2s,transform .2s,background .2s}
+.choice-opt:hover{border-color:var(--gold);transform:translateY(-2px)}
+.choice-opt:focus-visible{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,162,78,.3)}
+.choice-opt .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(212,162,78,.14);color:var(--gold-2);font-size:1.05rem;margin-bottom:4px}
+.choice-opt b{font-family:"Fraunces";font-size:1.02rem}
+.choice-opt small{color:var(--txt-dim);font-size:.8rem;line-height:1.4}
+@media(max-width:560px){ .choice-opts{grid-template-columns:1fr} }
+
 /* ---- Tool 1: Smart Build ---- */
 /* wide multi-column car grid — uses the horizontal room (3-4 columns on desktop) */
 .sb-cars{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
@@ -757,6 +778,7 @@ html[data-theme="light"] .app-toast i{color:#c8502b}
 /* brief highlight on the pick-up field to point the user there (no auto-picker, no focus steal) */
 .sb-trip-grid .field.sb-date-focusme input{border-color:var(--gold) !important;box-shadow:0 0 0 3px rgba(212,162,78,.25);transition:box-shadow .2s}
 .search-card .fld.sb-date-focusme input{border-color:var(--gold) !important;box-shadow:0 0 0 3px rgba(212,162,78,.25)}
+.bg-fld.sb-date-focusme input{border-color:var(--gold) !important;box-shadow:0 0 0 3px rgba(212,162,78,.25);transition:box-shadow .2s}
 .sb-trip-grid .sc-same{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--txt-dim);margin-top:7px;text-transform:none;letter-spacing:0;white-space:nowrap}
 .sb-trip-grid .sc-same span{white-space:nowrap}
 @media(min-width:980px){.sb-trip-grid{grid-template-columns:repeat(4,1fr)}}
@@ -821,6 +843,14 @@ html[data-theme="light"] .ct-col .ct-thumb{background:linear-gradient(180deg,#ef
   #toolBuild .tool-head{position:sticky}
   #toolBuild .tool-head .sub{display:block}
   #toolBuild .tool-body.sb-body{overflow-y:visible;display:block}
+  /* Budget's one-window layout is a desktop interaction (slider + live zones side by side);
+     on phones relax it back to normal page scroll, same reasoning as Smart Build above. */
+  #toolBudget.tool-overlay.open{height:auto;display:block}
+  #toolBudget .tool-head{position:sticky}
+  #toolBudget .tool-body.bg-body{overflow-y:visible;display:block;grid-template-columns:1fr}
+  .bg-pane{overflow-y:visible}
+  .bg-results-section{overflow:visible}
+  .bud-results{overflow-y:visible}
   .sb-two{grid-template-columns:1fr;display:block}
   .sb-left{display:block;overflow:visible}
   .sb-pick{display:block}
@@ -850,6 +880,72 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 .bud-card .amt .diff{font-size:.76rem;color:var(--nile-2)}
 .bud-card .amt .diff.more{color:var(--rose)}
 .bud-empty{text-align:center;color:var(--txt-dim);padding:40px 20px;border:1px dashed var(--line);border-radius:var(--radius)}
+
+/* ---- Budget: left filter pane -> right live results configurator ---- */
+#toolBudget.tool-overlay{display:none;overflow:hidden}
+#toolBudget.tool-overlay.open{display:flex;flex-direction:column;height:100vh}
+#toolBudget .tool-head{position:static;padding:10px clamp(16px,3vw,28px);flex:0 0 auto}
+#toolBudget .tool-head h2{font-size:clamp(1.05rem,2vw,1.3rem)}
+#toolBudget .tool-body.bg-body{flex:1 1 auto;min-height:0;overflow:hidden;display:grid;
+  grid-template-columns:minmax(300px,360px) 1fr;gap:16px;
+  padding:clamp(10px,1.4vw,16px) clamp(18px,3vw,34px) clamp(12px,1.6vw,18px)}
+.bg-pane{min-width:0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-right:4px}
+.bg-pane-block{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:14px 16px;flex:0 0 auto}
+.bg-pane-block h3{font-family:"Fraunces";font-size:1rem;margin:0 0 2px;display:flex;align-items:center;gap:7px}
+.bg-pane-block .hint{color:var(--txt-dim);font-size:.78rem;margin:0 0 10px}
+.bg-slider-row{display:grid;grid-template-columns:160px 1fr;grid-template-rows:auto auto;column-gap:16px;align-items:center}
+.bg-fld{display:flex;flex-direction:column;gap:4px;grid-row:1/3}
+.bg-amount-wrap{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface-solid);border-radius:12px;padding:6px 10px}
+.bg-amount-wrap .bg-cur{font-size:.72rem;letter-spacing:.08em;color:var(--txt-dim)}
+.bg-amount-wrap input{border:none;background:transparent;color:var(--txt);font-family:"Fraunces";font-size:1.3rem;width:100%;padding:2px 0}
+.bg-amount-wrap input:focus{outline:none}
+.bg-slider{width:100%;grid-row:1;accent-color:var(--gold)}
+.bg-slider-minmax{grid-row:2;display:flex;justify-content:space-between;font-size:.72rem;color:var(--txt-mute)}
+.bg-pane-km .bg-slider{grid-row:auto}
+.bg-pane-km .bg-slider-minmax{grid-row:auto;margin-top:4px}
+.bg-km-readout{margin:8px 0 0;font-size:.82rem;color:var(--txt-dim)}
+.bg-presets{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.bg-presets .chipbtn[data-bg-preset]{padding:6px 13px;font-size:.8rem}
+.bg-gauge{margin-top:12px}
+.bg-gauge-track{height:10px;border-radius:6px;background:var(--glass);border:1px solid var(--line);overflow:hidden}
+.bg-gauge-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-2));border-radius:6px;transition:width .4s ease}
+.bg-gauge-count{margin-top:6px;font-size:.84rem;color:var(--txt-dim)}
+.bg-pane-extras .extra{margin-bottom:8px}
+.bg-pane-extras .extra:last-child{margin-bottom:0}
+.bg-pane-trip .field,.bg-pane-trip .bg-fld{margin-bottom:10px}
+.bg-pane-trip .field:last-child,.bg-pane-trip .bg-fld:last-child{margin-bottom:0}
+.bg-fld .req-star{color:#e2896f;font-weight:700;margin-left:1px}
+.bg-fld.sc-valid .req-star{color:#2da46e}
+.bg-fld.sc-invalid select,.bg-fld.sc-invalid input,.bg-fld.sc-invalid .combo-input{border-color:#d66d4e !important;box-shadow:0 0 0 2px rgba(214,109,78,.16)}
+.bg-fld.sc-valid select,.bg-fld.sc-valid .combo-input{border-color:rgba(45,164,110,.65) !important}
+.bg-fld .fld-err{display:none;font-size:.7rem;color:#e2896f;margin-top:3px}
+#toolBudget.bg-tried .bg-fld.sc-invalid .fld-err{display:block}
+.bg-results-section{min-width:0;min-height:0;display:flex;flex-direction:column;margin-bottom:0;overflow:hidden}
+.bud-results{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:0;overflow-y:auto}
+.bg-zone h4{font-family:"Fraunces";font-size:.96rem;margin:0 0 8px;display:flex;align-items:center;gap:7px}
+.bg-zone h4.fit{color:var(--nile-2)}
+.bg-zone h4.up{color:var(--gold-2)}
+.bg-zone-count{font-size:.74rem;color:var(--txt-mute);font-weight:400}
+.bg-zone-grid{display:flex;flex-direction:column;gap:8px}
+.bg-tile{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 10px;flex-wrap:wrap}
+.bg-tile .thumb{width:60px;height:40px;flex:none;display:grid;place-items:center;background:linear-gradient(180deg,#1a160e,#0f0d08);border-radius:8px;overflow:hidden}
+html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6d4,#e3d6bd)}
+.bg-tile .thumb img{width:80%}
+.bg-tile .thumb .silhouette{width:65%;opacity:.4}
+.bg-tile .info{flex:1;min-width:0}
+.bg-tile .info b{font-family:"Fraunces";font-size:.88rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bg-tile .info small{color:var(--txt-mute);font-size:.72rem}
+.bg-tile .amt{text-align:right;flex:none}
+.bg-tile .amt .tot{font-family:"Fraunces";color:var(--gold-2);font-size:.92rem;display:block}
+.bg-tile .amt .diff{font-size:.7rem;color:var(--nile-2)}
+.bg-tile .amt .diff.more{color:var(--rose)}
+.bg-tile button{padding:6px 10px;font-size:.76rem;white-space:nowrap}
+.bg-tile .bg-dep{flex:0 0 100%;font-size:.72rem;border-radius:8px;padding:4px 8px;display:flex;align-items:center;gap:6px}
+.bg-tile .bg-dep.zero{background:rgba(45,164,110,.12);color:#2da46e;border:1px solid rgba(45,164,110,.4)}
+.bg-tile .bg-dep.hold{background:rgba(212,162,78,.1);color:var(--gold-2);border:1px solid rgba(212,162,78,.4)}
+@media(max-width:860px){
+  .bud-results{grid-template-columns:1fr}
+}
 
 /* ---- Tool 3: Tour Trip Planner ---- */
 .tp-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:28px}
@@ -981,7 +1077,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
       <button class="icon-btn" id="themeBtn" aria-label="Toggle dark and light theme" title="Toggle theme">
         <i class="fa-solid fa-moon" aria-hidden="true"></i>
       </button>
-      <a class="btn btn-gold" href="#build">
+      <a class="btn btn-gold" href="#" id="navBookNow">
         <i class="fa-solid fa-car" aria-hidden="true"></i> Book now
       </a>
     </div>
@@ -1673,11 +1769,81 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
     <span class="spacer"></span>
     <button class="icon-btn" data-tool-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
   </div>
-  <div class="tool-body">
-    <div class="tool-section">
-      <h3>Your budget &amp; trip</h3>
-      <div class="bud-inputs">
-        <div class="field"><label for="bgAmount">Your budget (EGP, total)</label><input type="number" id="bgAmount" min="0" step="100" placeholder="e.g. 8000"></div>
+  <div class="tool-body bg-body">
+    <div class="bg-pane">
+      <div class="bg-pane-block bg-pane-budget">
+        <h3>What's your budget?</h3>
+        <p class="hint">Drag the slider or pick a preset — the fleet reacts instantly.</p>
+        <div class="bg-slider-row">
+          <div class="bg-fld" data-req="bgAmount">
+            <label for="bgAmount" class="sr-only">Your budget (EGP, total) <span class="req-star" aria-hidden="true">*</span></label>
+            <div class="bg-amount-wrap">
+              <span class="bg-cur">EGP</span>
+              <input type="number" id="bgAmount" min="0" step="100" placeholder="e.g. 8000">
+            </div>
+            <span class="fld-err">Enter a budget above 0.</span>
+          </div>
+          <input type="range" id="bgSlider" class="bg-slider" min="2000" max="40000" step="500" value="0" aria-label="Budget slider">
+          <div class="bg-slider-minmax"><span id="bgSliderMin">EGP 0</span><span id="bgSliderMax">EGP 0</span></div>
+        </div>
+        <div class="bg-presets" id="bgPresetChips">
+          <button type="button" class="chipbtn" data-bg-preset="5000">5,000</button>
+          <button type="button" class="chipbtn" data-bg-preset="10000">10,000</button>
+          <button type="button" class="chipbtn" data-bg-preset="20000">20,000</button>
+          <button type="button" class="chipbtn" data-bg-preset="40000">40,000</button>
+        </div>
+        <div class="bg-gauge">
+          <div class="bg-gauge-track"><div class="bg-gauge-bar" id="bgGaugeBar"></div></div>
+          <div class="bg-gauge-count" id="bgGaugeCount">Set a budget to see what fits</div>
+        </div>
+      </div>
+
+      <div class="bg-pane-block bg-pane-km">
+        <h3>How many KM do you need?</h3>
+        <p class="hint">We'll auto-pick the cheapest KM package for you — no guesswork.</p>
+        <input type="range" id="bgKmSlider" class="bg-slider" min="0" max="5000" step="100" value="0" aria-label="KM needed slider">
+        <div class="bg-slider-minmax"><span>0 KM</span><span>Unlimited</span></div>
+        <p class="bg-km-readout" id="bgKmReadout">Need 0 KM · within included allowance — no extra</p>
+      </div>
+
+      <div class="bg-pane-block bg-pane-prot">
+        <h3>Protection plan</h3>
+        <p class="hint">Basic keeps a refundable hold; Full Protection drops it to zero.</p>
+        <div class="sb-prot-toggle" id="bgProtToggle" role="group" aria-label="Protection plan">
+          <button type="button" class="sb-prot-opt on" data-bg-prot-opt="basic" aria-pressed="true">
+            <span class="pt-t">Basic</span><span class="pt-s" id="bgProtBasicNote">Free · refundable hold</span>
+          </button>
+          <button type="button" class="sb-prot-opt" data-bg-prot-opt="full" aria-pressed="false">
+            <span class="pt-t">Full Protection</span><span class="pt-s" id="bgProtFullNote">priced per class /day · Security deposit: ZERO</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-pane-block bg-pane-extras">
+        <h3>Extras</h3>
+        <div class="extra extra-driver extra-compact">
+          <span class="ex-main"><b>Additional driver</b><small>Up to 4 drivers.</small></span>
+          <div id="bgDriverStepper"></div>
+          <span class="ex-pr">EGP 250/day first · +150/day each extra</span>
+        </div>
+        <label class="extra extra-compact">
+          <input type="checkbox" id="bgChildseat">
+          <span class="ex-main"><b>Child seat</b><small>Fitted and ready at pickup.</small></span>
+          <span class="ex-pr">EGP 250 /day</span>
+        </label>
+      </div>
+
+      <div class="bg-pane-block bg-pane-trip">
+        <h3><i class="fa-solid fa-route"></i> Trip details</h3>
+        <div class="bg-fld" data-req="bgPickupLoc"><label for="bgPickupLoc">Pick-up location <span class="req-star" aria-hidden="true">*</span></label><select id="bgPickupLoc" aria-label="Pick-up location"></select><span class="fld-err">Choose a pick-up location.</span></div>
+        <div class="bg-fld" data-req="bgDropoffLoc">
+          <label for="bgDropoffLoc">Drop-off location <span class="req-star" aria-hidden="true">*</span></label>
+          <select id="bgDropoffLoc" aria-label="Drop-off location"></select>
+          <label class="sc-same"><input type="checkbox" id="bgSameLoc"> <span>Return to the same place</span></label>
+          <span class="fld-err">Choose a drop-off location.</span>
+        </div>
+        <div class="bg-fld" data-req="bgFrom"><label for="bgFrom">Pick-up date &amp; time <span class="req-star" aria-hidden="true">*</span></label><input type="datetime-local" id="bgFrom"><span class="fld-err">Pick a date &amp; time.</span></div>
+        <div class="bg-fld" data-req="bgTo"><label for="bgTo">Drop-off date &amp; time <span class="req-star" aria-hidden="true">*</span></label><input type="datetime-local" id="bgTo"><span class="fld-err">Must be after pick-up.</span></div>
         <div class="field"><label for="bgBranch">Branch pool</label>
           <select id="bgBranch">
             <option value="all">Any branch</option>
@@ -1687,29 +1853,32 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
             <option value="rashid">Rashid</option>
           </select>
         </div>
-        <div class="field"><label for="bgPickupLoc">Pick-up location</label><select id="bgPickupLoc" aria-label="Pick-up location"></select></div>
-        <div class="field"><label for="bgDropoffLoc">Drop-off location</label><select id="bgDropoffLoc" aria-label="Drop-off location"></select></div>
-        <div class="field"><label for="bgFrom">Pick-up date &amp; time</label><input type="datetime-local" id="bgFrom"></div>
-        <div class="field"><label for="bgTo">Drop-off date &amp; time</label><input type="datetime-local" id="bgTo"></div>
+        <div class="field"><label for="bgType">Car type (optional)</label>
+          <select id="bgType">
+            <option value="all">Any type</option>
+            <option value="economy">Economy</option>
+            <option value="sedan">Sedan</option>
+            <option value="crossover">Crossover</option>
+            <option value="suv">SUV</option>
+            <option value="luxury">Luxury</option>
+          </select>
+        </div>
+        <p class="mock-note" id="bgFeeNote" hidden><i class="fa-solid fa-route"></i> <span id="bgFeeNoteText"></span></p>
       </div>
-      <p class="mock-note" id="bgFeeNote" hidden><i class="fa-solid fa-route"></i> <span id="bgFeeNoteText"></span></p>
-      <div class="field" style="margin-top:14px;max-width:260px">
-        <label for="bgType">Car type (optional)</label>
-        <select id="bgType">
-          <option value="all">Any type</option>
-          <option value="economy">Economy</option>
-          <option value="sedan">Sedan</option>
-          <option value="crossover">Crossover</option>
-          <option value="suv">SUV</option>
-          <option value="luxury">Luxury</option>
-        </select>
-      </div>
-      <p class="mock-note"><i class="fa-solid fa-circle-info"></i> Availability shown is indicative — subject to confirmation, mock data for this prototype. Real-time ERP availability wires in later.</p>
     </div>
 
-    <div class="tool-section" id="bgResultsSection">
-      <h3>What fits</h3>
-      <div id="bgResults" class="bud-results"></div>
+    <div class="tool-section bg-results-section" id="bgResultsSection">
+      <div id="bgResults" class="bud-results">
+        <div class="bg-zone">
+          <h4 class="fit"><i class="fa-solid fa-circle-check"></i> Fits <span class="bg-zone-count" id="bgFitCount"></span></h4>
+          <div class="bg-zone-grid" id="bgFitZone"></div>
+        </div>
+        <div class="bg-zone">
+          <h4 class="up"><i class="fa-solid fa-arrow-up-right-dots"></i> A stretch <span class="bg-zone-count" id="bgStretchCount"></span></h4>
+          <div class="bg-zone-grid" id="bgStretchZone"></div>
+        </div>
+      </div>
+      <p class="mock-note"><i class="fa-solid fa-circle-info"></i> Availability shown is indicative — subject to confirmation, mock data for this prototype. Real-time ERP availability wires in later.</p>
     </div>
   </div>
 </div>
@@ -1762,6 +1931,28 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
       </div>
       <span class="spacer"></span>
       <button class="btn btn-wa" id="tpSendBtn"><i class="fa-brands fa-whatsapp"></i> Send my plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CHOOSE-YOUR-PATH POPUP (one reusable modal, routes to Smart Build or Budget) ============ -->
+<div class="choice-pop" id="choicePopup" role="dialog" aria-modal="true" aria-labelledby="choiceTitle" hidden>
+  <div class="choice-backdrop" data-choice-close></div>
+  <div class="choice-card" role="document">
+    <button class="icon-btn choice-x" data-choice-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <h2 id="choiceTitle">How would you like to book?</h2>
+    <p class="choice-sub">Pick the tool that fits how you shop.</p>
+    <div class="choice-opts">
+      <button class="choice-opt" data-choice="build" type="button">
+        <span class="ic"><i class="fa-solid fa-sliders"></i></span>
+        <b>Build your reservation</b>
+        <small>Pick a car, protection &amp; extras with a live price.</small>
+      </button>
+      <button class="choice-opt" data-choice="budget" type="button">
+        <span class="ic"><i class="fa-solid fa-calculator"></i></span>
+        <b>Shop by budget</b>
+        <small>Set a budget and see what fits instantly.</small>
+      </button>
     </div>
   </div>
 </div>
@@ -2578,6 +2769,56 @@ function initToolRouting(){
 }
 
 /* ============================================================
+   CHOOSE-YOUR-PATH POPUP
+   One reusable modal used by both NAV "Book now" (no trip data)
+   and a validated hero search (carries trip data). Choosing an
+   option calls back with "build"/"budget" so the caller decides
+   how to seed state before routing via location.hash.
+   ============================================================ */
+var __choiceCb = null, __choiceLastFocus = null;
+function openChoicePopup(onPick){
+  __choiceCb = onPick || null;
+  var p = $("#choicePopup");
+  __choiceLastFocus = document.activeElement;
+  p.hidden = false;
+  p.classList.add("open");
+  document.body.style.overflow = "hidden";
+  var first = p.querySelector(".choice-opt");
+  setTimeout(function(){ if (first) first.focus(); }, 50);
+}
+function closeChoicePopup(){
+  var p = $("#choicePopup");
+  p.classList.remove("open");
+  p.hidden = true;
+  if (!activeTool) document.body.style.overflow = "";
+  if (__choiceLastFocus && __choiceLastFocus.focus) __choiceLastFocus.focus();
+}
+function initChoicePopup(){
+  var p = $("#choicePopup");
+  $all("[data-choice-close]", p).forEach(function(b){ b.addEventListener("click", closeChoicePopup); });
+  $all("[data-choice]", p).forEach(function(b){
+    b.addEventListener("click", function(){
+      var key = this.getAttribute("data-choice");
+      var cb = __choiceCb;
+      closeChoicePopup();
+      if (cb) cb(key); else location.hash = key;
+    });
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && p.classList.contains("open")) closeChoicePopup();
+  });
+  // focus trap while the popup is open
+  document.addEventListener("keydown", function(e){
+    if (e.key !== "Tab" || !p.classList.contains("open")) return;
+    var f = $all('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])', p).filter(function(n){ return !n.disabled && n.offsetParent!==null; });
+    if (!f.length) return;
+    var first=f[0], last=f[f.length-1];
+    if (e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+  });
+}
+
+/* ============================================================
    TOOL 1 — SMART BUILD
    Guided self-quote: branch+dates -> car -> services -> live
    booking overview. KEY FEATURE: visible day-rate tiers + a
@@ -2587,6 +2828,26 @@ var sb = { branch:"hurghada", from:"", to:"", carId:null, pickupLoc:"", dropoffL
   kmBase:"standard200", kmExtra:"", driverQty:0,
   extras: EXTRAS.reduce(function(o,e){o[e.id]=e.checked;return o;},{}) };
 sb.extras.protection = null; // protection is UNCHOSEN by default — the client must pick Basic or Full (that completes step 3)
+
+/* shared trip carrier for the choose-your-path popup: null when the path was opened with
+   no trip data (e.g. NAV "Book now"), set to {pickupLoc,dropoffLoc,from,to,type} once a
+   hero search validates. Both sbInit() and bgInit() read it (via sb/seedHeroTrip) to decide
+   empty-start vs pre-filled. */
+var heroTrip = null;
+/* seed BOTH tools' shared sb state from the hero trip so whichever is picked opens pre-filled */
+function seedHeroTrip(key){
+  if (!heroTrip) return;
+  sb.pickupLoc = heroTrip.pickupLoc; sb.dropoffLoc = heroTrip.dropoffLoc;
+  sb.branch = branchForLocation(heroTrip.pickupLoc);
+  sb.from = heroTrip.from; sb.to = heroTrip.to;
+  sb.type = heroTrip.type || "all";
+  sb.carId = null;
+  if (key==="build" && heroTrip.type){
+    typeFilter = heroTrip.type==="luxury" ? "luxury" : heroTrip.type;
+    $all("#typeFilters .chipbtn").forEach(function(x){ x.setAttribute("aria-pressed", x.getAttribute("data-type")===typeFilter?"true":"false"); });
+    renderFleet();
+  }
+}
 
 function sbInit(){
   // NO default trip values: Smart Build opens EMPTY when launched directly (e.g. "Book now")
@@ -3272,16 +3533,124 @@ function sbApplyBuild(idx){
 
 /* ============================================================
    TOOL 2 — BUDGET CALCULATOR
-   Reverse search: "I have X, what can I get?" Priced with the
-   SAME rateForDays()/daysBetween() engine as everywhere else.
+   Budget-aware CONFIGURATOR: a left filter pane (budget, KM needed, protection,
+   extras, trip) drives a right-side live results area. Every total is computed
+   by the SAME sbComputeBuild() engine Smart Build uses — no forked pricing.
    Availability shown is INDICATIVE MOCK (no live ERP check yet).
    ============================================================ */
-function bgInit(){
-  if (!$("#bgFrom").value){
-    var d=new Date(); d.setDate(d.getDate()+2); d.setHours(10,0,0,0);
-    var d2=new Date(d); d2.setDate(d2.getDate()+3);
-    $("#bgFrom").value=toLocal(d); $("#bgTo").value=toLocal(d2);
+var bgState = { budget:null, kmNeeded:0, protection:false, driverQty:0, childseat:false,
+  sameLoc:false, pickupLoc:"", dropoffLoc:"", from:"", to:"", branch:"all", type:"all",
+  kmBase:"standard200", kmExtra:"" };
+/* pure KM auto-mapping: given the KM the client NEEDS and the trip length, pick the
+   cheapest real KM_PACKAGES extra that covers the gap beyond the included allowance
+   (base is fixed to standard200 = 200/day, matching Smart Build's fixed base).
+   Never invents a cost — every number comes straight from KM_PACKAGES[].cost. */
+function bgPickKmExtra(neededKm, days){
+  neededKm = Math.max(0, parseFloat(neededKm) || 0);
+  days = Math.max(1, parseInt(days,10) || 1);
+  var included = (kmBaseById("standard200").basePerDay) * days;
+  if (neededKm <= included){
+    return {kmExtra:"", kmCost:0, kmLabel:"within included allowance ("+included.toLocaleString("en-US")+" included) — no extra"};
   }
+  var gap = neededKm - included;
+  var extras = KM_PACKAGES.filter(function(p){ return p.type==="extra" && p.id!=="unlimited"; })
+    .sort(function(a,b){ return a.extraKM-b.extraKM; });
+  for (var i=0;i<extras.length;i++){
+    if (extras[i].extraKM >= gap){
+      var p=extras[i];
+      return {kmExtra:p.id, kmCost:p.cost, kmLabel:included.toLocaleString("en-US")+" included + "+p.label+" = "+money(p.cost)+" one-time"};
+    }
+  }
+  var unl = kmExtraById("unlimited");
+  return {kmExtra:"unlimited", kmCost:unl.cost, kmLabel:"Unlimited KM — "+money(unl.cost)};
+}
+function bgMarkField(fldId, ok){
+  var fld = document.querySelector('#toolBudget .bg-fld[data-req="'+fldId+'"]');
+  if (!fld) return;
+  fld.classList.toggle("sc-invalid", !ok);
+  fld.classList.toggle("sc-valid", ok);
+}
+/* same input discipline as the hero: required fields paint red/green live, but the summary
+   state (bg-tried) only shows once the user has attempted to interact (slider/field edit). */
+function bgValidate(){
+  var amount=parseFloat($("#bgAmount").value);
+  var pickup=$("#bgPickupLoc").value, dropoff=$("#bgDropoffLoc").value;
+  var from=$("#bgFrom").value, to=$("#bgTo").value;
+  var okAmount = !!amount && amount>0;
+  var okPickup=!!pickup, okDrop=!!dropoff, okFrom=!!from;
+  var okTo = !!to && (!from || new Date(to) > new Date(from));
+  bgMarkField("bgAmount", okAmount);
+  bgMarkField("bgPickupLoc", okPickup);
+  bgMarkField("bgDropoffLoc", okDrop);
+  bgMarkField("bgFrom", okFrom);
+  bgMarkField("bgTo", okTo);
+  var toErr = document.querySelector('#toolBudget .bg-fld[data-req="bgTo"] .fld-err');
+  if (toErr) toErr.textContent = !to ? "Pick a date & time." : "Must be after pick-up.";
+  return okAmount && okPickup && okDrop && okFrom && okTo;
+}
+/* drop-off hard-gated behind pick-up — mirrors sbSyncDropoffDate/sbDropoffHint exactly
+   (no auto-opening pickers, which caused the duplicate-calendar loop). */
+function bgSyncDropoffDate(){
+  var bgF=$("#bgFrom"), bgT=$("#bgTo");
+  if (bgF.value){ bgT.min=bgF.value; if (bgT.value && bgT.value < bgF.value){ bgT.value=""; } }
+  else { bgT.removeAttribute("min"); }
+  if (bgT.value){ bgF.max=bgT.value; } else { bgF.removeAttribute("max"); }
+}
+function bgDropoffHint(){
+  showToast("Please select the pick-up date & time first.");
+  var bgFromFld=$("#bgFrom").closest(".bg-fld");
+  if (bgFromFld){ bgFromFld.classList.add("sb-date-focusme"); setTimeout(function(){ bgFromFld.classList.remove("sb-date-focusme"); }, 1400); }
+}
+function bgRejectDropoffIfNoPickup(){
+  var bgF=$("#bgFrom"), bgT=$("#bgTo");
+  if (!bgF.value && bgT.value){ bgT.value=""; bgDropoffHint(); return true; }
+  return false;
+}
+/* slider range derived from REAL fleet totals for the current days/branch/type pool — not
+   invented numbers. Rounded to friendly 500-EGP steps so the slider feels deliberate. */
+function bgComputeSliderRange(){
+  var branch=$("#bgBranch").value, type=$("#bgType").value;
+  var from=$("#bgFrom").value, to=$("#bgTo").value;
+  var days = (from && to) ? daysBetween(from,to) : 3;
+  var pickup=$("#bgPickupLoc").value, dropoff=$("#bgDropoffLoc").value;
+  var fee = (pickup && dropoff) ? routeFee(pickup, dropoff) : null;
+  var feeInTotal = (fee===null) ? 0 : fee;
+  var pool = FLEET.filter(function(c){
+    return (branch==="all"||c.branches.indexOf(branch)>-1) && (type==="all"||c.type===type);
+  }).map(function(c){ return rateForDays(c,days)*days + feeInTotal; });
+  if (!pool.length) return {min:2000, max:40000, step:500};
+  var lo=Math.min.apply(null,pool), hi=Math.max.apply(null,pool);
+  var min=Math.max(500, Math.floor(lo*0.6/500)*500);
+  var max=Math.max(min+1000, Math.ceil(hi*1.1/500)*500);
+  return {min:min, max:max, step:500};
+}
+function bgApplySliderRange(){
+  var r=bgComputeSliderRange();
+  var slider=$("#bgSlider");
+  var cur=parseFloat(slider.value)||0;
+  slider.min=r.min; slider.max=r.max; slider.step=r.step;
+  if (cur>0) slider.value=Math.min(Math.max(cur,r.min),r.max);
+  $("#bgSliderMin").textContent="EGP "+r.min.toLocaleString("en-US");
+  $("#bgSliderMax").textContent="EGP "+r.max.toLocaleString("en-US");
+}
+/* lightweight count-up tween for the gauge readout (no library) */
+var __bgCountRaf=null;
+function bgCountUp(el, to){
+  var from=parseInt(el.getAttribute("data-n")||"0",10);
+  if (from===to){ el.setAttribute("data-n",to); return; }
+  el.setAttribute("data-n", to);
+  var start=null, dur=320;
+  if (__bgCountRaf) cancelAnimationFrame(__bgCountRaf);
+  function step(ts){
+    if (!start) start=ts;
+    var p=Math.min(1,(ts-start)/dur);
+    var val=Math.round(from+(to-from)*p);
+    el.__bgSetText(val);
+    if (p<1) __bgCountRaf=requestAnimationFrame(step); else __bgCountRaf=null;
+  }
+  __bgCountRaf=requestAnimationFrame(step);
+}
+function bgInit(){
   var pSel=$("#bgPickupLoc"), dSel=$("#bgDropoffLoc");
   if (!pSel.options.length){ // populate once with the 21 real ERP places
     LOCATION_PLACES.forEach(function(p){
@@ -3289,29 +3658,59 @@ function bgInit(){
       var o2=document.createElement("option"); o2.value=p; o2.textContent=p; dSel.appendChild(o2);
     });
     makeCombobox(pSel); makeCombobox(dSel); // same type-to-search component
+    var pIn=pSel.__combo&&pSel.__combo.input, dIn=dSel.__combo&&dSel.__combo.input;
+    if (pIn) pIn.placeholder="e.g. Cairo International Airport";
+    if (dIn) dIn.placeholder="e.g. El Gouna";
   }
-  // seed from the search card / Smart Build selection if present, else sensible default
-  var defP = sb.pickupLoc || (LOCATION_PLACES.indexOf("Cairo International Airport")>-1 ? "Cairo International Airport" : LOCATION_PLACES[0]);
-  var defD = sb.dropoffLoc || defP;
-  pSel.value=defP; dSel.value=defD;
+  if (heroTrip){
+    // pre-filled from a validated hero search — reflect the SAME trip Smart Build gets
+    pSel.value=heroTrip.pickupLoc||""; dSel.value=heroTrip.dropoffLoc||"";
+    $("#bgFrom").value=heroTrip.from||""; $("#bgTo").value=heroTrip.to||"";
+    $("#bgType").value=heroTrip.type||"all";
+    $("#bgBranch").value = heroTrip.pickupLoc ? branchForLocation(heroTrip.pickupLoc) : "all";
+  } else {
+    // Book-now (no trip) — START EMPTY, no invented defaults; placeholders read as examples only.
+    pSel.value=""; dSel.value="";
+    $("#bgFrom").value=""; $("#bgTo").value="";
+    $("#bgAmount").value=""; $("#bgType").value="all"; $("#bgBranch").value="all";
+  }
   comboReflect(pSel); comboReflect(dSel);
+  // reset the configurator state to its defaults every time the tool opens
+  bgState.protection=false; bgState.driverQty=0; bgState.childseat=false;
+  bgState.kmNeeded=0; bgState.kmBase="standard200"; bgState.sameLoc=false;
+  $("#bgKmSlider").value=0;
+  $all('[data-bg-prot-opt]', $("#bgProtToggle")).forEach(function(b){
+    var isBasic=b.getAttribute("data-bg-prot-opt")==="basic";
+    b.classList.toggle("on", isBasic); b.setAttribute("aria-pressed", isBasic?"true":"false");
+  });
+  $("#bgChildseat").checked=false;
+  $("#bgSameLoc").checked=false; dSel.disabled=false;
+  var driverStepperEl=$("#bgDriverStepper");
+  driverStepperEl.innerHTML = driverStepperHTML(bgState.driverQty);
+  wireDriverStepper(driverStepperEl, function(){ return bgState.driverQty; }, function(v){ bgState.driverQty=v; }, bgRecalc);
+  bgSyncDropoffDate();
+  $("#toolBudget").classList.remove("bg-tried");
+  bgApplySliderRange();
+  var slider=$("#bgSlider");
+  if ($("#bgAmount").value){ slider.value = Math.min(Math.max(parseFloat($("#bgAmount").value), parseFloat(slider.min)), parseFloat(slider.max)); }
+  else { slider.value = slider.min; }
+  var cnt=$("#bgGaugeCount"); if (cnt && !cnt.__bgSetText){ cnt.__bgSetText=function(n){ this.textContent = n+" of "+FLEET.length+" cars fit"; }; }
   bgRecalc();
 }
 function bgRecalc(){
-  var budget=parseFloat($("#bgAmount").value);
-  var branch=$("#bgBranch").value, type=$("#bgType").value;
-  var from=$("#bgFrom").value, to=$("#bgTo").value;
+  bgValidate();
+  bgState.budget=parseFloat($("#bgAmount").value);
+  bgState.branch=$("#bgBranch").value; bgState.type=$("#bgType").value;
+  bgState.from=$("#bgFrom").value; bgState.to=$("#bgTo").value;
+  bgState.pickupLoc=$("#bgPickupLoc").value; bgState.dropoffLoc=$("#bgDropoffLoc").value;
+  bgState.childseat=$("#bgChildseat").checked;
+  var budget=bgState.budget;
+  var branch=bgState.branch, type=bgState.type;
+  var from=bgState.from, to=bgState.to;
   var days=daysBetween(from,to);
-  var out=$("#bgResults");
-  if (!budget || budget<=0){
-    out.innerHTML='<div class="bud-empty"><i class="fa-solid fa-wallet"></i><br>Enter a budget above to see which cars fit for your dates.</div>';
-    return;
-  }
-  // REAL ERP route delivery fee for the chosen pick-up/drop-off pair — folded into each car's
-  // total so "does it fit my budget?" is honest (same shared routeFee helper, no forked pricing)
-  var pickup=$("#bgPickupLoc").value, dropoff=$("#bgDropoffLoc").value;
+  var fitZone=$("#bgFitZone"), stretchZone=$("#bgStretchZone");
+  var pickup=bgState.pickupLoc, dropoff=bgState.dropoffLoc;
   var fee = (pickup && dropoff) ? routeFee(pickup, dropoff) : null;
-  var feeInTotal = (fee===null) ? 0 : fee;
   var feeNote=$("#bgFeeNote");
   if (pickup && dropoff){
     feeNote.hidden=false;
@@ -3320,56 +3719,93 @@ function bgRecalc(){
       : (fee===0 ? ("Delivery "+pickup+" → "+dropoff+": EGP 0 (same place) — included in every total below.")
                  : ("Delivery "+pickup+" → "+dropoff+": "+fee.toLocaleString("en-US")+" EGP — included in every total below."));
   } else { feeNote.hidden=true; }
+
+  // KM auto-mapping — live readout + the kmExtra fed into every car's sbComputeBuild config
+  var kmSliderEl=$("#bgKmSlider");
+  var kmMax=parseFloat(kmSliderEl.max)||5000;
+  var atUnlimitedStop = parseFloat(kmSliderEl.value)>=kmMax;
+  var km;
+  if (atUnlimitedStop){
+    var unl=kmExtraById("unlimited");
+    km={kmExtra:"unlimited", kmCost:unl.cost, kmLabel:"Unlimited KM — "+money(unl.cost)};
+    bgState.kmNeeded=kmMax;
+  } else {
+    bgState.kmNeeded=parseFloat(kmSliderEl.value)||0;
+    km=bgPickKmExtra(bgState.kmNeeded, days);
+  }
+  bgState.kmExtra=km.kmExtra;
+  $("#bgKmReadout").textContent = atUnlimitedStop ? km.kmLabel : ("Need "+bgState.kmNeeded.toLocaleString("en-US")+" KM · "+km.kmLabel);
+
   var pool = FLEET.filter(function(c){
     return (branch==="all"||c.branches.indexOf(branch)>-1) && (type==="all"||c.type===type);
   }).map(function(c){
-    var rate=rateForDays(c,days), carTotal=rate*days, total=carTotal+feeInTotal;
-    return {c:c, rate:rate, carTotal:carTotal, fee:feeInTotal, total:total};
+    var b = sbComputeBuild({carId:c.id, from:from, to:to, pickupLoc:pickup, dropoffLoc:dropoff,
+      kmBase:"standard200", kmExtra:bgState.kmExtra, driverQty:bgState.driverQty,
+      extras:{protection:bgState.protection, childseat:bgState.childseat}});
+    return {c:c, b:b, total:b.grand};
   });
+
+  if (!budget || budget<=0){
+    fitZone.innerHTML='<div class="bud-empty"><i class="fa-solid fa-wallet"></i><br>Drag the slider or enter a budget to see what fits.</div>';
+    stretchZone.innerHTML="";
+    $("#bgFitCount").textContent=""; $("#bgStretchCount").textContent="";
+    $("#bgGaugeBar").style.width="0%";
+    var cnt0=$("#bgGaugeCount"); if (cnt0){ if(!cnt0.__bgSetText) cnt0.__bgSetText=function(n){this.textContent=n+" of "+FLEET.length+" cars fit";}; cnt0.setAttribute("data-n","0"); cnt0.textContent="Set a budget to see what fits"; }
+    return;
+  }
+
   var within = pool.filter(function(p){ return p.total<=budget; }).sort(function(a,b){ return b.total-a.total; }); // closest to budget first = best value used
   var upgrades = pool.filter(function(p){ return p.total>budget; }).sort(function(a,b){ return a.total-b.total; }).slice(0,3);
 
-  var html="";
   if (within.length){
-    html += '<div class="bud-group"><h4 class="fit"><i class="fa-solid fa-circle-check"></i> Within your budget</h4>';
-    within.forEach(function(p){
-      html += bgCardHTML(p, budget-p.total, false);
-    });
-    html += '</div>';
+    fitZone.innerHTML = within.map(function(p){ return bgCardHTML(p, budget-p.total, false); }).join("");
   } else {
     var cheapest = pool.slice().sort(function(a,b){ return a.total-b.total; })[0];
-    html += '<div class="bud-empty"><i class="fa-solid fa-circle-info"></i><br>Nothing fits this budget for these dates.'+
+    fitZone.innerHTML = '<div class="bud-empty"><i class="fa-solid fa-circle-info"></i><br>Nothing fits this budget for these dates.'+
       (cheapest ? ' The closest option is the '+cheapest.c.name+' at '+money(cheapest.total)+' total — or try more days for a better daily rate.' : '')+
       '</div>';
   }
-  if (upgrades.length){
-    html += '<div class="bud-group" style="margin-top:18px"><h4 class="up"><i class="fa-solid fa-arrow-up-right-dots"></i> A little more for a lot more car</h4>';
-    upgrades.forEach(function(p){
-      html += bgCardHTML(p, p.total-budget, true);
-    });
-    html += '</div>';
+  stretchZone.innerHTML = upgrades.length ? upgrades.map(function(p){ return bgCardHTML(p, p.total-budget, true); }).join("") : '<div class="bud-empty" style="padding:18px 12px"><i class="fa-solid fa-check"></i><br>Nothing above budget worth flagging.</div>';
+  $("#bgFitCount").textContent = within.length ? ("("+within.length+")") : "";
+  $("#bgStretchCount").textContent = upgrades.length ? ("("+upgrades.length+")") : "";
+
+  // visual gauge: how far the budget stretches across the whole pool, + a live "X of N fit" count-up
+  var maxTotal = pool.length ? Math.max.apply(null, pool.map(function(p){return p.total;})) : budget;
+  var pct = Math.max(2, Math.min(100, (budget/maxTotal)*100));
+  $("#bgGaugeBar").style.width = pct+"%";
+  var cnt=$("#bgGaugeCount");
+  if (cnt){
+    if (!cnt.__bgSetText) cnt.__bgSetText=function(n){ this.textContent = n+" of "+pool.length+" cars fit"; };
+    bgCountUp(cnt, within.length);
   }
-  html += '<p class="mock-note"><i class="fa-solid fa-circle-info"></i> Availability shown is indicative / subject to availability — mock data for this prototype, real ERP availability wires in later.</p>';
-  out.innerHTML = html;
-  $all("[data-bg-build]",out).forEach(function(b){
-    b.addEventListener("click", function(){
+
+  $all("[data-bg-build]", $("#bgResults")).forEach(function(btn){
+    btn.addEventListener("click", function(){
       var id=this.getAttribute("data-bg-build");
       sb.carId=id; sb.branch = branch==="all" ? carById(id).branches[0] : branch;
       sb.from=from; sb.to=to;
       sb.pickupLoc=pickup||""; sb.dropoffLoc=dropoff||""; // carry locations so Smart Build keeps the real delivery fee
+      sb.type=type;
+      sb.kmBase="standard200"; sb.kmExtra=bgState.kmExtra;
+      sb.driverQty=bgState.driverQty;
+      sb.extras.protection=bgState.protection; sb.extras.childseat=bgState.childseat;
       location.hash="build";
     });
   });
 }
 function bgCardHTML(p, diff, isUpgrade){
-  var c=p.c;
-  var feeBit = p.fee ? (' + '+money(p.fee)+' delivery') : '';
-  return '<div class="bud-card">'+
+  var c=p.c, b=p.b;
+  var feeBit = b.fee ? (' + '+money(b.fee)+' delivery') : '';
+  var depHTML = b.hasFullProtection
+    ? '<span class="bg-dep zero"><i class="fa-solid fa-shield-halved"></i> No deposit · ZERO hold</span>'
+    : '<span class="bg-dep hold"><i class="fa-solid fa-shield-halved"></i> Refundable hold: '+money(b.depositAmt)+'</span>';
+  return '<div class="bg-tile">'+
     '<div class="thumb">'+carMediaHTML(c)+'</div>'+
-    '<div class="info"><b>'+c.name+'</b><small>'+c.cat+' · '+money(p.rate)+' /day'+feeBit+'</small></div>'+
+    '<div class="info"><b>'+c.name+'</b><small>'+c.cat+' · '+money(b.rate)+' /day'+feeBit+'</small></div>'+
     '<div class="amt"><span class="tot">'+money(p.total)+'</span>'+
-      '<span class="diff'+(isUpgrade?' more':'')+'">'+(isUpgrade?('+'+money(diff)+' more'):(money(diff)+' under budget'))+'</span></div>'+
-    '<button class="btn btn-ghost" data-bg-build="'+c.id+'" style="margin-left:10px">'+(isUpgrade?'Build this':'Reserve')+'</button>'+
+      '<span class="diff'+(isUpgrade?' more':'')+'">'+(isUpgrade?('+'+money(diff)+' more'):(money(diff)+' under'))+'</span></div>'+
+    depHTML+
+    '<button class="btn btn-ghost" data-bg-build="'+c.id+'">Build this</button>'+
   '</div>';
 }
 
@@ -3789,16 +4225,25 @@ function wire(){
     }
     prev.addEventListener("click", function(){ grid.scrollBy({left:-step()*1.5, behavior:"smooth"}); });
     next.addEventListener("click", function(){ grid.scrollBy({left: step()*1.5, behavior:"smooth"}); });
-    // pause while the user is interacting
-    ["mouseenter","focusin","touchstart","pointerdown"].forEach(function(ev){ grid.addEventListener(ev, function(){ paused=true; }); });
-    ["mouseleave","focusout","touchend","pointerup"].forEach(function(ev){ grid.addEventListener(ev, function(){ paused=false; }); });
-    prev.addEventListener("mouseenter", function(){ paused=true; }); prev.addEventListener("mouseleave", function(){ paused=false; });
-    next.addEventListener("mouseenter", function(){ paused=true; }); next.addEventListener("mouseleave", function(){ paused=false; });
+    // pause ONLY on hover + keyboard focus (so people can read/click). We deliberately do NOT
+    // pause on pointerdown/touchstart — those can get stuck paused when the matching up/end
+    // event lands outside the grid, which is what stopped the marquee from ever moving.
+    grid.addEventListener("mouseenter", function(){ paused=true; });
+    grid.addEventListener("mouseleave", function(){ paused=false; });
+    grid.addEventListener("focusin", function(){ paused=true; });
+    grid.addEventListener("focusout", function(){ paused=false; });
+    [prev,next].forEach(function(btn){ btn.addEventListener("mouseenter", function(){ paused=true; }); btn.addEventListener("mouseleave", function(){ paused=false; }); });
     window.addEventListener("resize", sync);
     window.__fleetCarouselSync = sync;
     sync();
     if (raf) cancelAnimationFrame(raf);
     raf = requestAnimationFrame(tick);
+    // RE-MEASURE after the car images load / layout settles — on first paint scrollWidth can be
+    // wrong (images not yet sized), so re-sync a few times and when the window finishes loading
+    // so the marquee reliably knows it's scrollable and starts moving.
+    [250, 800, 1800].forEach(function(ms){ setTimeout(sync, ms); });
+    window.addEventListener("load", sync);
+    $all("img", grid).forEach(function(im){ if(!im.complete){ im.addEventListener("load", sync, {once:true}); } });
   })();
 
   // open/close wizard
@@ -3823,6 +4268,17 @@ function wire(){
 
   // search-first hero card -> seed Smart Build with the REAL pick-up/drop-off locations + dates
   initSearchCard();
+  initChoicePopup();
+  // NAV "Book now" carries NO trip data — clear heroTrip + blank sb's trip fields so whichever
+  // tool is picked opens empty, exactly as a direct #build/#budget visit would.
+  $("#navBookNow").addEventListener("click", function(e){
+    e.preventDefault();
+    heroTrip = null;
+    openChoicePopup(function(key){
+      if (key==="build"){ sb.pickupLoc=""; sb.dropoffLoc=""; sb.from=""; sb.to=""; sb.type="all"; sb.carId=null; }
+      location.hash = key;
+    });
+  });
   $("#quickBar").addEventListener("submit",function(e){
     e.preventDefault();
     // mandatory fields: pick-up + drop-off location, pick-up + drop-off date/time
@@ -3832,17 +4288,10 @@ function wire(){
     var pickup=$("#qbFromLoc").value, dropoff=$("#qbToLoc").value;
     var from=$("#qbFrom").value, to=$("#qbTo").value;
     var qbType=$("#qbClass").value;
-    // carry chosen locations + branch region into Smart Build (shows real place, prices by branch pool)
-    sb.pickupLoc=pickup; sb.dropoffLoc=dropoff;
-    sb.branch=branchForLocation(pickup);
-    sb.from=from; sb.to=to;
-    sb.carId=null; // let the shopper pick within the matched branch pool
-    sb.type = qbType || "all"; // carry the class quick-filter into Smart Build's car box
-    if(qbType){ typeFilter=qbType==="luxury"?"luxury":qbType;
-      $all("#typeFilters .chipbtn").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-type")===typeFilter?"true":"false");});
-      renderFleet();
-    }
-    location.hash="build"; // Smart Build opens via hash routing, prefilled from sb
+    // a validated hero search carries its trip into the choice popup; whichever tool is
+    // picked opens pre-filled from the SAME trip (seedHeroTrip seeds sb for both).
+    heroTrip = { pickupLoc:pickup, dropoffLoc:dropoff, from:from, to:to, type:qbType||"all" };
+    openChoicePopup(function(key){ seedHeroTrip(key); location.hash=key; });
   });
 
   // ---- Tool 1: Smart Build ----
@@ -3986,7 +4435,79 @@ function wire(){
   });
 
   // ---- Tool 2: Budget Calculator ----
-  ["bgAmount","bgBranch","bgFrom","bgTo","bgType","bgPickupLoc","bgDropoffLoc"].forEach(function(id){ $("#"+id).addEventListener("input",bgRecalc); $("#"+id).addEventListener("change",bgRecalc); });
+  window.__bgSyncDropoffDate = bgSyncDropoffDate; // parity with Smart Build's exposed hook
+  (function(){
+    var bgF=$("#bgFrom"), bgT=$("#bgTo");
+    // Hard gate: while pick-up is empty, drop-off can NEVER hold a value — block the picker AND
+    // reject any value that slips in (icon, typing, showPicker), same pattern as the hero/Smart Build.
+    bgT.addEventListener("pointerdown", function(e){ if (!bgF.value){ e.preventDefault(); e.stopPropagation(); bgDropoffHint(); } });
+    bgT.addEventListener("keydown", function(e){ if (!bgF.value){ e.preventDefault(); bgDropoffHint(); } });
+    ["bgFrom","bgTo"].forEach(function(id){
+      $("#"+id).addEventListener("change",function(){ if(id==="bgTo") bgRejectDropoffIfNoPickup(); bgSyncDropoffDate(); $("#toolBudget").classList.add("bg-tried"); bgApplySliderRange(); bgRecalc(); });
+      $("#"+id).addEventListener("input",function(){ if(id==="bgTo") bgRejectDropoffIfNoPickup(); bgSyncDropoffDate(); bgRecalc(); });
+    });
+  })();
+  ["bgAmount","bgPickupLoc","bgDropoffLoc"].forEach(function(id){
+    $("#"+id).addEventListener("input",function(){ $("#toolBudget").classList.add("bg-tried"); bgRecalc(); });
+    $("#"+id).addEventListener("change",function(){ $("#toolBudget").classList.add("bg-tried"); bgApplySliderRange(); bgRecalc(); });
+  });
+  ["bgBranch","bgType"].forEach(function(id){
+    $("#"+id).addEventListener("change",function(){ bgApplySliderRange(); bgRecalc(); });
+  });
+  $("#bgSlider").addEventListener("input", function(){
+    $("#bgAmount").value = this.value;
+    $("#toolBudget").classList.add("bg-tried");
+    bgRecalc();
+  });
+  $all("[data-bg-preset]", $("#bgPresetChips")).forEach(function(b){
+    b.addEventListener("click", function(){
+      var v=this.getAttribute("data-bg-preset");
+      var slider=$("#bgSlider");
+      var clamped=Math.min(Math.max(parseFloat(v), parseFloat(slider.min)), parseFloat(slider.max));
+      slider.value=clamped; $("#bgAmount").value=clamped;
+      $("#toolBudget").classList.add("bg-tried");
+      bgRecalc();
+    });
+  });
+  // KM-needed slider: live re-render on every drag; the far-end stop reads as "Unlimited" (handled in bgRecalc)
+  $("#bgKmSlider").addEventListener("input", function(){
+    $("#toolBudget").classList.add("bg-tried");
+    bgRecalc();
+  });
+  // Basic/Full protection toggle — mirrors Smart Build's sb-prot-opt pattern, drives bgState.protection
+  $all('[data-bg-prot-opt]', $("#bgProtToggle")).forEach(function(b){
+    b.addEventListener("click", function(){
+      var isFull = this.getAttribute("data-bg-prot-opt")==="full";
+      bgState.protection = isFull;
+      $all('[data-bg-prot-opt]', $("#bgProtToggle")).forEach(function(x){
+        var on = x===b; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on?"true":"false");
+      });
+      $("#toolBudget").classList.add("bg-tried");
+      bgRecalc();
+    });
+  });
+  $("#bgChildseat").addEventListener("change", function(){
+    $("#toolBudget").classList.add("bg-tried");
+    bgRecalc();
+  });
+  // "Return to the same place" — mirrors #sbSameLoc exactly: mirrors pickup->dropoff while
+  // checked and disables drop-off; unchecking re-enables it for independent editing.
+  $("#bgSameLoc").addEventListener("change", function(){
+    bgState.sameLoc = this.checked;
+    var pSel=$("#bgPickupLoc"), dSel=$("#bgDropoffLoc");
+    if (this.checked){ dSel.value=pSel.value; comboReflect(dSel); dSel.disabled=true; }
+    else { dSel.disabled=false; }
+    $("#toolBudget").classList.add("bg-tried");
+    bgRecalc();
+  });
+  $("#bgPickupLoc").addEventListener("change", function(){
+    if ($("#bgSameLoc").checked){
+      var dSel=$("#bgDropoffLoc"); dSel.value=this.value; comboReflect(dSel);
+    }
+  });
+  $("#bgDropoffLoc").addEventListener("change", function(){
+    if (this.value!==$("#bgPickupLoc").value){ $("#bgSameLoc").checked=false; this.disabled=false; }
+  });
 
   // ---- Tool 3: Tour Trip Planner ----
   $("#tpAddDay").addEventListener("click", tpAddDay);
@@ -4552,6 +5073,213 @@ if (location.search.indexOf("selftest")>-1){
     sbDrvStepper.querySelector('[data-driver-dec]').click();
     console.assert(sb.driverQty===0, "FAIL: clicking − twice should bring Smart Build driverQty back to 0, got "+sb.driverQty);
     console.assert($('#sbExtras [data-driver-dec]').disabled===true, "FAIL: Smart Build driver stepper decrement must disable at 0");
+
+    /* ======== CHOOSE-YOUR-PATH POPUP + BUDGET ONE-WINDOW REDESIGN ======== */
+    // (1) the popup exists as a proper dialog with the two expected choices
+    var choicePop=$("#choicePopup");
+    console.assert(!!choicePop && choicePop.getAttribute("role")==="dialog", "FAIL: #choicePopup must exist with role=dialog");
+    var choiceBtns=$all("[data-choice]", choicePop);
+    console.assert(choiceBtns.length===2, "FAIL: choice popup should offer exactly 2 options, got "+choiceBtns.length);
+    console.assert(choiceBtns.some(function(b){return b.getAttribute("data-choice")==="build";}) &&
+      choiceBtns.some(function(b){return b.getAttribute("data-choice")==="budget";}),
+      "FAIL: choice popup must offer build + budget options");
+
+    // (2) openChoicePopup()/closeChoicePopup() toggle .open; picking an option invokes the callback
+    var picked=null;
+    openChoicePopup(function(k){ picked=k; });
+    console.assert(choicePop.classList.contains("open"), "FAIL: openChoicePopup must add .open");
+    $('[data-choice="budget"]', choicePop).click();
+    console.assert(picked==="budget", "FAIL: clicking the budget option should invoke the callback with 'budget', got "+picked);
+    console.assert(!choicePop.classList.contains("open") && choicePop.hidden===true, "FAIL: picking an option must close the popup");
+    // Esc closes it too
+    openChoicePopup(function(){});
+    document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape"}));
+    console.assert(!choicePop.classList.contains("open"), "FAIL: Escape must close the choice popup");
+
+    // (3) NAV Book-now opens the popup WITHOUT pre-setting the hash
+    console.assert(!!$("#navBookNow"), "FAIL: #navBookNow must exist");
+    var hashBefore=location.hash;
+    heroTrip = {pickupLoc:"x", dropoffLoc:"y", from:"z", to:"w", type:"suv"}; // sentinel to prove Book-now clears it
+    $("#navBookNow").click();
+    console.assert(choicePop.classList.contains("open"), "FAIL: clicking Book-now must open the choice popup");
+    console.assert(heroTrip===null, "FAIL: Book-now must clear heroTrip (no trip data carried)");
+    console.assert(location.hash===hashBefore, "FAIL: Book-now must not set the hash before a pick");
+    closeChoicePopup();
+
+    // (4) a validated hero search carries pickup/dropoff/dates/type into heroTrip, and
+    // picking either tool pre-fills it via seedHeroTrip() / bgInit()
+    $("#qbFromLoc").value="Brothers Office-Hurghada"; $("#qbFromLoc").dispatchEvent(new Event("change",{bubbles:true}));
+    $("#qbToLoc").value="El Gouna"; $("#qbToLoc").dispatchEvent(new Event("change",{bubbles:true}));
+    $("#qbFrom").value="2026-04-01T10:00"; $("#qbFrom").dispatchEvent(new Event("change",{bubbles:true}));
+    $("#qbTo").value="2026-04-04T10:00"; $("#qbTo").dispatchEvent(new Event("change",{bubbles:true}));
+    $("#qbClass").value="suv";
+    $("#quickBar").dispatchEvent(new Event("submit",{bubbles:true,cancelable:true}));
+    console.assert(!!heroTrip && heroTrip.pickupLoc==="Brothers Office-Hurghada" && heroTrip.dropoffLoc==="El Gouna" &&
+      heroTrip.from==="2026-04-01T10:00" && heroTrip.to==="2026-04-04T10:00" && heroTrip.type==="suv",
+      "FAIL: a validated hero search must populate heroTrip with the entered trip, got "+JSON.stringify(heroTrip));
+    console.assert(choicePop.classList.contains("open"), "FAIL: a validated hero search must open the choice popup");
+    seedHeroTrip("build");
+    console.assert(sb.pickupLoc==="Brothers Office-Hurghada" && sb.dropoffLoc==="El Gouna" &&
+      sb.from==="2026-04-01T10:00" && sb.to==="2026-04-04T10:00",
+      "FAIL: seedHeroTrip('build') must seed sb.* from heroTrip");
+    bgInit();
+    console.assert($("#bgPickupLoc").value==="Brothers Office-Hurghada" && $("#bgFrom").value==="2026-04-01T10:00",
+      "FAIL: bgInit() with heroTrip set must pre-fill Budget's pick-up location + date, got "+$("#bgPickupLoc").value+"/"+$("#bgFrom").value);
+    closeChoicePopup();
+
+    // (5) Budget empty-start: with heroTrip cleared, bgInit() leaves the mandatory fields empty
+    heroTrip = null;
+    bgInit();
+    console.assert($("#bgAmount").value==="" && $("#bgFrom").value==="" && $("#bgPickupLoc").value==="",
+      "FAIL: bgInit() with no heroTrip must start Budget EMPTY (no invented defaults), got amount="+$("#bgAmount").value+" from="+$("#bgFrom").value+" pickup="+$("#bgPickupLoc").value);
+
+    // (6) Budget date gating mirrors the hero/Smart Build EXACTLY: drop-off can't hold a value
+    // until pick-up is set; min/max are kept in sync; no auto-opening pickers (none wired here).
+    $("#bgFrom").value=""; $("#bgTo").value="2026-05-01T10:00";
+    var bgRejected=bgRejectDropoffIfNoPickup();
+    console.assert(bgRejected===true && $("#bgTo").value==="", "FAIL: setting drop-off while pick-up is empty must be rejected, got value="+$("#bgTo").value);
+    $("#bgFrom").value="2026-05-01T10:00"; bgSyncDropoffDate();
+    console.assert($("#bgTo").min==="2026-05-01T10:00", "FAIL: bgSyncDropoffDate must set drop-off min = pick-up value, got "+$("#bgTo").min);
+    $("#bgTo").value="2026-05-05T10:00"; bgSyncDropoffDate();
+    console.assert($("#bgFrom").max==="2026-05-05T10:00", "FAIL: bgSyncDropoffDate must set pick-up max = drop-off value, got "+$("#bgFrom").max);
+
+    // (7) Budget validation: false when incomplete, true once budget + locations + dates are set
+    $("#bgAmount").value=""; $("#bgPickupLoc").value=""; comboReflect($("#bgPickupLoc"));
+    console.assert(bgValidate()===false, "FAIL: bgValidate() must be false with no budget/locations/dates");
+    $("#bgAmount").value="8000";
+    $("#bgPickupLoc").value="Brothers Office-Hurghada"; comboReflect($("#bgPickupLoc"));
+    $("#bgDropoffLoc").value="El Gouna"; comboReflect($("#bgDropoffLoc"));
+    $("#bgFrom").value="2026-05-01T10:00"; $("#bgTo").value="2026-05-05T10:00"; bgSyncDropoffDate();
+    console.assert(bgValidate()===true, "FAIL: bgValidate() must be true once budget>0 + locations + dates are all set");
+
+    // (8) slider: exists, min<max from real fleet totals, dragging syncs the amount + re-renders zones
+    var bgSlider=$("#bgSlider");
+    console.assert(!!bgSlider, "FAIL: #bgSlider must exist");
+    var range=bgComputeSliderRange();
+    console.assert(range.min<range.max, "FAIL: bgComputeSliderRange must return min<max, got "+JSON.stringify(range));
+    bgApplySliderRange();
+    bgSlider.value = Math.round((parseFloat(bgSlider.min)+parseFloat(bgSlider.max))/2);
+    bgSlider.dispatchEvent(new Event("input",{bubbles:true}));
+    console.assert($("#bgAmount").value===bgSlider.value, "FAIL: dragging #bgSlider must sync #bgAmount, got "+$("#bgAmount").value+" vs "+bgSlider.value);
+    bgRecalc();
+    console.assert($("#bgFitZone").children.length>0 || $("#bgStretchZone").children.length>0,
+      "FAIL: after a slider-driven recalc at least one zone should render content");
+
+    // (9) presets set the slider+amount value
+    $('[data-bg-preset="10000"]', $("#bgPresetChips")).click();
+    console.assert(parseFloat($("#bgAmount").value)===Math.min(10000, parseFloat(bgSlider.max)),
+      "FAIL: the 10,000 preset must set #bgAmount (clamped to slider max), got "+$("#bgAmount").value);
+    console.assert($("#bgAmount").value===bgSlider.value, "FAIL: preset must keep slider and number in sync");
+
+    // (10) a car's trip total via the Budget pool must equal sbComputeBuild() for the same cfg
+    // (the real engine — no forked math), including protection/km/driver/childseat.
+    $("#bgBranch").value="all"; $("#bgType").value="all";
+    $("#bgPickupLoc").value="Brothers Office-Hurghada"; comboReflect($("#bgPickupLoc"));
+    $("#bgDropoffLoc").value="El Gouna"; comboReflect($("#bgDropoffLoc"));
+    $("#bgFrom").value="2026-03-01T10:00"; $("#bgTo").value="2026-03-05T10:00"; bgSyncDropoffDate();
+    $("#bgAmount").value="20000"; bgSlider.value="20000";
+    bgRecalc();
+    var mgDays=daysBetween("2026-03-01T10:00","2026-03-05T10:00");
+    var mgExpectedCfg={carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00",
+      pickupLoc:"Brothers Office-Hurghada", dropoffLoc:"El Gouna", kmBase:"standard200",
+      kmExtra:bgState.kmExtra, driverQty:bgState.driverQty, extras:{protection:bgState.protection, childseat:bgState.childseat}};
+    var mgExpected=sbComputeBuild(mgExpectedCfg).grand;
+    console.assert(mgExpected===11200, "FAIL: sanity check on expected MG ZS 4d total (defaults), got "+mgExpected);
+    var fitTxt=$("#bgFitZone").textContent+$("#bgStretchZone").textContent;
+    console.assert(fitTxt.indexOf(money(mgExpected).replace(/\s/g,""))>-1 || fitTxt.replace(/\s/g,"").indexOf(money(mgExpected).replace(/\s/g,""))>-1,
+      "FAIL: the MG ZS honest total ("+money(mgExpected)+") must appear in a rendered Budget tile");
+
+    /* ======== BUDGET CONFIGURATOR — KM slider, protection, extras, deposit, same-loc, hand-off ======== */
+    // (i) KM auto-mapping proofs — pure function, no DOM, 3-day trip => 600 KM included
+    console.assert(bgPickKmExtra(600,3).kmExtra==="" && bgPickKmExtra(600,3).kmCost===0,
+      "FAIL: 600 KM needed on a 3-day trip (600 included) should need no extra, got "+JSON.stringify(bgPickKmExtra(600,3)));
+    console.assert(bgPickKmExtra(2000,3).kmExtra==="1500_km_package" && bgPickKmExtra(2000,3).kmCost===4500,
+      "FAIL: 2000 KM needed (gap 1400) should pick the 1500 KM Package at 4500, got "+JSON.stringify(bgPickKmExtra(2000,3)));
+    console.assert(bgPickKmExtra(4000,3).kmExtra==="unlimited" && bgPickKmExtra(4000,3).kmCost===8000,
+      "FAIL: 4000 KM needed (gap 3400 > 3000) should snap to unlimited at 8000, got "+JSON.stringify(bgPickKmExtra(4000,3)));
+
+    // (ii) total identity: Budget tile total === sbComputeBuild(sameCfg).grand for a configured pane
+    $("#bgKmSlider").value="2000"; $("#bgKmSlider").dispatchEvent(new Event("input",{bubbles:true}));
+    bgRecalc();
+    var idCfg={carId:"mg_zs", from:$("#bgFrom").value, to:$("#bgTo").value,
+      pickupLoc:$("#bgPickupLoc").value, dropoffLoc:$("#bgDropoffLoc").value, kmBase:"standard200",
+      kmExtra:bgPickKmExtra(2000, daysBetween($("#bgFrom").value,$("#bgTo").value)).kmExtra,
+      driverQty:bgState.driverQty, extras:{protection:bgState.protection, childseat:bgState.childseat}};
+    var idExpected=sbComputeBuild(idCfg).grand;
+    console.assert(idExpected===sbComputeBuild(idCfg).grand, "FAIL: sanity — sbComputeBuild must be deterministic");
+    var fitTxt2=$("#bgFitZone").textContent+$("#bgStretchZone").textContent;
+    console.assert(fitTxt2.replace(/\s/g,"").indexOf(money(idExpected).replace(/\s/g,""))>-1,
+      "FAIL: with KM slider at 2000, the MG ZS tile total ("+money(idExpected)+") must equal sbComputeBuild(cfg).grand and render, got text snippet "+fitTxt2.slice(0,400));
+
+    // (iii)+(iv) deposit indicator + live protection toggle: Basic -> real depositFor(mg_zs) hold;
+    // Full -> ZERO; total changes by exactly insDailyFor(mg_zs)*days
+    var mgCar=carById("mg_zs");
+    var basicCfg={carId:"mg_zs", from:$("#bgFrom").value, to:$("#bgTo").value,
+      pickupLoc:$("#bgPickupLoc").value, dropoffLoc:$("#bgDropoffLoc").value, kmBase:"standard200",
+      kmExtra:bgState.kmExtra, driverQty:bgState.driverQty, extras:{protection:false, childseat:bgState.childseat}};
+    var fullCfg=JSON.parse(JSON.stringify(basicCfg)); fullCfg.extras.protection=true;
+    var basicB=sbComputeBuild(basicCfg), fullB=sbComputeBuild(fullCfg);
+    console.assert(basicB.depositAmt===depositFor(mgCar) && basicB.depositAmt===35000,
+      "FAIL: Basic protection must show the real MG ZS refundable hold (35,000), got "+basicB.depositAmt);
+    console.assert(fullB.depositAmt===0 && fullB.hasFullProtection===true,
+      "FAIL: Full Protection must zero the deposit, got "+fullB.depositAmt);
+    console.assert(fullB.grand-basicB.grand===insDailyFor(mgCar)*basicB.days,
+      "FAIL: Basic->Full must change the grand total by exactly insDailyFor(mgCar)*days, got diff "+(fullB.grand-basicB.grand));
+    // drive it through the live DOM toggle and confirm the rendered deposit badge flips
+    $('[data-bg-prot-opt="basic"]').click();
+    console.assert(bgState.protection===false, "FAIL: clicking the Basic pill must set bgState.protection=false");
+    var zoneTxtBasic=$("#bgFitZone").innerHTML+$("#bgStretchZone").innerHTML;
+    console.assert(zoneTxtBasic.indexOf("bg-dep hold")>-1, "FAIL: Basic protection must render a .bg-dep.hold badge on at least one tile");
+    $('[data-bg-prot-opt="full"]').click();
+    console.assert(bgState.protection===true, "FAIL: clicking the Full pill must set bgState.protection=true");
+    var zoneTxtFull=$("#bgFitZone").innerHTML+$("#bgStretchZone").innerHTML;
+    console.assert(zoneTxtFull.indexOf("bg-dep zero")>-1, "FAIL: Full Protection must render a .bg-dep.zero badge on at least one tile");
+    $('[data-bg-prot-opt="basic"]').click(); // restore default
+
+    // (iv cont'd) drivers stepper + child seat change the total by the real deltas
+    var preDrv=sbComputeBuild({carId:"mg_zs", from:$("#bgFrom").value, to:$("#bgTo").value,
+      pickupLoc:$("#bgPickupLoc").value, dropoffLoc:$("#bgDropoffLoc").value, kmBase:"standard200",
+      kmExtra:bgState.kmExtra, driverQty:bgState.driverQty, extras:{protection:bgState.protection, childseat:bgState.childseat}});
+    $("#bgDriverStepper [data-driver-inc]").click();
+    console.assert(bgState.driverQty===1, "FAIL: clicking the driver stepper + must set bgState.driverQty=1, got "+bgState.driverQty);
+    var postDrv=sbComputeBuild({carId:"mg_zs", from:$("#bgFrom").value, to:$("#bgTo").value,
+      pickupLoc:$("#bgPickupLoc").value, dropoffLoc:$("#bgDropoffLoc").value, kmBase:"standard200",
+      kmExtra:bgState.kmExtra, driverQty:bgState.driverQty, extras:{protection:bgState.protection, childseat:bgState.childseat}});
+    console.assert(postDrv.grand-preDrv.grand===additionalDriverDailyCost(1)*preDrv.days,
+      "FAIL: incrementing drivers 0->1 must add additionalDriverDailyCost(1)*days, got diff "+(postDrv.grand-preDrv.grand));
+    $("#bgDriverStepper [data-driver-dec]").click(); // restore 0
+    $("#bgChildseat").checked=true; $("#bgChildseat").dispatchEvent(new Event("change",{bubbles:true}));
+    var postSeat=sbComputeBuild({carId:"mg_zs", from:$("#bgFrom").value, to:$("#bgTo").value,
+      pickupLoc:$("#bgPickupLoc").value, dropoffLoc:$("#bgDropoffLoc").value, kmBase:"standard200",
+      kmExtra:bgState.kmExtra, driverQty:bgState.driverQty, extras:{protection:bgState.protection, childseat:true}});
+    console.assert(postSeat.grand-preDrv.grand===250*preDrv.days,
+      "FAIL: checking child seat must add 250*days, got diff "+(postSeat.grand-preDrv.grand));
+    $("#bgChildseat").checked=false; $("#bgChildseat").dispatchEvent(new Event("change",{bubbles:true})); // restore
+
+    // (v) same-loc mirrors pickup->dropoff and disables drop-off; unchecking re-enables it
+    $("#bgSameLoc").checked=true; $("#bgSameLoc").dispatchEvent(new Event("change",{bubbles:true}));
+    console.assert($("#bgDropoffLoc").value===$("#bgPickupLoc").value && $("#bgDropoffLoc").disabled===true,
+      "FAIL: #bgSameLoc checked must mirror pickup into drop-off and disable it, got dropoff="+$("#bgDropoffLoc").value+" disabled="+$("#bgDropoffLoc").disabled);
+    $("#bgSameLoc").checked=false; $("#bgSameLoc").dispatchEvent(new Event("change",{bubbles:true}));
+    console.assert($("#bgDropoffLoc").disabled===false, "FAIL: unchecking #bgSameLoc must re-enable drop-off");
+    $("#bgDropoffLoc").value="El Gouna"; comboReflect($("#bgDropoffLoc")); bgRecalc();
+
+    // (vi) "Build this" hand-off carries ALL configured choices (protection/km/driver/childseat) into Smart Build
+    var buildBtn=$("[data-bg-build]", $("#bgResults"));
+    console.assert(!!buildBtn, "FAIL: at least one [data-bg-build] tile must render to test the hand-off");
+    sb.carId=null;
+    var handoffKm=bgState.kmExtra, handoffDrv=bgState.driverQty, handoffProt=bgState.protection, handoffSeat=bgState.childseat;
+    buildBtn.click();
+    console.assert(!!sb.carId, "FAIL: clicking a Budget tile's Build-this button must set sb.carId");
+    console.assert(location.hash==="#build", "FAIL: Build-this hand-off must route to #build, got "+location.hash);
+    console.assert(sb.kmExtra===handoffKm, "FAIL: hand-off must carry sb.kmExtra from the Budget pane, got "+sb.kmExtra+" vs "+handoffKm);
+    console.assert(sb.driverQty===handoffDrv, "FAIL: hand-off must carry sb.driverQty, got "+sb.driverQty+" vs "+handoffDrv);
+    console.assert(sb.extras.protection===handoffProt, "FAIL: hand-off must carry sb.extras.protection, got "+sb.extras.protection+" vs "+handoffProt);
+    console.assert(sb.extras.childseat===handoffSeat, "FAIL: hand-off must carry sb.extras.childseat, got "+sb.extras.childseat+" vs "+handoffSeat);
+    var handoffB=sbComputeBuild({carId:sb.carId, from:sb.from, to:sb.to, pickupLoc:sb.pickupLoc, dropoffLoc:sb.dropoffLoc,
+      kmBase:sb.kmBase, kmExtra:sb.kmExtra, driverQty:sb.driverQty, extras:{protection:sb.extras.protection, childseat:sb.extras.childseat}});
+    console.assert(money(handoffB.grand).replace(/\s/g,"")===buildBtn.closest(".bg-tile").querySelector(".tot").textContent.replace(/\s/g,""),
+      "FAIL: sbComputeBuild(sb).grand must equal the clicked tile's displayed total, got "+handoffB.grand+" vs tile "+buildBtn.closest(".bg-tile").querySelector(".tot").textContent);
 
     console.log("%c[selftest] Brothers EGY · The Journey — all assertions ran.", "color:#d4a24e;font-weight:bold");
   };
