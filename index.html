@@ -2722,7 +2722,11 @@ function sbUpdateStepStates(){
     } else if (s.sec && !s.sec.__userToggled){
       // auto-collapse DONE steps and auto-expand the ACTIVE one — unless the user manually
       // toggled this step, in which case we respect their choice.
-      if (state==="active") s.sec.classList.remove("sb-collapsed");
+      // EXCEPTION: step 3 (Protection & extras) holds OPTIONAL services the client keeps
+      // adding to, so it is marked DONE (green) but NEVER auto-collapses — collapsing it would
+      // block them from choosing more services. It stays expanded.
+      if (s.sec.id==="sbStep3"){ s.sec.classList.remove("sb-collapsed"); }
+      else if (state==="active") s.sec.classList.remove("sb-collapsed");
       else if (done) s.sec.classList.add("sb-collapsed");
       var hd = s.sec.querySelector(".sb-acc-head");
       if (hd) hd.setAttribute("aria-expanded", s.sec.classList.contains("sb-collapsed") ? "false" : "true");
