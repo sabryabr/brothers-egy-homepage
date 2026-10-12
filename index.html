@@ -143,12 +143,29 @@ html[data-theme="light"] .hero-chips span{color:#241d10;background:rgba(255,255,
 .search-card .fld input[type="datetime-local"]{padding-left:9px;padding-right:4px;font-size:.84rem;letter-spacing:-.1px}
 .search-card .row2 .fld{min-width:0}
 .search-card .fld input[type="datetime-local"]{width:100%;box-sizing:border-box;min-width:0}
+/* whiten the native calendar picker icon so it's visible on the dark card */
+.search-card .fld input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:invert(1) brightness(1.6);opacity:.85;cursor:pointer}
+.search-card .fld input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover{opacity:1}
+html[data-theme="light"] .search-card .fld input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:none}
 .search-card .sc-same{display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--txt-dim);margin:-3px 0 9px}
 .search-card .sc-same input{width:auto}
 .search-card .btn-search{width:100%;height:46px;justify-content:center;font-size:.96rem;margin-top:2px}
 .search-card .sc-note{margin:12px 0 0;font-size:.72rem;color:var(--txt-mute);display:flex;align-items:center;gap:7px}
 .search-card .sc-fee{margin:10px 0 0;font-size:.8rem;color:var(--nile-2);display:none;align-items:center;gap:7px}
 .search-card .sc-fee.show{display:flex}
+/* mandatory-field validation (LIVE from load): a required field shows a red * and a red
+   border while empty/invalid, and turns green the moment it's filled correctly. The inline
+   error text only appears once the user has attempted a search (sc-tried), to avoid shouting
+   on first load — but the red border + * are shown immediately so requirements are obvious. */
+.search-card .req-star{color:#e2896f;font-weight:700;margin-left:1px}
+.search-card .fld.sc-valid .req-star{color:#2da46e}
+.search-card .fld.sc-invalid select,.search-card .fld.sc-invalid input,.search-card .fld.sc-invalid .combo-input{border-color:#d66d4e !important;box-shadow:0 0 0 2px rgba(214,109,78,.16)}
+.search-card .fld.sc-invalid label{color:#e2896f}
+.search-card .fld.sc-valid select,.search-card .fld.sc-valid input,.search-card .fld.sc-valid .combo-input{border-color:rgba(45,164,110,.65) !important}
+.search-card .fld .fld-err{display:none;font-size:.7rem;color:#e2896f;margin-top:3px}
+.search-card.sc-tried .fld.sc-invalid .fld-err{display:block}
+.search-card .sc-err{display:none;margin:8px 0 0;font-size:.76rem;color:#e2896f;align-items:center;gap:7px}
+.search-card .sc-err.show{display:flex}
 .scroll-cue{position:absolute;left:50%;bottom:18px;z-index:4;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
 .scroll-cue .mouse{width:22px;height:36px;border:2px solid rgba(255,255,255,.6);border-radius:12px;position:relative}
 .scroll-cue .mouse::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;border-radius:3px;background:#fff;transform:translateX(-50%);animation:wheel 1.6s var(--ease) infinite}
@@ -302,6 +319,10 @@ html[data-theme="light"] .ambient-scrim{background:linear-gradient(90deg,rgba(24
 .field label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-dim)}
 .field input,.field select{background:var(--bg-2);color:var(--txt);border:1px solid var(--line);border-radius:12px;padding:12px;font-family:inherit;font-size:.95rem;width:100%;box-sizing:border-box;min-width:0}
 .field input[type="datetime-local"]{width:100%;box-sizing:border-box;min-width:0}
+/* whiten the native calendar picker icon on dark date fields (Smart Build / wizard / budget) */
+.field input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:invert(1) brightness(1.6);opacity:.85;cursor:pointer}
+.field input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover{opacity:1}
+html[data-theme="light"] .field input[type="datetime-local"]::-webkit-calendar-picker-indicator{filter:none}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .classgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .classcard{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:14px;cursor:pointer;transition:.2s;display:flex;gap:12px;align-items:center}
@@ -319,10 +340,35 @@ html[data-theme="light"] .ambient-scrim{background:linear-gradient(90deg,rgba(24
 .extra .ex-main b{font-size:.95rem}
 .extra .ex-main small{color:var(--txt-mute);display:block}
 .extra .ex-pr{color:var(--gold-2);font-size:.9rem}
+.extra.extra-driver{flex-wrap:wrap}
+.extra.extra-driver .ex-pr{flex:0 0 100%;font-size:.78rem;color:var(--txt-mute)}
+.stepper{display:flex;align-items:center;gap:8px}
+.stepper-btn{width:28px;height:28px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);color:var(--txt);font-size:1rem;line-height:1;cursor:pointer}
+.stepper-btn:disabled{opacity:.35;cursor:not-allowed}
+.stepper-val{min-width:1.4em;text-align:center;font-weight:600}
+.ct-ex-driver{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0}
+.km-control{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--card)}
+.km-control .km-row{display:flex;flex-direction:column;gap:6px}
+.km-control label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-dim)}
+.km-control select{background:var(--bg-2);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:10px;font-family:inherit;font-size:.92rem;width:100%;box-sizing:border-box}
+.km-control .km-readout{font-size:.9rem;color:var(--gold-2);font-weight:600}
+.km-control .km-note{font-size:.78rem;color:var(--txt-mute)}
+/* compact Step-3 "Protection & extras": a two-option protection toggle + tighter
+   driver/child-seat rows, scoped so the fleet wizard's #kmControl keeps its own sizing */
+.sb-prot-toggle{display:flex;gap:8px;margin-bottom:10px}
+.sb-prot-opt{flex:1 1 0;min-width:0;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:9px 11px;cursor:pointer;text-align:left;color:var(--txt);display:flex;flex-direction:column;gap:2px}
+.sb-prot-opt.on{border-color:var(--gold);background:rgba(212,162,78,.12)}
+.sb-prot-opt .pt-t{font-weight:600;font-size:.9rem}
+.sb-prot-opt .pt-s{font-size:.72rem;color:var(--txt-dim);line-height:1.3}
+.extra.extra-compact{padding:8px 10px;gap:10px}
+.extra.extra-compact .ex-main small{font-size:.72rem}
+#sbKmControl.km-control{padding:10px}
+#sbKmControl.km-control .km-row{gap:5px}
 .summary{position:sticky;top:72px;align-self:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
 .summary h4{margin:0 0 14px;font-family:"Fraunces"}
-.sumline{display:flex;justify-content:space-between;font-size:.88rem;color:var(--txt-dim);margin-bottom:7px}
-.sumline b{color:var(--txt)}
+.sumline{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:.88rem;color:var(--txt-dim);margin-bottom:7px}
+.sumline>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sumline b{color:var(--txt);flex:0 0 auto;white-space:nowrap}
 .sumtot{border-top:1px solid var(--line);margin-top:10px;padding-top:11px;display:flex;justify-content:space-between;align-items:baseline}
 .sumtot .big{font-family:"Fraunces";font-size:1.7rem;color:var(--gold-2)}
 .split{background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:12px;margin-top:14px;font-size:.84rem;color:var(--txt-dim)}
@@ -420,13 +466,18 @@ html[data-theme="light"] .sb-car .thumb{background:linear-gradient(180deg,#efe6d
 .step-rail li{display:flex;align-items:center;gap:6px;font-size:.74rem;color:var(--txt-mute);border:1px solid var(--line);
   border-radius:999px;padding:4px 11px;background:var(--card)}
 .step-rail li .n{width:17px;height:17px;border-radius:50%;display:grid;place-items:center;font-size:.66rem;font-weight:700;background:var(--glass);color:var(--txt-dim)}
-.step-rail li.active{color:var(--txt);border-color:var(--gold)}
+.step-rail li.active{color:var(--gold-2);border-color:var(--gold);background:rgba(212,162,78,.14);font-weight:600}
 .step-rail li.active .n{background:var(--gold);color:#1a1308}
-.step-rail li.done .n{background:var(--nile);color:#fff}
+.step-rail li.done{color:#5fcf98;border-color:rgba(45,164,110,.55)}
+.step-rail li.done .n{background:#2da46e;color:#fff}
+.step-rail li.pending{color:#e2896f;border-color:rgba(214,109,78,.5)}
+.step-rail li.pending .n{background:rgba(214,109,78,.22);color:#e2896f}
+.step-rail li.clickable{cursor:pointer}
+.step-rail li.clickable:hover{border-color:var(--gold)}
 /* genuine two-pane workspace that fills the width AND the viewport height: LEFT
    flexes to fill the room and becomes a column (compact top + flexible car box),
    RIGHT reservation pane is a comfortable fixed width (no cramped 1fr squeeze) */
-.sb-two{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:clamp(16px,2vw,28px);align-items:start;flex:1 1 auto;min-height:0}
+.sb-two{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:clamp(16px,2vw,28px);align-items:start;flex:1 1 auto;min-height:0}
 /* left column: sections stack in NORMAL FLOW (no flex-grow fighting) so none can
    overlap another. The body scrolls as one unit; the car box keeps its own capped
    inner scroll so it stays dominant without growing tall enough to float over step 3. */
@@ -512,11 +563,33 @@ html[data-theme="light"] .pay-now{background:#241d10}
 .sb-acc-chev{color:var(--gold-2);font-size:.82rem;flex:0 0 auto;transition:transform .3s var(--ease)}
 .sb-acc.sb-collapsed .sb-acc-chev{transform:rotate(180deg)}
 .sb-acc.sb-collapsed .sb-acc-body{display:none}
+/* ---- interactive step STATE: done = green (auto-collapses to save space, re-openable),
+   pending = red, active = gold. A small status dot/check sits before the title. ---- */
+.sb-acc-head .sb-step-mark{flex:0 0 auto;width:18px;height:18px;border-radius:50%;display:inline-grid;place-items:center;
+  font-size:.6rem;font-weight:700;margin-right:7px;background:var(--glass);color:var(--txt-dim);transition:.2s}
+.sb-acc-head>span{display:flex;align-items:center;min-width:0}
+.sb-acc.sb-done>.sb-acc-head,.sb-acc.sb-done .sb-pick-head>.sb-acc-head{color:#5fcf98}
+.sb-acc.sb-done .sb-step-mark{background:#2da46e;color:#fff}
+.sb-acc.sb-active>.sb-acc-head,.sb-acc.sb-active .sb-pick-head>.sb-acc-head{color:var(--gold-2)}
+.sb-acc.sb-active .sb-step-mark{background:var(--gold);color:#1a1308}
+.sb-acc.sb-pending>.sb-acc-head,.sb-acc.sb-pending .sb-pick-head>.sb-acc-head{color:#e2896f}
+.sb-acc.sb-pending .sb-step-mark{background:rgba(214,109,78,.22);color:#e2896f}
+/* a thin left accent bar reinforces the state on the whole section */
+.sb-acc{border-left:3px solid transparent;padding-left:0;transition:border-color .2s}
+.sb-acc.sb-done{border-left-color:#2da46e}
+.sb-acc.sb-active{border-left-color:var(--gold)}
+.sb-acc.sb-pending{border-left-color:rgba(214,109,78,.6)}
 /* collapsing step 1 by hand also reveals its slim one-line trip summary */
 .sb-step1.sb-collapsed .sb-trip-summary{display:flex}
 /* when step 1 auto-collapses to its summary bar, the chevron header is redundant
-   (the summary's own Edit button re-opens it) — hide the header to avoid two toggles */
-.sb-step1.collapsed > .sb-acc-head{display:none}
+   (the summary's own Edit button re-opens it) — hide the header to avoid two toggles.
+   BUT never hide it while step 1 is the ACTIVE step (the user is on it): then we want
+   the full header + fields, not the collapsed summary. */
+.sb-step1.collapsed:not(.sb-active) > .sb-acc-head{display:none}
+/* an ACTIVE step 1 always shows its fields + header, never the collapsed summary */
+.sb-step1.sb-active > .sb-acc-head{display:flex}
+.sb-step1.sb-active .sb-acc-body{display:block}
+.sb-step1.sb-active .sb-trip-summary{display:none}
 /* step 2 is a flex column (sticky head + inner-scroll car box); when collapsed it must
    stop stretching so the sections below rise up */
 .sb-pick.sb-collapsed{flex:0 0 auto}
@@ -677,7 +750,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 @media(min-width:1500px){ :root{ --max:1320px; } }
 /* tablet landscape / small laptop: keep the two-pane booking but slimmer reservation pane */
 @media(max-width:1100px) and (min-width:861px){
-  .sb-two{grid-template-columns:minmax(0,1fr) 320px}
+  .sb-two{grid-template-columns:minmax(0,1fr) 360px}
   .tool-grid-2{grid-template-columns:1.4fr 1fr}
 }
 /* tablet portrait: hero stacks, fleet 2-up, compare columns stay readable */
@@ -800,19 +873,21 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
           <h2 class="sc-head">Find your car</h2>
           <p class="sc-sub">Three quick taps and you're on the road.</p>
 
-          <div class="fld">
-            <label for="qbFromLoc">Pick-up location</label>
-            <select id="qbFromLoc" aria-label="Pick-up location"></select>
+          <div class="fld" data-req="qbFromLoc">
+            <label for="qbFromLoc">Pick-up location <span class="req-star" aria-hidden="true">*</span></label>
+            <select id="qbFromLoc" aria-label="Pick-up location (required)"></select>
+            <span class="fld-err">Choose a pick-up location.</span>
           </div>
-          <div class="fld">
-            <label for="qbToLoc">Drop-off location</label>
-            <select id="qbToLoc" aria-label="Drop-off location"></select>
+          <div class="fld" data-req="qbToLoc">
+            <label for="qbToLoc">Drop-off location <span class="req-star" aria-hidden="true">*</span></label>
+            <select id="qbToLoc" aria-label="Drop-off location (required)"></select>
+            <span class="fld-err">Choose a drop-off location.</span>
           </div>
-          <label class="sc-same"><input type="checkbox" id="qbSameLoc" checked> Return to the same place</label>
+          <label class="sc-same"><input type="checkbox" id="qbSameLoc"> Return to the same place</label>
 
           <div class="row2">
-            <div class="fld"><label for="qbFrom">Pick-up date &amp; time</label><input type="datetime-local" id="qbFrom"></div>
-            <div class="fld"><label for="qbTo">Drop-off date &amp; time</label><input type="datetime-local" id="qbTo"></div>
+            <div class="fld" data-req="qbFrom"><label for="qbFrom">Pick-up date &amp; time <span class="req-star" aria-hidden="true">*</span></label><input type="datetime-local" id="qbFrom"><span class="fld-err">Pick a date &amp; time.</span></div>
+            <div class="fld" data-req="qbTo"><label for="qbTo">Drop-off date &amp; time <span class="req-star" aria-hidden="true">*</span></label><input type="datetime-local" id="qbTo"><span class="fld-err">Must be after pick-up.</span></div>
           </div>
 
           <div class="fld">
@@ -828,6 +903,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
           </div>
 
           <p class="sc-fee" id="qbFee"><i class="fa-solid fa-route"></i> <span id="qbFeeText"></span></p>
+          <p class="sc-err" id="qbErr"><i class="fa-solid fa-circle-exclamation"></i> <span id="qbErrText"></span></p>
 
           <button class="btn btn-gold btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search cars</button>
           <p class="sc-note"><i class="fa-solid fa-location-dot"></i> Real pick-up / drop-off points &amp; route fees from our live system.</p>
@@ -1184,6 +1260,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
         <div class="wiz-step" data-step="3">
           <h4 style="font-family:Fraunces;margin:0 0 14px">3 · Protection & extras</h4>
           <div class="extras" id="extrasList"></div>
+          <div class="km-control" id="kmControl"></div>
         </div>
         <!-- step 4 -->
         <div class="wiz-step" data-step="4">
@@ -1251,7 +1328,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
       <!-- LEFT 2/3: step flow + contained-scroll car box -->
       <div class="sb-left">
         <div class="tool-section sb-step1 sb-acc" id="sbStep1">
-          <button type="button" class="sb-acc-head sb-step1-h" aria-expanded="true"><span>1 · Where &amp; when</span><i class="fa-solid fa-chevron-up sb-acc-chev" aria-hidden="true"></i></button>
+          <button type="button" class="sb-acc-head sb-step1-h" aria-expanded="true"><span><i class="sb-step-mark" data-mark aria-hidden="true">1</i>Where &amp; when</span><i class="fa-solid fa-chevron-up sb-acc-chev" aria-hidden="true"></i></button>
           <div class="sb-acc-body">
           <!-- compact grid: pick-up/drop-off locations + dates + class, no branch picker
                (branch is derived behind the scenes from the pick-up location) -->
@@ -1275,7 +1352,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
         <!-- pinned filters + contained-scroll car grid -->
         <div class="sb-pick sb-acc" id="sbStep2">
           <div class="sb-pick-head">
-            <button type="button" class="sb-acc-head" aria-expanded="true"><span>2 · Choose your class</span><i class="fa-solid fa-chevron-up sb-acc-chev" aria-hidden="true"></i></button>
+            <button type="button" class="sb-acc-head" aria-expanded="true"><span><i class="sb-step-mark" data-mark aria-hidden="true">2</i>Choose your class</span><i class="fa-solid fa-chevron-up sb-acc-chev" aria-hidden="true"></i></button>
             <div class="sb-filters" role="group" aria-label="Filter cars">
               <div class="grp" id="sbTypeFilters" aria-label="Car type">
                 <button type="button" class="chipbtn" data-sbtype="all" aria-pressed="true">All types</button>
@@ -1303,9 +1380,10 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
         </div>
 
         <div class="tool-section sb-acc" id="sbStep3">
-          <button type="button" class="sb-acc-head" aria-expanded="true"><span>3 · Protection &amp; extras</span><i class="fa-solid fa-chevron-up sb-acc-chev" aria-hidden="true"></i></button>
+          <button type="button" class="sb-acc-head" aria-expanded="true"><span><i class="sb-step-mark" data-mark aria-hidden="true">3</i>Protection &amp; extras</span><i class="fa-solid fa-chevron-up sb-acc-chev" aria-hidden="true"></i></button>
           <div class="sb-acc-body">
             <div class="extras" id="sbExtras"></div>
+            <div class="km-control" id="sbKmControl"></div>
           </div>
         </div>
       </div>
@@ -1322,10 +1400,12 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
         <div class="sumline" id="sbSLocRow" hidden><span>Pick-up</span><b id="sbSPickup">—</b></div>
         <div class="sumline" id="sbSDropRow" hidden><span>Drop-off</span><b id="sbSDropoff">—</b></div>
         <div class="sumline"><span>Duration</span><b id="sbSDays">1 day</b></div>
+        <div class="sumline"><span>Allowed KM</span><b id="sbSAllowedKm">—</b></div>
         <div class="sumline"><span>Daily rate</span><b id="sbSRate">—</b></div>
         <div class="sumline"><span>Car × days</span><b id="sbSBase">—</b></div>
         <div class="sumline" id="sbSProtRow"><span id="sbSProtLabel">Full Protection</span><b id="sbSProt">—</b></div>
         <div id="sbSExtrasLines"></div>
+        <div class="sumline" id="sbSKmRow" hidden><span id="sbSKmLabel">KM</span><b id="sbSKm">—</b></div>
         <div class="sumline" id="sbSFeeRow" hidden><span>Delivery</span><b id="sbSFee">—</b></div>
         <div class="sumtot"><span>Grand total</span><span class="big" id="sbSTotal">—</span></div>
         <div class="cur-toggle" role="group" aria-label="Currency" id="sbCurToggle">
@@ -1599,10 +1679,69 @@ function depositFor(car){
 
 var EXTRAS = [
   {id:"protection", name:"Full Protection (zero deposit)", desc:"No excess, no deposit held. Priced per day by car class.", perDay:true, insurance:true, price:0, checked:true},
-  {id:"driver", name:"Additional driver", desc:"Share the wheel, share the trip. Indicative — confirmed at booking.", perDay:true, price:150, checked:false},
-  {id:"childseat", name:"Child seat", desc:"Fitted and ready at pickup. Indicative — confirmed at booking.", perDay:true, price:80, checked:false},
-  {id:"km", name:"Extra-km package", desc:"Extra daily mileage bundle. Indicative — pick your package at booking.", perDay:true, price:120, checked:false}
+  {id:"driver", name:"Additional driver", desc:"Up to 4 drivers. Share the wheel, share the trip. Indicative — confirmed at booking.", perDay:true, driver:true, price:0, checked:false},
+  {id:"childseat", name:"Child seat", desc:"Fitted and ready at pickup. Indicative — confirmed at booking.", perDay:true, price:250, checked:false}
 ];
+
+/* real ERP settings defaults (core/globals.js additional_driver_daily_fee=250,
+   additional_driver_extra_daily_fee=150) — degressive per-day pricing for the up-to-4
+   additional-driver quantity. ONE shared helper, used everywhere; never re-implement inline. */
+var DRIVER_FIRST_DAILY = 250;   // real ERP setting: additional_driver_daily_fee
+var DRIVER_EXTRA_DAILY = 150;   // real ERP setting: additional_driver_extra_daily_fee
+var DRIVER_MAX_QTY = 4;
+/* n clamped to integer 0..4. 0->0, 1->250, 2->400, 3->550, 4->700 (per day). */
+function additionalDriverDailyCost(n){
+  n = Math.max(0, Math.min(DRIVER_MAX_QTY, parseInt(n,10) || 0));
+  return n>=1 ? (DRIVER_FIRST_DAILY + Math.max(0,n-1)*DRIVER_EXTRA_DAILY) : 0;
+}
+
+/* real ERP settings/main.kmPackages — the actual fleet KM model (modules/fleet.js
+   DEFAULT_KM_PACKAGES). TWO kinds: "base" (one included daily allowance, free, pick
+   ONE) and "extra" (an optional ONE-TIME add-on bundle, flat cost, NOT per day). */
+var KM_PACKAGES = [
+  {id:"standard", label:"Standard (120 KM/day included)", type:"base", basePerDay:120, cost:0},
+  {id:"150", label:"Standard 150 KM / Day", type:"base", basePerDay:150, cost:0},
+  {id:"standard200", label:"Standard (200 KM/Day)", type:"base", basePerDay:200, cost:0},
+  {id:"500_km_extra", label:"500 KM Extra", type:"extra", extraKM:500, cost:1500},
+  {id:"750_km_extra", label:"750 KM Extra", type:"extra", extraKM:750, cost:2000},
+  {id:"1000_km_extra", label:"1000 KM Extra", type:"extra", extraKM:1000, cost:3200},
+  {id:"1500_km_package", label:"1500 KM Package", type:"extra", extraKM:1500, cost:4500},
+  {id:"2000_km_package", label:"2000 KM Package", type:"extra", extraKM:2000, cost:5500},
+  {id:"3000_km_package", label:"3000 KM Package", type:"extra", extraKM:3000, cost:7000},
+  {id:"unlimited", label:"Unlimited KM", type:"extra", extraKM:999999, cost:8000}
+];
+/* EGP per excess KM (ERP extra_km_rate) — explanatory only, NEVER added to the upfront quote */
+var KM_EXCESS_RATE = 25;
+
+/* shared KM helpers — every surface (Smart Build, fleet wizard, compare, selftest) calls
+   these so there is no forked KM math. */
+function kmBaseById(id){
+  var found=null;
+  KM_PACKAGES.forEach(function(p){ if (p.type==="base" && p.id===id) found=p; });
+  if (found) return found;
+  var def=null;
+  KM_PACKAGES.forEach(function(p){ if (p.id==="standard") def=p; });
+  return def;
+}
+function kmExtraById(id){
+  if (!id || id==="none") return null;
+  var found=null;
+  KM_PACKAGES.forEach(function(p){ if (p.type==="extra" && p.id===id) found=p; });
+  return found;
+}
+function kmAllowed(baseId, extraId, days){
+  var b=kmBaseById(baseId), x=kmExtraById(extraId);
+  if (x && x.id==="unlimited") return Infinity;
+  return b.basePerDay*days + (x ? x.extraKM : 0);
+}
+function kmAllowedLabel(baseId, extraId, days){
+  var b=kmBaseById(baseId), x=kmExtraById(extraId);
+  if (x && x.id==="unlimited") return "Unlimited";
+  var baseKm=b.basePerDay*days;
+  if (!x) return baseKm.toLocaleString("en-US")+" KM ("+b.basePerDay+"/day × "+days+")";
+  var total=baseKm+x.extraKM;
+  return total.toLocaleString("en-US")+" KM ("+b.basePerDay+"/day × "+days+" +"+x.extraKM.toLocaleString("en-US")+" = "+total.toLocaleString("en-US")+" KM)";
+}
 
 /* homepage tile copy aligned with the real TOURS_CATALOG used by the Trip Planner (Tool 3) */
 var TOURS = [
@@ -1845,7 +1984,7 @@ function carPriceRangeHTML(car){
 }
 
 /* ---------- state ---------- */
-var state = { branch:"hurghada", from:"", to:"", carId:null,
+var state = { branch:"hurghada", from:"", to:"", carId:null, kmBase:"standard", kmExtra:"", driverQty:0,
   extras:EXTRAS.reduce(function(o,e){o[e.id]=e.checked;return o;},{}) };
 
 /* ---------- helpers ---------- */
@@ -1972,29 +2111,92 @@ function extraPriceLabel(e, car){
   if (e.insurance){
     return car ? (money(insDailyFor(car))+" /day") : "priced per class /day";
   }
+  if (e.driver){
+    return "EGP "+DRIVER_FIRST_DAILY+"/day first · +"+DRIVER_EXTRA_DAILY+"/day each extra (max "+DRIVER_MAX_QTY+")";
+  }
   return money(e.price)+(e.perDay?" /day":"");
+}
+/* shared 0..4 quantity-stepper markup for the additional-driver extra. Rendered in BOTH the
+   fleet (#extrasList) and Smart Build (#sbExtras) extras areas via the same helper — no forked
+   markup. "−  [n]  +" buttons clamp 0..DRIVER_MAX_QTY and disable at the bounds. */
+function driverStepperHTML(qty){
+  qty = Math.max(0, Math.min(DRIVER_MAX_QTY, parseInt(qty,10) || 0));
+  return '<div class="stepper" data-driver-stepper role="group" aria-label="Additional drivers quantity">'+
+    '<button type="button" class="stepper-btn" data-driver-dec aria-label="Decrease additional drivers"'+(qty<=0?" disabled":"")+'>−</button>'+
+    '<span class="stepper-val" data-driver-val aria-live="polite">'+qty+'</span>'+
+    '<button type="button" class="stepper-btn" data-driver-inc aria-label="Increase additional drivers"'+(qty>=DRIVER_MAX_QTY?" disabled":"")+'>+</button>'+
+    '</div>';
+}
+/* wires the −/+ buttons of a driverStepperHTML() instance; getQty/setQty read & write the
+   caller's state field (sb.driverQty or state.driverQty) so there is no forked logic. */
+function wireDriverStepper(el, getQty, setQty, onChange){
+  function render(){
+    var qty=getQty();
+    el.querySelector("[data-driver-val]").textContent=qty;
+    el.querySelector("[data-driver-dec]").disabled = qty<=0;
+    el.querySelector("[data-driver-inc]").disabled = qty>=DRIVER_MAX_QTY;
+  }
+  el.querySelector("[data-driver-dec]").addEventListener("click", function(){
+    setQty(Math.max(0, getQty()-1)); render(); onChange();
+  });
+  el.querySelector("[data-driver-inc]").addEventListener("click", function(){
+    setQty(Math.min(DRIVER_MAX_QTY, getQty()+1)); render(); onChange();
+  });
 }
 function renderExtras(){
   var g=$("#extrasList"); g.innerHTML="";
   var car = state.carId ? carById(state.carId) : null;
   EXTRAS.forEach(function(e){
-    var el=document.createElement("label"); el.className="extra";
-    el.innerHTML='<input type="checkbox" '+(state.extras[e.id]?"checked":"")+' data-extra="'+e.id+'">'+
-      '<span class="ex-main"><b>'+e.name+'</b><small>'+e.desc+'</small></span>'+
-      '<span class="ex-pr">'+extraPriceLabel(e, car)+'</span>';
-    el.querySelector("input").addEventListener("change",function(){ state.extras[e.id]=this.checked; recalc(); });
+    var el=document.createElement(e.driver?"div":"label"); el.className="extra"+(e.driver?" extra-driver":"");
+    if (e.driver){
+      el.innerHTML='<span class="ex-main"><b>'+e.name+'</b><small>'+e.desc+'</small></span>'+
+        driverStepperHTML(state.driverQty)+
+        '<span class="ex-pr">'+extraPriceLabel(e, car)+'</span>';
+      wireDriverStepper(el, function(){ return state.driverQty; }, function(v){ state.driverQty=v; }, recalc);
+    } else {
+      el.innerHTML='<input type="checkbox" '+(state.extras[e.id]?"checked":"")+' data-extra="'+e.id+'">'+
+        '<span class="ex-main"><b>'+e.name+'</b><small>'+e.desc+'</small></span>'+
+        '<span class="ex-pr">'+extraPriceLabel(e, car)+'</span>';
+      el.querySelector("input").addEventListener("change",function(){ state.extras[e.id]=this.checked; recalc(); });
+    }
     g.appendChild(el);
   });
+  renderKmControl($("#kmControl"), state, recalc);
 }
 
 /* per-day price of an extra for a given car — the Full Protection line uses the REAL
-   per-class insurance/day (insDailyFor); every other extra uses its flat per-day price */
-function extraPerDay(e, car){ return e.insurance ? insDailyFor(car) : e.price; }
+   per-class insurance/day (insDailyFor); the driver extra uses the degressive helper
+   (see additionalDriverDailyCost); every other extra uses its flat per-day price */
+function extraPerDay(e, car, driverQty){ return e.insurance ? insDailyFor(car) : (e.driver ? additionalDriverDailyCost(driverQty) : e.price); }
 function extrasTotal(days){
   var car = state.carId ? carById(state.carId) : null;
-  return EXTRAS.reduce(function(sum,e){ if(!state.extras[e.id]) return sum;
+  return EXTRAS.reduce(function(sum,e){
+    if (e.driver) return sum + additionalDriverDailyCost(state.driverQty)*days;
+    if(!state.extras[e.id]) return sum;
     var per = extraPerDay(e, car);
     return sum + (e.perDay ? per*days : per); },0);
+}
+/* ONE shared KM control, mounted in both the fleet wizard (#kmControl) and Smart Build
+   (#sbKmControl): a BASE allowance selector (free, changes allowed-KM only) + a one-time
+   EXTRA-KM package selector (flat cost, NOT per day) + a live allowed-KM readout. */
+function renderKmControl(container, stateObj, onChange){
+  if (!container) return;
+  var days = daysBetween(stateObj.from, stateObj.to);
+  var baseOpts = KM_PACKAGES.filter(function(p){return p.type==="base";}).map(function(p){
+    return '<option value="'+p.id+'"'+(stateObj.kmBase===p.id?" selected":"")+'>'+p.label+'</option>';
+  }).join("");
+  var extraOpts = '<option value=""'+(!stateObj.kmExtra?" selected":"")+'>None (base allowance only)</option>'+
+    KM_PACKAGES.filter(function(p){return p.type==="extra";}).map(function(p){
+      var costTxt = p.id==="unlimited" ? "Unlimited KM · +"+money(p.cost)+" one-time" : (p.label+" · +"+money(p.cost)+" one-time");
+      return '<option value="'+p.id+'"'+(stateObj.kmExtra===p.id?" selected":"")+'>'+costTxt+'</option>';
+    }).join("");
+  container.innerHTML =
+    '<div class="km-row"><label>Base KM allowance</label><select class="km-base-sel">'+baseOpts+'</select></div>'+
+    '<div class="km-row"><label>Extra KM package (one-time)</label><select class="km-extra-sel">'+extraOpts+'</select></div>'+
+    '<div class="km-readout">Allowed KM for your trip: '+kmAllowedLabel(stateObj.kmBase, stateObj.kmExtra, days)+'</div>'+
+    '<div class="km-note">Beyond your allowance: EGP '+KM_EXCESS_RATE+'/km, settled at return.</div>';
+  container.querySelector(".km-base-sel").addEventListener("change", function(){ stateObj.kmBase=this.value; onChange(); });
+  container.querySelector(".km-extra-sel").addEventListener("change", function(){ stateObj.kmExtra=this.value; onChange(); });
 }
 function recalc(){
   state.branch=$("#wBranch").value; state.from=$("#wFrom").value; state.to=$("#wTo").value;
@@ -2003,18 +2205,21 @@ function recalc(){
   var rate=c?rateForDays(c,days):0;
   var base=rate*days;
   var ex=extrasTotal(days);
-  var total=base+ex;
+  var kmPkg=kmExtraById(state.kmExtra);
+  var kmCost=kmPkg?kmPkg.cost:0;
+  var total=base+ex+kmCost;
   $("#sBranch").textContent=cap(state.branch);
   $("#sDays").textContent=days+(days===1?" day":" days");
   $("#sClass").textContent=c?c.name:"—";
   $("#sRate").textContent=c?money(rate)+" /day":"—";
   $("#sBase").textContent=c?money(base):"—";
-  $("#sExtras").textContent=ex?money(ex):"—";
+  $("#sExtras").textContent=(ex||kmCost)?money(ex+kmCost):"—";
   $("#sNow").textContent=c?money(Math.round(total*0.3)):"—";
   $("#sLater").textContent=c?money(total-Math.round(total*0.3)):"—";
   $("#sGuarantee").innerHTML=c?'<i class="fa-solid fa-shield-halved"></i> '+GUARANTEE_PHRASE:"";
   $("#guaranteeMsg").textContent=GUARANTEE_PHRASE;
   animatePriceTo($("#sTotal"), c?total:0, c);
+  renderKmControl($("#kmControl"), state, recalc);
 }
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
@@ -2054,12 +2259,18 @@ function reserve(){
   var c=state.carId?carById(state.carId):null;
   if(!c){ goStep(2); return; }
   var days=daysBetween(state.from,state.to);
-  var rate=rateForDays(c,days), base=rate*days, ex=extrasTotal(days), total=base+ex;
-  var chosen=EXTRAS.filter(function(e){return state.extras[e.id];}).map(function(e){return e.name;});
+  var rate=rateForDays(c,days), base=rate*days, ex=extrasTotal(days);
+  var kmPkg=kmExtraById(state.kmExtra), kmCost=kmPkg?kmPkg.cost:0;
+  var allowedKm=kmAllowed(state.kmBase, state.kmExtra, days);
+  var total=base+ex+kmCost;
+  var chosen=EXTRAS.filter(function(e){return !e.driver && state.extras[e.id];}).map(function(e){return e.name;});
+  if (state.driverQty>0) chosen.push("Additional drivers ("+state.driverQty+" · "+money(additionalDriverDailyCost(state.driverQty))+"/day)");
   var name=$("#wName").value||"(guest)", phone=$("#wPhone").value||"(not given)";
   var hub=state.branch;
   // product URL hand-off
   var url=productUrl(c.slug,hub);
+  var kmLine = kmPkg ? ("• Extra KM: "+kmPkg.label+" (one-time EGP "+kmPkg.cost.toLocaleString("en-US")+")%0A") : "";
+  var allowedLine = "• Allowed KM: "+(allowedKm===Infinity?"Unlimited":allowedKm.toLocaleString("en-US")+" KM")+"%0A";
   // TODO Part-A cart hand-off: replace the WhatsApp compose below with the real cart/checkout
   // hand-off once Part A is wired. For now we open the product page + a pre-composed WA message.
   var msg="Hi Brothers EGY! I'd like to reserve:%0A"+
@@ -2068,6 +2279,7 @@ function reserve(){
     "• Pick-up: "+state.from+"%0A"+
     "• Drop-off: "+state.to+"  ("+days+(days===1?" day":" days")+")%0A"+
     "• Extras: "+(chosen.length?chosen.join(", "):"none")+"%0A"+
+    kmLine+allowedLine+
     "• Total: EGP "+total.toLocaleString("en-US")+" (30%% now = EGP "+Math.round(total*0.3).toLocaleString("en-US")+")%0A"+
     "• Name: "+name+" · Phone: "+phone+"%0A"+
     "Guarantee understood: "+c.make+" "+c.model+" or similar, same category or higher.%0A"+
@@ -2154,6 +2366,7 @@ function initToolRouting(){
    smart nudge toward the best-value rental length.
    ============================================================ */
 var sb = { branch:"hurghada", from:"", to:"", carId:null, pickupLoc:"", dropoffLoc:"", type:"all",
+  kmBase:"standard", kmExtra:"", driverQty:0,
   extras: EXTRAS.reduce(function(o,e){o[e.id]=e.checked;return o;},{}) };
 
 function sbInit(){
@@ -2183,6 +2396,9 @@ function sbInit(){
   // reflect current type filter on the chips
   $all("#sbTypeFilters .chipbtn").forEach(function(x){ x.setAttribute("aria-pressed", x.getAttribute("data-sbtype")===sb.type?"true":"false"); });
   var step1=$("#sbStep1"); if (step1) step1.__forceOpen=false;
+  // restart the interactive step-flow fresh on each open (clear manual-toggle memory + rail selection)
+  sbSelectedStep = 0;
+  ["sbStep1","sbStep2","sbStep3"].forEach(function(id){ var s=$("#"+id); if(s){ s.__userToggled=false; s.classList.remove("sb-collapsed"); } });
   sbRenderCars();
   sbRenderExtras();
   sbRecalc();
@@ -2218,29 +2434,64 @@ function sbRenderCars(){
     grid.appendChild(el);
   });
 }
+/* compact two-option protection toggle markup — "Basic" (free, refundable hold) vs
+   "Full Protection" (per-day fee, zero deposit). Drives the SAME sb.extras.protection
+   boolean as the old checkbox; no forked pricing. */
+function sbProtToggleHTML(car, isFull){
+  var basicNote = car ? ("Free · refundable hold "+money(depositFor(car))) : "Free · refundable hold per class";
+  var fullNote = (car ? (money(insDailyFor(car))+"/day") : "priced per class /day") + " · Security deposit: ZERO";
+  return '<div class="sb-prot-toggle" role="group" aria-label="Protection plan">'+
+    '<button type="button" class="sb-prot-opt'+(!isFull?" on":"")+'" data-prot-opt="basic" aria-pressed="'+(!isFull)+'">'+
+      '<span class="pt-t">Basic</span><span class="pt-s" data-prot-basic>'+basicNote+'</span>'+
+    '</button>'+
+    '<button type="button" class="sb-prot-opt'+(isFull?" on":"")+'" data-prot-opt="full" aria-pressed="'+isFull+'">'+
+      '<span class="pt-t">Full Protection</span><span class="pt-s" data-prot-full>'+fullNote+'</span>'+
+    '</button>'+
+  '</div>';
+}
 function sbRenderExtras(){
   var g=$("#sbExtras"); g.innerHTML="";
   var car = sb.carId ? carById(sb.carId) : null;
+  var protWrap=document.createElement("div");
+  protWrap.innerHTML = sbProtToggleHTML(car, !!sb.extras.protection);
+  g.appendChild(protWrap.firstChild);
+  g.querySelector('[data-prot-opt="basic"]').addEventListener("click", function(){ sb.extras.protection=false; sbRenderExtras(); sbRecalc(); });
+  g.querySelector('[data-prot-opt="full"]').addEventListener("click", function(){ sb.extras.protection=true; sbRenderExtras(); sbRecalc(); });
   EXTRAS.forEach(function(e){
-    var el=document.createElement("label"); el.className="extra";
-    el.innerHTML='<input type="checkbox" '+(sb.extras[e.id]?"checked":"")+' data-extra="'+e.id+'">'+
-      '<span class="ex-main"><b>'+e.name+'</b><small>'+e.desc+'</small></span>'+
-      '<span class="ex-pr" data-ex-pr="'+e.id+'">'+extraPriceLabel(e, car)+'</span>';
-    el.querySelector("input").addEventListener("change", function(){ sb.extras[e.id]=this.checked; sbRecalc(); });
+    if (e.id === "protection") return; // rendered above as the toggle
+    var el=document.createElement(e.driver?"div":"label"); el.className="extra extra-compact"+(e.driver?" extra-driver":"");
+    if (e.driver){
+      el.innerHTML='<span class="ex-main"><b>'+e.name+'</b><small>'+e.desc+'</small></span>'+
+        driverStepperHTML(sb.driverQty)+
+        '<span class="ex-pr" data-ex-pr="'+e.id+'">'+extraPriceLabel(e, car)+'</span>';
+      wireDriverStepper(el, function(){ return sb.driverQty; }, function(v){ sb.driverQty=v; }, sbRecalc);
+    } else {
+      el.innerHTML='<input type="checkbox" '+(sb.extras[e.id]?"checked":"")+' data-extra="'+e.id+'">'+
+        '<span class="ex-main"><b>'+e.name+'</b><small>'+e.desc+'</small></span>'+
+        '<span class="ex-pr" data-ex-pr="'+e.id+'">'+extraPriceLabel(e, car)+'</span>';
+      el.querySelector("input").addEventListener("change", function(){ sb.extras[e.id]=this.checked; sbRecalc(); });
+    }
     g.appendChild(el);
   });
+  renderKmControl($("#sbKmControl"), sb, sbRecalc);
 }
 /* refresh just the extras' per-day price labels (the Full Protection line is per-class) */
 function sbRefreshExtraPrices(){
   var car = sb.carId ? carById(sb.carId) : null;
   EXTRAS.forEach(function(e){
+    if (e.id === "protection") return; // refreshed below via the toggle's consequence spans
     var el=$('#sbExtras [data-ex-pr="'+e.id+'"]');
     if (el) el.textContent = extraPriceLabel(e, car);
   });
+  var basicEl=$("#sbExtras [data-prot-basic]"), fullEl=$("#sbExtras [data-prot-full]");
+  if (basicEl) basicEl.textContent = car ? ("Free · refundable hold "+money(depositFor(car))) : "Free · refundable hold per class";
+  if (fullEl) fullEl.textContent = (car ? (money(insDailyFor(car))+"/day") : "priced per class /day") + " · Security deposit: ZERO";
 }
 function sbExtrasTotal(days){
   var car = sb.carId ? carById(sb.carId) : null;
-  return EXTRAS.reduce(function(sum,e){ if(!sb.extras[e.id]) return sum;
+  return EXTRAS.reduce(function(sum,e){
+    if (e.driver) return sum + additionalDriverDailyCost(sb.driverQty)*days;
+    if(!sb.extras[e.id]) return sum;
     var per = extraPerDay(e, car);
     return sum + (e.perDay ? per*days : per); },0);
 }
@@ -2306,10 +2557,23 @@ function sbComputeBuild(cfg){
   var protDaily = insDailyFor(c);                                   // real per-class /day
   var protFee = hasFullProtection ? (protDaily * days) : 0;         // daily * rentalDays
   var depositAmt = hasFullProtection ? 0 : depositFor(c);          // 0 with Full, real hold with Basic
-  // other extras (everything except the protection line, which is shown separately)
+  // additional-driver quantity (0..4), degressive per-day pricing via additionalDriverDailyCost().
+  // Precedence: cfg.driverQty (preferred, numeric 0..4) wins when present; otherwise fall back to
+  // the legacy boolean cfg.extras.driver===true meaning qty 1 (so old extras:{driver:true} configs
+  // — including the self-test's — still mean "one additional driver").
+  var driverQty = (cfg.driverQty != null) ? cfg.driverQty : (cfg.extras.driver ? 1 : 0);
+  driverQty = Math.max(0, Math.min(DRIVER_MAX_QTY, parseInt(driverQty,10) || 0));
+  var driverDaily = additionalDriverDailyCost(driverQty);
+  var driverFee = driverDaily * days;
+  // other extras (everything except the protection line, shown separately, and the driver
+  // line, computed above with the degressive formula instead of the flat e.price)
   var extraLines = [], extrasTot = 0;
+  if (driverQty > 0){
+    extrasTot += driverFee;
+    extraLines.push({name:"Additional drivers ×"+driverQty, total:driverFee});
+  }
   EXTRAS.forEach(function(e){
-    if (e.id === "protection") return;
+    if (e.id === "protection" || e.driver) return;
     if (!cfg.extras[e.id]) return;
     var lineTotal = e.perDay ? e.price * days : e.price;
     extrasTot += lineTotal; extraLines.push({name:e.name, total:lineTotal});
@@ -2317,12 +2581,22 @@ function sbComputeBuild(cfg){
   // REAL ERP route delivery fee (shared helper); missing pair => quoted on request (0 in total)
   var feeRaw = (cfg.pickupLoc && cfg.dropoffLoc) ? routeFee(cfg.pickupLoc, cfg.dropoffLoc) : null;
   var fee = (feeRaw === null) ? 0 : feeRaw;
-  var grand = base + protFee + extrasTot + fee;
+  // real ERP KM model: BASE adds 0; the chosen EXTRA package adds its cost ONCE (one-time,
+  // never ×days). Defaults (base=standard, extra=none) keep callers that omit these fields correct.
+  var kmBaseId = cfg.kmBase || "standard";
+  var kmExtraId = cfg.kmExtra || "";
+  var kmPkg = kmExtraById(kmExtraId);
+  var kmCost = kmPkg ? kmPkg.cost : 0;
+  var kmLabel = kmPkg ? kmPkg.label : "";
+  var allowedKm = kmAllowed(kmBaseId, kmExtraId, days);
+  var grand = base + protFee + extrasTot + kmCost + fee;
   var now = Math.round(grand * 0.3);
   return {
     car:c, days:days, rate:rate, base:base,
     hasFullProtection:hasFullProtection, protDaily:protDaily, protFee:protFee,
     extraLines:extraLines, extrasTot:extrasTot,
+    driverQty:driverQty, driverDaily:driverDaily, driverFee:driverFee,
+    kmBaseId:kmBaseId, kmExtraId:kmExtraId, kmCost:kmCost, kmLabel:kmLabel, allowedKm:allowedKm,
     feeRaw:feeRaw, fee:fee, grand:grand,
     now:now, later:grand - now,
     depositAmt: depositAmt,
@@ -2377,11 +2651,83 @@ function fmtTripWhen(v){
   var time = d.toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
   return date + ", " + time;
 }
+/* ---- INTERACTIVE STEP FLOW ----
+   Each step is DONE (green, auto-collapses to save room), ACTIVE (gold, expanded) or
+   PENDING (red, waiting). As you complete a step it turns green + tucks away and the
+   next step opens automatically. The user can still re-open any step by hand (the
+   chevron / the top rail), and once they do we stop auto-managing that step so we never
+   fight their choice. Mirrors the same state onto the top #sbRail chips. */
+function sbStepIsDone(n){
+  if (n===1) return !!(sb.pickupLoc && sb.dropoffLoc && sb.from && sb.to);
+  if (n===2) return !!sb.carId;
+  return false; // step 3 (extras) is optional — never a hard "done" gate
+}
+function sbSetStepState(sec, state){
+  if (!sec) return;
+  sec.classList.remove("sb-done","sb-active","sb-pending");
+  sec.classList.add("sb-"+state);
+  var mark = sec.querySelector("[data-mark]");
+  if (mark){
+    var n = mark.getAttribute("data-n") || mark.textContent;
+    mark.setAttribute("data-n", n);
+    mark.innerHTML = (state==="done") ? '<i class="fa-solid fa-check"></i>' : n;
+  }
+}
+var sbSelectedStep = 0; // 0 = auto (first incomplete step is active); >0 = user clicked a rail chip
+function sbUpdateStepStates(){
+  var steps = [
+    { n:1, sec:$("#sbStep1") },
+    { n:2, sec:$("#sbStep2") },
+    { n:3, sec:$("#sbStep3") }
+  ];
+  // the ACTIVE step is the one the user is on: a step they explicitly selected via the rail,
+  // otherwise the first step that isn't done yet.
+  var autoActiveN = 4;
+  for (var i=0;i<steps.length;i++){ if (!sbStepIsDone(steps[i].n)){ autoActiveN = steps[i].n; break; } }
+  var activeN = sbSelectedStep || autoActiveN;
+  steps.forEach(function(s){
+    var done = sbStepIsDone(s.n);
+    // STATE RULES (strict): a step is GREEN only when it is genuinely DONE. The one the
+    // user is on is ACTIVE (gold) even if it happens to be complete-able. Everything else
+    // that isn't done is PENDING (red). This stops steps going green before they're finished.
+    var state;
+    if (s.n===activeN) state = "active";
+    else if (done) state = "done";
+    else state = "pending";
+    sbSetStepState(s.sec, state);
+    if (s.sec && s.sec.id==="sbStep1"){
+      // step 1 has its OWN summary-collapse (the `.collapsed` class + the trip-summary bar).
+      // When it is the ACTIVE step, force the full fields open (clear the summary) so the
+      // title + inputs show. Otherwise let sbUpdateTripSummary() manage its summary collapse.
+      if (state==="active"){ s.sec.__forceOpen=true; s.sec.classList.remove("collapsed","sb-collapsed"); }
+    } else if (s.sec && !s.sec.__userToggled){
+      // auto-collapse DONE steps and auto-expand the ACTIVE one — unless the user manually
+      // toggled this step, in which case we respect their choice.
+      if (state==="active") s.sec.classList.remove("sb-collapsed");
+      else if (done) s.sec.classList.add("sb-collapsed");
+      var hd = s.sec.querySelector(".sb-acc-head");
+      if (hd) hd.setAttribute("aria-expanded", s.sec.classList.contains("sb-collapsed") ? "false" : "true");
+    }
+    // mirror onto the top rail chip
+    var li = $('#sbRail li[data-step="'+s.n+'"]');
+    if (li){ li.classList.remove("done","active","pending"); li.classList.add(state); li.classList.add("clickable"); }
+  });
+  // step 4 (Review & reserve) is the FINAL action — it is never auto-"done" just because a
+  // car is picked (that would wrongly turn it green). It's ACTIVE when the user selects it
+  // (and the booking is ready to reserve), otherwise PENDING. It only reads as complete once
+  // the user actually reserves. So: never green here.
+  var li4 = $('#sbRail li[data-step="4"]');
+  if (li4){
+    var s4 = (sbSelectedStep===4) ? "active" : "pending";
+    li4.classList.remove("done","active","pending"); li4.classList.add(s4); li4.classList.add("clickable");
+  }
+}
 function sbRecalc(){
   sb.from=$("#sbFrom").value; sb.to=$("#sbTo").value;
   // branch is derived behind the scenes from the pick-up location (no client branch picker)
   sb.branch = branchForLocation(sb.pickupLoc);
   sbUpdateTripSummary();
+  sbUpdateStepStates();
   var b = sbComputeBuild(sb);
   var c = b.car, days = b.days;
   // car identity + image in the reservation pane
@@ -2400,6 +2746,7 @@ function sbRecalc(){
       : (b.feeRaw===0 ? "EGP 0 (included)" : money(b.feeRaw));
   } else { feeRow.hidden=true; }
   $("#sbSDays").textContent=days+(days===1?" day":" days");
+  $("#sbSAllowedKm").textContent = b.allowedKm===Infinity ? "Unlimited" : b.allowedKm.toLocaleString("en-US")+" KM";
   // car-specific rows only make sense once a car is chosen — hide them in the empty state
   // (the empty state keeps dates/duration/locations/delivery + the 'pick a car' prompt)
   $("#sbSRate").closest(".sumline").hidden = !c;
@@ -2411,10 +2758,10 @@ function sbRecalc(){
   // Basic = free but shows the real refundable deposit for that class
   var protLabel=$("#sbSProtLabel");
   if (b.hasFullProtection){
-    protLabel.textContent = c ? ("Full Protection ("+money(b.protDaily)+"/day × "+days+")") : "Full Protection";
+    protLabel.textContent = c ? ("Full Protection ×"+days+(days===1?" day":" days")) : "Full Protection";
     $("#sbSProt").textContent = c ? money(b.protFee) : "—";
   } else {
-    protLabel.textContent = "Basic (free · security hold applies)";
+    protLabel.textContent = "Basic (security hold)";
     $("#sbSProt").textContent = c ? "EGP 0 /day" : "—";
   }
   sbRefreshExtraPrices();
@@ -2425,6 +2772,16 @@ function sbRecalc(){
     row.innerHTML="<span>"+l.name+"</span><b>"+money(l.total)+"</b>";
     linesEl.appendChild(row);
   });
+  // one-time KM extra line (hidden when no extra package chosen)
+  var kmRow=$("#sbSKmRow");
+  if (b.kmCost>0){
+    kmRow.hidden=false;
+    $("#sbSKmLabel").textContent = "Extra KM: "+b.kmLabel;
+    $("#sbSKm").textContent = money(b.kmCost);
+  } else { kmRow.hidden=true; }
+  // keep the KM control's live readout in sync with the current days/base/extra
+  var kmCtl=$("#sbKmControl .km-readout");
+  if (kmCtl) kmCtl.textContent = "Allowed KM for your trip: "+kmAllowedLabel(sb.kmBase, sb.kmExtra, days);
   // pay-now block + mobile bar
   $("#sbSNow").textContent=c?money(b.now):"—";
   $("#sbSLater").textContent=c?money(b.later):"—";
@@ -2457,7 +2814,8 @@ function sbReserve(){
   if (!c){ return; }
   var b = sbComputeBuild(sb); // same shared math as the pane (car+days+protection+extras+delivery)
   var days=b.days;
-  var chosen=EXTRAS.filter(function(e){return sb.extras[e.id];}).map(function(e){return e.name;});
+  var chosen=EXTRAS.filter(function(e){return !e.driver && sb.extras[e.id];}).map(function(e){return e.name;});
+  if (b.driverQty>0) chosen.push("Additional drivers ("+b.driverQty+" · "+money(b.driverDaily)+"/day)");
   var hub=sb.branch;
   var url=productUrl(c.slug,hub);
   // TODO Part-A cart hand-off: replace the WhatsApp compose below with the real cart/checkout
@@ -2467,6 +2825,8 @@ function sbReserve(){
   var protLine = b.hasFullProtection
     ? ("Full Protection (EGP "+b.protDaily.toLocaleString("en-US")+"/day × "+days+" = EGP "+b.protFee.toLocaleString("en-US")+", security deposit ZERO)")
     : ("Basic (free · refundable security deposit EGP "+b.depositAmt.toLocaleString("en-US")+")");
+  var kmLine = b.kmCost>0 ? ("• Extra KM: "+b.kmLabel+" (one-time EGP "+b.kmCost.toLocaleString("en-US")+")%0A") : "";
+  var allowedLine = "• Allowed KM: "+(b.allowedKm===Infinity?"Unlimited":b.allowedKm.toLocaleString("en-US")+" KM")+"%0A";
   var msg="Hi Brothers EGY! I built my own quote with Smart Build:%0A"+
     "• Car: "+c.name+" ("+c.cat+")%0A"+
     "• Insurance: "+protLine+"%0A"+
@@ -2475,6 +2835,7 @@ function sbReserve(){
     "• Pick-up: "+sb.from+"%0A"+
     "• Drop-off: "+sb.to+"  ("+days+(days===1?" day":" days")+")%0A"+
     "• Services: "+(chosen.length?chosen.join(", "):"none")+"%0A"+
+    kmLine+allowedLine+
     "• Grand total (incl. delivery): EGP "+b.grand.toLocaleString("en-US")+"%0A"+
     "• Reservation deposit to confirm (30%%): EGP "+b.now.toLocaleString("en-US")+" · balance at pick-up (70%%): EGP "+b.later.toLocaleString("en-US")+"%0A"+
     "Guarantee understood: "+c.make+" "+c.model+" or similar, same category or higher.%0A"+
@@ -2495,6 +2856,7 @@ var compareBuilds = []; // array of {carId, from, to, branch, pickupLoc, dropoff
 function sbSnapshot(overrides){
   var snap = { carId:sb.carId, from:sb.from, to:sb.to, branch:sb.branch,
     pickupLoc:sb.pickupLoc, dropoffLoc:sb.dropoffLoc,
+    kmBase:sb.kmBase, kmExtra:sb.kmExtra, driverQty:sb.driverQty,
     extras: JSON.parse(JSON.stringify(sb.extras)) };
   if (overrides){ for (var k in overrides){ snap[k]=overrides[k]; } }
   return snap;
@@ -2537,9 +2899,17 @@ function renderCompare(){
       return '<option value="'+fc.id+'"'+(cfg.carId===fc.id?" selected":"")+'>'+fc.name+' · '+fc.cat+'</option>';
     }).join("");
     var full = !!cfg.extras.protection;
-    var extraChecks = EXTRAS.filter(function(e){return e.id!=="protection";}).map(function(e){
+    var extraChecks = EXTRAS.filter(function(e){return e.id!=="protection" && !e.driver;}).map(function(e){
       return '<label class="ct-ex"><input type="checkbox" data-ct-extra="'+e.id+'" '+(cfg.extras[e.id]?"checked":"")+'> '+e.name+'</label>';
+    }).join("")+
+      '<div class="ct-ex ct-ex-driver"><span>Additional drivers</span>'+driverStepperHTML(cfg.driverQty||0)+'</div>';
+    var ctKmBaseOpts = KM_PACKAGES.filter(function(p){return p.type==="base";}).map(function(p){
+      return '<option value="'+p.id+'"'+((cfg.kmBase||"standard")===p.id?" selected":"")+'>'+p.label+'</option>';
     }).join("");
+    var ctKmExtraOpts = '<option value=""'+(!cfg.kmExtra?" selected":"")+'>None (base allowance only)</option>'+
+      KM_PACKAGES.filter(function(p){return p.type==="extra";}).map(function(p){
+        return '<option value="'+p.id+'"'+(cfg.kmExtra===p.id?" selected":"")+'>'+p.label+' · +'+money(p.cost)+' one-time</option>';
+      }).join("");
     var controls =
       '<div class="ct-controls">'+
         '<select class="ct-carsel" data-ct-car aria-label="Choose car for this build"><option value="">Pick a car…</option>'+carOpts+'</select>'+
@@ -2548,6 +2918,8 @@ function renderCompare(){
           '<button type="button" data-ct-plan="full" class="'+(full?"on":"")+'">Full Protection</button>'+
         '</div>'+
         '<details class="ct-extras"><summary>Extras</summary>'+extraChecks+'</details>'+
+        '<select class="ct-carsel" data-ct-kmbase aria-label="Base KM allowance">'+ctKmBaseOpts+'</select>'+
+        '<select class="ct-carsel" data-ct-kmextra aria-label="Extra KM package">'+ctKmExtraOpts+'</select>'+
       '</div>';
     var body="";
     if (b && c){
@@ -2558,7 +2930,9 @@ function renderCompare(){
         '<div class="ct-plan">'+(b.hasFullProtection?"Full Protection · zero deposit":"Basic · refundable deposit")+'</div>'+
         '<div class="ct-line"><span>Daily rate × '+b.days+'d</span><b>'+money(b.base)+'</b></div>'+
         '<div class="ct-line"><span>'+(b.hasFullProtection?("Full Protection ("+money(b.protDaily)+"/day × "+b.days+")"):"Protection")+'</span><b>'+(b.hasFullProtection?money(b.protFee):"— (Basic)")+'</b></div>'+
-        '<div class="ct-line"><span>Extras</span><b>'+(b.extrasTot?money(b.extrasTot):"—")+'</b></div>'+
+        '<div class="ct-line"><span>Extras'+(b.driverQty>0?(" (incl. "+b.driverQty+" driver"+(b.driverQty>1?"s":"")+")"):"")+'</span><b>'+(b.extrasTot?money(b.extrasTot):"—")+'</b></div>'+
+        '<div class="ct-line"><span>Allowed KM</span><b>'+(b.allowedKm===Infinity?"Unlimited":b.allowedKm.toLocaleString("en-US")+" KM")+'</b></div>'+
+        '<div class="ct-line"><span>KM'+(b.kmCost>0?(": "+b.kmLabel+" (one-time)"):"")+'</span><b>'+(b.kmCost>0?money(b.kmCost):"—")+'</b></div>'+
         '<div class="ct-line"><span>Delivery</span><b>'+feeTxt+'</b></div>'+
         '<div class="ct-grand"><span>Grand total</span><span class="big">'+money(b.grand)+'</span></div>'+
         delta+
@@ -2597,6 +2971,12 @@ function renderCompare(){
         renderCompare();
       });
     });
+    wireDriverStepper(col.querySelector(".ct-ex-driver [data-driver-stepper]"),
+      function(){ return compareBuilds[idx].driverQty||0; },
+      function(v){ compareBuilds[idx].driverQty=v; },
+      renderCompare);
+    col.querySelector("[data-ct-kmbase]").addEventListener("change", function(){ compareBuilds[idx].kmBase = this.value; renderCompare(); });
+    col.querySelector("[data-ct-kmextra]").addEventListener("change", function(){ compareBuilds[idx].kmExtra = this.value; renderCompare(); });
   });
   $all("[data-ct-remove]",cols).forEach(function(x){
     x.addEventListener("click", function(){ compareBuilds.splice(+this.getAttribute("data-ct-remove"),1); renderCompare(); sbRenderCars(); });
@@ -2957,6 +3337,39 @@ function initMagneticButtons(){
 }
 
 /* ---------- search-first hero card ---------- */
+/* validate the 4 mandatory search fields (pick-up/drop-off place + both date-times);
+   flag empties red, filled ones green, drop-off-before-pickup red; returns true if OK.
+   Only paints state after the user has attempted a search (or edits a flagged field). */
+function sbMarkField(fldId, ok){
+  var fld = document.querySelector('.search-card .fld[data-req="'+fldId+'"]');
+  if (!fld) return;
+  fld.classList.toggle("sc-invalid", !ok);
+  fld.classList.toggle("sc-valid", ok);
+}
+function validateSearchCard(){
+  var pickup=$("#qbFromLoc").value, dropoff=$("#qbToLoc").value;
+  var from=$("#qbFrom").value, to=$("#qbTo").value;
+  var okPickup=!!pickup, okDrop=!!dropoff, okFrom=!!from;
+  // drop-off time must exist AND be after pick-up
+  var okTo = !!to && (!from || new Date(to) > new Date(from));
+  sbMarkField("qbFromLoc", okPickup);
+  sbMarkField("qbToLoc", okDrop);
+  sbMarkField("qbFrom", okFrom);
+  sbMarkField("qbTo", okTo);
+  // tailor the drop-off date error (empty vs before pick-up)
+  var toErr = document.querySelector('.search-card .fld[data-req="qbTo"] .fld-err');
+  if (toErr) toErr.textContent = !to ? "Pick a date & time." : "Must be after pick-up.";
+  var allOk = okPickup && okDrop && okFrom && okTo;
+  // the summary error line only shows after a search attempt (sc-tried); the per-field
+  // red border + * are live from the start.
+  var tried = $("#quickBar").classList.contains("sc-tried");
+  var errEl=$("#qbErr"), errTxt=$("#qbErrText");
+  if (errEl){
+    if (allOk || !tried){ errEl.classList.remove("show"); }
+    else { if (errTxt) errTxt.textContent="Please complete the highlighted fields to search."; errEl.classList.add("show"); }
+  }
+  return allOk;
+}
 function initSearchCard(){
   var fromSel=$("#qbFromLoc"), toSel=$("#qbToLoc");
   // populate both selects with the 21 real ERP places
@@ -2964,29 +3377,32 @@ function initSearchCard(){
     var o1=document.createElement("option"); o1.value=p; o1.textContent=p; fromSel.appendChild(o1);
     var o2=document.createElement("option"); o2.value=p; o2.textContent=p; toSel.appendChild(o2);
   });
-  // sensible defaults: pick-up at Cairo International Airport, same drop-off
-  var def = LOCATION_PLACES.indexOf("Cairo International Airport")>-1 ? "Cairo International Airport" : LOCATION_PLACES[0];
-  fromSel.value=def; toSel.value=def;
+  // NO pre-filled defaults — the mandatory fields start EMPTY so they show red until the
+  // user fills them (then green). The combobox placeholder gives an example hint instead.
+  fromSel.value=""; toSel.value="";
   // enhance both into type-to-search comboboxes (keyboard + aria + mobile-friendly)
   makeCombobox(fromSel); makeCombobox(toSel);
-  // default dates: pickup +2 days 10:00, dropoff +9 days 10:00
-  var d1=new Date(); d1.setDate(d1.getDate()+2); d1.setHours(10,0,0,0);
-  var d2=new Date(); d2.setDate(d2.getDate()+9); d2.setHours(10,0,0,0);
-  $("#qbFrom").value=toLocal(d1); $("#qbTo").value=toLocal(d2);
+  // example-only placeholders (NOT values) so the box reads as a sample, not pre-booked
+  var fIn=fromSel.__combo&&fromSel.__combo.input, tIn=toSel.__combo&&toSel.__combo.input;
+  if (fIn) fIn.placeholder="e.g. Cairo International Airport";
+  if (tIn) tIn.placeholder="e.g. El Gouna";
+  // dates start empty too (datetime-local shows its own dd/mm/yyyy --:-- placeholder)
+  $("#qbFrom").value=""; $("#qbTo").value="";
 
   var same=$("#qbSameLoc");
   function syncSame(){ if(same.checked){ toSel.value=fromSel.value; comboReflect(toSel); toSel.disabled=true; comboReflect(toSel); } else { toSel.disabled=false; comboReflect(toSel); } updateFee(); }
   function updateFee(){
-    var feeEl=$("#qbFee"), txt=$("#qbFeeText");
-    var fee=routeFee(fromSel.value, toSel.value);
-    if (fee===null || fee===0){ feeEl.classList.remove("show"); return; }
-    txt.textContent="Delivery: "+fromSel.value+" → "+toSel.value+" = "+fee.toLocaleString("en-US")+" EGP";
-    feeEl.classList.add("show");
+    // the delivery/route fee is NO LONGER shown in the search box — it's just noise here.
+    // The real route fee is surfaced later in the Smart Build quote where it's priced in.
+    var feeEl=$("#qbFee"); if (feeEl) feeEl.classList.remove("show");
   }
   same.addEventListener("change", syncSame);
-  fromSel.addEventListener("change", function(){ if(same.checked){ toSel.value=fromSel.value; comboReflect(toSel); } updateFee(); });
-  toSel.addEventListener("change", function(){ if(toSel.value!==fromSel.value){ same.checked=false; toSel.disabled=false; comboReflect(toSel); } updateFee(); });
+  fromSel.addEventListener("change", function(){ if(same.checked){ toSel.value=fromSel.value; comboReflect(toSel); } updateFee(); validateSearchCard(); });
+  toSel.addEventListener("change", function(){ if(toSel.value!==fromSel.value){ same.checked=false; toSel.disabled=false; comboReflect(toSel); } updateFee(); validateSearchCard(); });
+  // live validation: red border + * while empty/invalid, green the moment it's filled
+  ["qbFrom","qbTo"].forEach(function(id){ $("#"+id).addEventListener("change", validateSearchCard); $("#"+id).addEventListener("input", validateSearchCard); });
   syncSame();
+  validateSearchCard(); // paint the initial state on load (defaults are valid -> all green)
 }
 
 /* ---------- wiring ---------- */
@@ -3036,6 +3452,10 @@ function wire(){
   initSearchCard();
   $("#quickBar").addEventListener("submit",function(e){
     e.preventDefault();
+    // mandatory fields: pick-up + drop-off location, pick-up + drop-off date/time
+    // (car class stays optional). Block the search + flag empties/invalids red if any fail.
+    $("#quickBar").classList.add("sc-tried"); // enables live re-validation as fields are fixed
+    if (!validateSearchCard()){ return; }
     var pickup=$("#qbFromLoc").value, dropoff=$("#qbToLoc").value;
     var from=$("#qbFrom").value, to=$("#qbTo").value;
     var qbType=$("#qbClass").value;
@@ -3113,6 +3533,26 @@ function wire(){
       if (!sec) return;
       var collapsed = sec.classList.toggle("sb-collapsed");
       btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      // remember the user chose this state by hand, so the auto step-flow (which
+      // collapses done steps / expands the active one) won't fight the manual choice
+      sec.__userToggled = true;
+    });
+  });
+  // clicking a step chip in the top rail SELECTS that step: it becomes the active (gold)
+  // step, expands, and scrolls into view. Selecting a step overrides the auto-active so the
+  // chip the user clicked is the one highlighted — not whatever is next-incomplete.
+  $all("#sbRail li").forEach(function(li){
+    li.addEventListener("click", function(){
+      var n = parseInt(li.getAttribute("data-step"), 10);
+      sbSelectedStep = n;                       // mark this step as the user's active selection
+      var sec = n===1 ? $("#sbStep1") : n===2 ? $("#sbStep2") : n===3 ? $("#sbStep3") : null;
+      if (sec){
+        sec.__userToggled = false;              // let the state logic drive expand (active=open)
+        sec.classList.remove("sb-collapsed");
+        if (sec.id==="sbStep1"){ sec.__forceOpen=true; sec.classList.remove("collapsed"); }
+      }
+      sbUpdateStepStates();                     // repaint: clicked chip -> active (gold) + expanded
+      if (sec) sec.scrollIntoView({block:"nearest", behavior:"smooth"});
     });
   });
   // compare controls
@@ -3263,20 +3703,22 @@ if (location.search.indexOf("selftest")>-1){
       "FAIL: a 10000 budget fits the car alone but NOT once the 1200 delivery is added");
 
     // ---- Compare: sbComputeBuild folds delivery+extras+insurance into grand total + 30/70 split ----
+    // legacy extras:{driver:true} (no driverQty field) must mean exactly ONE additional driver (precedence rule)
     var baseCfg = { carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00", branch:"hurghada",
       pickupLoc:"Brothers Office-Hurghada", dropoffLoc:"El Gouna",
       extras:{protection:true, driver:true, childseat:false, gps:false, delivery:false} };
     var cmpDays=daysBetween(baseCfg.from,baseCfg.to); // 4
     var bFull=sbComputeBuild(baseCfg);
-    // car 2500*4=10000; Full Protection = REAL MG ZS 1200/day*4=4800; driver 150*4=600; delivery 1200 -> grand 16600
+    // car 2500*4=10000; Full Protection = REAL MG ZS 1200/day*4=4800; driver (legacy true = qty 1) 250*4=1000; delivery 1200 -> grand 17000
     console.assert(bFull.days===4, "FAIL: compare days should be 4, got "+bFull.days);
     console.assert(bFull.base===10000, "FAIL: compare base should be 10000, got "+bFull.base);
     console.assert(bFull.protFee===4800, "FAIL: Full Protection fee (MG ZS 1200/day*4) should be 4800, got "+bFull.protFee);
-    console.assert(bFull.extrasTot===600, "FAIL: extras (driver) should be 600, got "+bFull.extrasTot);
+    console.assert(bFull.driverQty===1, "FAIL: legacy extras.driver=true should mean driverQty 1, got "+bFull.driverQty);
+    console.assert(bFull.extrasTot===1000, "FAIL: extras (1 driver, 250*4) should be 1000, got "+bFull.extrasTot);
     console.assert(bFull.fee===1200, "FAIL: delivery fee should be 1200, got "+bFull.fee);
-    console.assert(bFull.grand===16600, "FAIL: grand total (car+prot+extras+delivery) should be 16600, got "+bFull.grand);
-    console.assert(bFull.now===Math.round(16600*0.3) && bFull.now===4980, "FAIL: 30%% of 16600 should be 4980, got "+bFull.now);
-    console.assert(bFull.later===16600-bFull.now && bFull.later===11620, "FAIL: 70%% should be 11620, got "+bFull.later);
+    console.assert(bFull.grand===17000, "FAIL: grand total (car+prot+extras+delivery) should be 17000, got "+bFull.grand);
+    console.assert(bFull.now===Math.round(17000*0.3) && bFull.now===5100, "FAIL: 30%% of 17000 should be 5100, got "+bFull.now);
+    console.assert(bFull.later===17000-bFull.now && bFull.later===11900, "FAIL: 70%% should be 11900, got "+bFull.later);
     console.assert(bFull.deposit.indexOf("0")>-1, "FAIL: Full Protection deposit should be EGP 0");
     // same car, Basic (no protection) differs ONLY by the protection fee + the deposit
     var basicCfg = JSON.parse(JSON.stringify(baseCfg)); basicCfg.extras.protection=false;
@@ -3355,12 +3797,12 @@ if (location.search.indexOf("selftest")>-1){
       pickupLoc:"Brothers Office-Hurghada", dropoffLoc:"El Gouna",
       extras:{protection:true, driver:true, childseat:false, gps:false, delivery:false} };
     var r4=sbComputeBuild(r4cfg);
-    // car 2500*4=10000; protection 1200*4=4800; driver 150*4=600; delivery 1200 => grand 16600
-    console.assert(r4.base===10000 && r4.protFee===4800 && r4.extrasTot===600 && r4.fee===1200,
+    // car 2500*4=10000; protection 1200*4=4800; driver (legacy true = qty 1) 250*4=1000; delivery 1200 => grand 17000
+    console.assert(r4.base===10000 && r4.protFee===4800 && r4.extrasTot===1000 && r4.fee===1200,
       "FAIL: R4 line items wrong "+JSON.stringify({base:r4.base,prot:r4.protFee,extras:r4.extrasTot,fee:r4.fee}));
-    console.assert(r4.grand===16600, "FAIL: R4 grand (car+prot+extras+delivery) should be 16600, got "+r4.grand);
-    console.assert(r4.now===Math.round(16600*0.3) && r4.now===4980, "FAIL: 30%% of 16600 should be 4980, got "+r4.now);
-    console.assert(r4.later===16600-r4.now && r4.later===11620, "FAIL: 70%% should be 11620, got "+r4.later);
+    console.assert(r4.grand===17000, "FAIL: R4 grand (car+prot+extras+delivery) should be 17000, got "+r4.grand);
+    console.assert(r4.now===Math.round(17000*0.3) && r4.now===5100, "FAIL: 30%% of 17000 should be 5100, got "+r4.now);
+    console.assert(r4.later===17000-r4.now && r4.later===11900, "FAIL: 70%% should be 11900, got "+r4.later);
 
     /* ======== THIS ITERATION — drop client branch field, derive branch, prominent deposit ======== */
     // (a) NO client-facing branch picker exists in Smart Build step 1, and NO 'Branch' line in the pane
@@ -3496,18 +3938,44 @@ if (location.search.indexOf("selftest")>-1){
     console.assert(tmp.querySelector(".per").textContent.indexOf("/day")>-1,
       "FAIL: car price second line must read /day · varies by rental duration");
 
-    // (8) extras = exactly additional driver + child seat + km packages (plus protection);
+    // (8) extras = exactly additional driver + child seat (plus protection); the old per-day
+    //     km extra is REMOVED (replaced by the real KM_PACKAGES model, tested below).
     //     NO 'gps' extra and NO duplicate selectable 'airport delivery' extra.
     var extraIds=EXTRAS.map(function(e){return e.id;});
     console.assert(extraIds.indexOf("gps")===-1, "FAIL: GPS must be removed from the extras list");
     console.assert(extraIds.indexOf("delivery")===-1, "FAIL: the duplicate airport-delivery extra must be removed (delivery is the real ERP route line)");
-    console.assert(extraIds.indexOf("driver")>-1 && extraIds.indexOf("childseat")>-1 && extraIds.indexOf("km")>-1,
-      "FAIL: extras must offer additional driver + child seat + km package");
-    console.assert(EXTRAS.filter(function(e){return !e.insurance;}).length===3,
-      "FAIL: exactly three selectable (non-protection) extras expected: driver, child seat, km");
+    console.assert(extraIds.indexOf("driver")>-1 && extraIds.indexOf("childseat")>-1,
+      "FAIL: extras must offer additional driver + child seat");
+    console.assert(extraIds.indexOf("km")===-1, "FAIL: the old per-day km extra must be removed");
+    console.assert(EXTRAS.filter(function(e){return !e.insurance;}).length===2,
+      "FAIL: exactly two selectable (non-protection) extras expected: driver, child seat");
     // the real route delivery line still exists as its own pane line (NOT an extra)
     console.assert(!!$("#sbSFeeRow") && $("#sbSFeeRow").textContent.toLowerCase().indexOf("delivery")>-1,
       "FAIL: the delivery line must remain in the reservation pane");
+
+    // (9) REAL ERP KM MODEL — base allowance (free, picks KM/day) + one-time extra package.
+    console.assert(kmAllowed("standard","",7)===840, "FAIL: standard base 120/day × 7 should be 840, got "+kmAllowed("standard","",7));
+    console.assert(kmAllowed("standard","1000_km_extra",7)===1840, "FAIL: 120/day×7 + 1000 extra should be 1840, got "+kmAllowed("standard","1000_km_extra",7));
+    console.assert(kmAllowed("standard200","",7)===1400, "FAIL: standard200 base 200/day × 7 should be 1400, got "+kmAllowed("standard200","",7));
+    console.assert(kmAllowed("standard200","",7)!==kmAllowed("standard","",7), "FAIL: changing the base package must change allowed KM");
+    console.assert(kmAllowed("standard","unlimited",7)===Infinity, "FAIL: the unlimited KM package must have no numeric cap");
+    var kmCfg={carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-08T10:00", pickupLoc:"", dropoffLoc:"", extras:{protection:false}, kmExtra:"1000_km_extra"};
+    var kmB=sbComputeBuild(kmCfg);
+    console.assert(kmB.days===7, "FAIL: km test cfg should span 7 days, got "+kmB.days);
+    console.assert(kmB.kmCost===3200, "FAIL: 1000 KM Extra one-time cost should be 3200, got "+kmB.kmCost);
+    var kmCfgNoExtra=JSON.parse(JSON.stringify(kmCfg)); kmCfgNoExtra.kmExtra="";
+    var kmBNoExtra=sbComputeBuild(kmCfgNoExtra);
+    console.assert(kmBNoExtra.grand===kmB.grand-3200,
+      "FAIL: removing the 1000 KM Extra should drop the grand total by exactly 3200 (one-time, not ×days), got diff "+(kmB.grand-kmBNoExtra.grand));
+    var kmCfgBase200=JSON.parse(JSON.stringify(kmCfg)); kmCfgBase200.kmExtra=""; kmCfgBase200.kmBase="standard200";
+    var kmCfgBaseStd=JSON.parse(JSON.stringify(kmCfg)); kmCfgBaseStd.kmExtra=""; kmCfgBaseStd.kmBase="standard";
+    console.assert(sbComputeBuild(kmCfgBase200).grand===sbComputeBuild(kmCfgBaseStd).grand,
+      "FAIL: changing the base KM package must NOT change price (base cost is always 0)");
+    console.assert(sbComputeBuild(kmCfgBase200).allowedKm!==sbComputeBuild(kmCfgBaseStd).allowedKm,
+      "FAIL: changing the base KM package must change allowed KM");
+    console.assert(kmB.allowedKm===1840, "FAIL: kmCfg allowedKm should be 1840, got "+kmB.allowedKm);
+    var kmCfgUnlimited=JSON.parse(JSON.stringify(kmCfg)); kmCfgUnlimited.kmExtra="unlimited";
+    console.assert(sbComputeBuild(kmCfgUnlimited).allowedKm===Infinity, "FAIL: unlimited KM extra should yield Infinity allowedKm");
 
     // (7) Where & when Edit is a TWO-WAY toggle: a state flag flips both ways
     var step1El=$("#sbStep1"), editBtn=$("#sbTripEdit");
@@ -3521,6 +3989,77 @@ if (location.search.indexOf("selftest")>-1){
     editBtn.click(); // collapse again — the one-way bug this fixes
     console.assert(step1El.__forceOpen===false && step1El.classList.contains("collapsed"),
       "FAIL: Edit must collapse the trip row again (flag -> false) — two-way toggle");
+
+    /* ======== MULTI-DRIVER STEPPER — up to 4 additional drivers, degressive per-day pricing ======== */
+    // (a) the shared helper matches the real ERP rule: 1st=250/day, each further=+150/day, clamp 0..4
+    console.assert(additionalDriverDailyCost(0)===0, "FAIL: 0 drivers should cost 0/day, got "+additionalDriverDailyCost(0));
+    console.assert(additionalDriverDailyCost(1)===250, "FAIL: 1 driver should cost 250/day, got "+additionalDriverDailyCost(1));
+    console.assert(additionalDriverDailyCost(2)===400, "FAIL: 2 drivers should cost 400/day, got "+additionalDriverDailyCost(2));
+    console.assert(additionalDriverDailyCost(3)===550, "FAIL: 3 drivers should cost 550/day, got "+additionalDriverDailyCost(3));
+    console.assert(additionalDriverDailyCost(4)===700, "FAIL: 4 drivers should cost 700/day, got "+additionalDriverDailyCost(4));
+    console.assert(additionalDriverDailyCost(5)===700, "FAIL: driver qty must clamp at 4, got "+additionalDriverDailyCost(5));
+    console.assert(additionalDriverDailyCost(-1)===0, "FAIL: driver qty must clamp at 0, got "+additionalDriverDailyCost(-1));
+
+    // (b) sbComputeBuild: cfg.driverQty (preferred) drives the degressive line total, over 4 days
+    function drvCfg(qty, extras){ return { carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00",
+      pickupLoc:"", dropoffLoc:"", driverQty:qty, extras: extras || {protection:false} }; }
+    var drv0 = sbComputeBuild(drvCfg(0));
+    var drv1 = sbComputeBuild(drvCfg(1));
+    var drv2 = sbComputeBuild(drvCfg(2));
+    var drv4 = sbComputeBuild(drvCfg(4));
+    console.assert(drv0.days===4, "FAIL: driver test cfg should span 4 days, got "+drv0.days);
+    console.assert(drv0.driverQty===0 && drv0.driverFee===0, "FAIL: driverQty 0 should cost 0, got "+drv0.driverFee);
+    console.assert(drv1.driverQty===1 && drv1.driverFee===1000, "FAIL: driverQty 1 x4 days should be 250*4=1000, got "+drv1.driverFee);
+    console.assert(drv2.driverQty===2 && drv2.driverFee===1600, "FAIL: driverQty 2 x4 days should be 400*4=1600, got "+drv2.driverFee);
+    console.assert(drv4.driverQty===4 && drv4.driverFee===2800, "FAIL: driverQty 4 x4 days should be 700*4=2800, got "+drv4.driverFee);
+    // changing qty updates grand + the 30/70 split
+    console.assert(drv2.grand===drv0.grand+1600, "FAIL: driverQty 2 grand should be driverQty-0 grand +1600, got diff "+(drv2.grand-drv0.grand));
+    console.assert(drv4.grand===drv0.grand+2800, "FAIL: driverQty 4 grand should be driverQty-0 grand +2800, got diff "+(drv4.grand-drv0.grand));
+    console.assert(drv2.now===Math.round(drv2.grand*0.3) && drv2.later===drv2.grand-drv2.now,
+      "FAIL: driverQty 2 must still split 30/70 off the new grand total");
+    // a cfg.driverQty of 0 overrides a stale legacy extras.driver=true (driverQty wins when present)
+    var drvPrecedence = sbComputeBuild(drvCfg(0, {protection:false, driver:true}));
+    console.assert(drvPrecedence.driverQty===0 && drvPrecedence.driverFee===0,
+      "FAIL: explicit driverQty must take precedence over legacy extras.driver=true, got qty "+drvPrecedence.driverQty);
+    // legacy extras.driver=true with NO driverQty field means exactly one driver
+    var drvLegacyCfg = { carId:"mg_zs", from:"2026-03-01T10:00", to:"2026-03-05T10:00",
+      pickupLoc:"", dropoffLoc:"", extras:{protection:false, driver:true} };
+    var drvLegacy = sbComputeBuild(drvLegacyCfg);
+    console.assert(drvLegacy.driverQty===1 && drvLegacy.driverFee===1000,
+      "FAIL: legacy extras.driver=true (no driverQty) should mean qty 1, got qty "+drvLegacy.driverQty);
+    // the driver line is surfaced in extraLines with the count + computed total
+    console.assert(drv2.extraLines.some(function(l){ return l.name.indexOf("2")>-1 && l.total===1600; }),
+      "FAIL: extraLines must surface the driver count + total, got "+JSON.stringify(drv2.extraLines));
+
+    // (c) DOM: both the fleet (#extrasList) and Smart Build (#sbExtras) extras areas render a
+    //     0..4 stepper for the driver extra (no checkbox), clamped at the bounds, and update live.
+    renderExtras();
+    var fleetDrvStepper = $('#extrasList [data-driver-stepper]');
+    console.assert(!!fleetDrvStepper, "FAIL: fleet extras area must render a driver stepper");
+    console.assert(fleetDrvStepper.querySelector('[data-driver-val]').textContent==="0",
+      "FAIL: fleet driver stepper should start at 0, got "+fleetDrvStepper.querySelector('[data-driver-val]').textContent);
+    console.assert(fleetDrvStepper.querySelector('[data-driver-dec]').disabled===true,
+      "FAIL: fleet driver stepper decrement must be disabled at 0");
+    fleetDrvStepper.querySelector('[data-driver-inc]').click();
+    console.assert(state.driverQty===1, "FAIL: clicking + on the fleet driver stepper should set state.driverQty to 1, got "+state.driverQty);
+    for (var _i=0;_i<5;_i++) fleetDrvStepper.querySelector('[data-driver-inc]').click();
+    console.assert(state.driverQty===4, "FAIL: fleet driver stepper must clamp at 4, got "+state.driverQty);
+    console.assert($('#extrasList [data-driver-inc]').disabled===true, "FAIL: fleet driver stepper increment must disable at 4");
+    state.driverQty=0; renderExtras();
+
+    sbInit(); sbRenderExtras();
+    var sbDrvStepper = $('#sbExtras [data-driver-stepper]');
+    console.assert(!!sbDrvStepper, "FAIL: Smart Build extras area must render a driver stepper");
+    sbDrvStepper.querySelector('[data-driver-inc]').click();
+    sbDrvStepper.querySelector('[data-driver-inc]').click();
+    console.assert(sb.driverQty===2, "FAIL: clicking + twice on the Smart Build driver stepper should set sb.driverQty to 2, got "+sb.driverQty);
+    sbRecalc();
+    console.assert($("#sbSExtrasLines").textContent.indexOf("2")>-1,
+      "FAIL: the reservation pane extras lines must reflect the driver qty, got "+$("#sbSExtrasLines").textContent);
+    sbDrvStepper.querySelector('[data-driver-dec]').click();
+    sbDrvStepper.querySelector('[data-driver-dec]').click();
+    console.assert(sb.driverQty===0, "FAIL: clicking − twice should bring Smart Build driverQty back to 0, got "+sb.driverQty);
+    console.assert($('#sbExtras [data-driver-dec]').disabled===true, "FAIL: Smart Build driver stepper decrement must disable at 0");
 
     console.log("%c[selftest] Brothers EGY · The Journey — all assertions ran.", "color:#d4a24e;font-weight:bold");
   };
