@@ -511,10 +511,19 @@ footer a:hover{color:var(--gold-2)}
 .tool-head h2{margin:0;font-size:clamp(1.2rem,2.6vw,1.6rem)}
 .tool-head .sub{color:var(--txt-dim);font-size:.84rem;margin-top:2px}
 .tool-head .spacer{flex:1}
+.tool-tabs{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex:none}
+.tool-tab{padding:7px 14px;background:transparent;color:var(--txt-dim);border:none;font-size:.84rem;font-weight:600;cursor:pointer;font-family:inherit}
+.tool-tab.on{background:var(--gold);color:#1a1409}
+@media(max-width:640px){.tool-tab{padding:6px 10px;font-size:.78rem}}
 .tool-body{max-width:1040px;margin-inline:auto;padding:clamp(22px,4vw,44px) clamp(16px,4vw,32px) 90px}
 /* Smart Build is a FULL-WIDTH booking workspace — it must use the whole viewport
    width, not a narrow centred column with big dead side margins. */
 .tool-body.sb-body{max-width:none;margin-inline:0;padding-left:clamp(18px,3vw,44px);padding-right:clamp(18px,3vw,44px)}
+/* Budget is the same kind of full-width left-pane/right-results workspace as Smart Build —
+   it must use the whole viewport width too, otherwise the generic .tool-body max-width:1040px
+   caps both panes regardless of how much real screen space is available (the actual blocker
+   behind "we still have space we can use to extend the cars"). */
+.tool-body.bg-body{max-width:none;margin-inline:0}
 /* Smart Build fills the viewport height: head is compact + static, the body below
    is a flex column whose own car-grid box gets the leftover height (not a thin strip) */
 #toolBuild.tool-overlay{display:none;overflow:hidden}
@@ -851,6 +860,7 @@ html[data-theme="light"] .ct-col .ct-thumb{background:linear-gradient(180deg,#ef
   .bg-pane{overflow-y:visible}
   .bg-results-section{overflow:visible}
   .bud-results{overflow-y:visible}
+  .bg-zone-grid{grid-template-columns:1fr}
   .sb-two{grid-template-columns:1fr;display:block}
   .sb-left{display:block;overflow:visible}
   .sb-pick{display:block}
@@ -887,7 +897,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 #toolBudget .tool-head{position:static;padding:10px clamp(16px,3vw,28px);flex:0 0 auto}
 #toolBudget .tool-head h2{font-size:clamp(1.05rem,2vw,1.3rem)}
 #toolBudget .tool-body.bg-body{flex:1 1 auto;min-height:0;overflow:hidden;display:grid;
-  grid-template-columns:minmax(300px,360px) 1fr;gap:16px;
+  grid-template-columns:minmax(260px,320px) 1fr;gap:16px;
   padding:clamp(10px,1.4vw,16px) clamp(18px,3vw,34px) clamp(12px,1.6vw,18px)}
 .bg-pane{min-width:0;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-right:4px}
 .bg-pane-block{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:14px 16px;flex:0 0 auto}
@@ -903,6 +913,17 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 .bg-slider-minmax{grid-row:2;display:flex;justify-content:space-between;font-size:.72rem;color:var(--txt-mute)}
 .bg-pane-km .bg-slider{grid-row:auto}
 .bg-pane-km .bg-slider-minmax{grid-row:auto;margin-top:4px}
+.bg-km-row{display:flex;align-items:center;gap:10px}
+.bg-km-row .bg-slider{flex:1 1 auto}
+.bg-km-input{width:84px;flex:none;border:1px solid var(--line);background:var(--surface-solid);color:var(--txt);border-radius:10px;padding:6px 8px;font-family:"Fraunces";font-size:.92rem}
+.bg-km-input:focus{outline:none;border-color:var(--gold)}
+/* split-colour KM track: green = included standard allowance, gold = extra paid KM —
+   the inline background gradient (set by bgPaintKmTrack) needs appearance:none to show
+   through on WebKit/Blink; accent-color stays as the fallback on browsers that ignore it. */
+.bg-pane-km #bgKmSlider{-webkit-appearance:none;appearance:none;height:6px;border-radius:6px;background:var(--glass)}
+.bg-pane-km #bgKmSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid var(--surface-solid);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer}
+.bg-pane-km #bgKmSlider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid var(--surface-solid);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer}
+.bg-pane-km #bgKmSlider::-moz-range-track{height:6px;border-radius:6px;background:transparent}
 .bg-km-readout{margin:8px 0 0;font-size:.82rem;color:var(--txt-dim)}
 .bg-presets{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .bg-presets .chipbtn[data-bg-preset]{padding:6px 13px;font-size:.8rem}
@@ -926,7 +947,7 @@ html[data-theme="light"] .bud-card .thumb{background:linear-gradient(180deg,#efe
 .bg-zone h4.fit{color:var(--nile-2)}
 .bg-zone h4.up{color:var(--gold-2)}
 .bg-zone-count{font-size:.74rem;color:var(--txt-mute);font-weight:400}
-.bg-zone-grid{display:flex;flex-direction:column;gap:8px}
+.bg-zone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px;align-content:start}
 .bg-tile{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 10px;flex-wrap:wrap}
 .bg-tile .thumb{width:60px;height:40px;flex:none;display:grid;place-items:center;background:linear-gradient(180deg,#1a160e,#0f0d08);border-radius:8px;overflow:hidden}
 html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6d4,#e3d6bd)}
@@ -945,6 +966,7 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
 .bg-tile .bg-dep.hold{background:rgba(212,162,78,.1);color:var(--gold-2);border:1px solid rgba(212,162,78,.4)}
 @media(max-width:860px){
   .bud-results{grid-template-columns:1fr}
+  .bg-zone-grid{grid-template-columns:1fr}
 }
 
 /* ---- Tool 3: Tour Trip Planner ---- */
@@ -1594,6 +1616,10 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
       <h2 id="buildTitle">Smart Build</h2>
       <div class="sub">The Egyptian brother · build your own quote, see the best-value days as you go</div>
     </div>
+    <div class="tool-tabs" role="tablist" aria-label="Switch tool">
+      <button type="button" class="tool-tab on" data-tool-tab="build" role="tab" aria-selected="true">Smart Build</button>
+      <button type="button" class="tool-tab" data-tool-tab="budget" role="tab" aria-selected="false">Budget</button>
+    </div>
     <span class="spacer"></span>
     <button class="icon-btn" data-tool-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
   </div>
@@ -1766,73 +1792,15 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
       <h2 id="budgetTitle">Budget Calculator</h2>
       <div class="sub">Tell us what you've got — we'll show what it gets you</div>
     </div>
+    <div class="tool-tabs" role="tablist" aria-label="Switch tool">
+      <button type="button" class="tool-tab" data-tool-tab="build" role="tab" aria-selected="false">Smart Build</button>
+      <button type="button" class="tool-tab on" data-tool-tab="budget" role="tab" aria-selected="true">Budget</button>
+    </div>
     <span class="spacer"></span>
     <button class="icon-btn" data-tool-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
   </div>
   <div class="tool-body bg-body">
     <div class="bg-pane">
-      <div class="bg-pane-block bg-pane-budget">
-        <h3>What's your budget?</h3>
-        <p class="hint">Drag the slider or pick a preset — the fleet reacts instantly.</p>
-        <div class="bg-slider-row">
-          <div class="bg-fld" data-req="bgAmount">
-            <label for="bgAmount" class="sr-only">Your budget (EGP, total) <span class="req-star" aria-hidden="true">*</span></label>
-            <div class="bg-amount-wrap">
-              <span class="bg-cur">EGP</span>
-              <input type="number" id="bgAmount" min="0" step="100" placeholder="e.g. 8000">
-            </div>
-            <span class="fld-err">Enter a budget above 0.</span>
-          </div>
-          <input type="range" id="bgSlider" class="bg-slider" min="2000" max="40000" step="500" value="0" aria-label="Budget slider">
-          <div class="bg-slider-minmax"><span id="bgSliderMin">EGP 0</span><span id="bgSliderMax">EGP 0</span></div>
-        </div>
-        <div class="bg-presets" id="bgPresetChips">
-          <button type="button" class="chipbtn" data-bg-preset="5000">5,000</button>
-          <button type="button" class="chipbtn" data-bg-preset="10000">10,000</button>
-          <button type="button" class="chipbtn" data-bg-preset="20000">20,000</button>
-          <button type="button" class="chipbtn" data-bg-preset="40000">40,000</button>
-        </div>
-        <div class="bg-gauge">
-          <div class="bg-gauge-track"><div class="bg-gauge-bar" id="bgGaugeBar"></div></div>
-          <div class="bg-gauge-count" id="bgGaugeCount">Set a budget to see what fits</div>
-        </div>
-      </div>
-
-      <div class="bg-pane-block bg-pane-km">
-        <h3>How many KM do you need?</h3>
-        <p class="hint">We'll auto-pick the cheapest KM package for you — no guesswork.</p>
-        <input type="range" id="bgKmSlider" class="bg-slider" min="0" max="5000" step="100" value="0" aria-label="KM needed slider">
-        <div class="bg-slider-minmax"><span>0 KM</span><span>Unlimited</span></div>
-        <p class="bg-km-readout" id="bgKmReadout">Need 0 KM · within included allowance — no extra</p>
-      </div>
-
-      <div class="bg-pane-block bg-pane-prot">
-        <h3>Protection plan</h3>
-        <p class="hint">Basic keeps a refundable hold; Full Protection drops it to zero.</p>
-        <div class="sb-prot-toggle" id="bgProtToggle" role="group" aria-label="Protection plan">
-          <button type="button" class="sb-prot-opt on" data-bg-prot-opt="basic" aria-pressed="true">
-            <span class="pt-t">Basic</span><span class="pt-s" id="bgProtBasicNote">Free · refundable hold</span>
-          </button>
-          <button type="button" class="sb-prot-opt" data-bg-prot-opt="full" aria-pressed="false">
-            <span class="pt-t">Full Protection</span><span class="pt-s" id="bgProtFullNote">priced per class /day · Security deposit: ZERO</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="bg-pane-block bg-pane-extras">
-        <h3>Extras</h3>
-        <div class="extra extra-driver extra-compact">
-          <span class="ex-main"><b>Additional driver</b><small>Up to 4 drivers.</small></span>
-          <div id="bgDriverStepper"></div>
-          <span class="ex-pr">EGP 250/day first · +150/day each extra</span>
-        </div>
-        <label class="extra extra-compact">
-          <input type="checkbox" id="bgChildseat">
-          <span class="ex-main"><b>Child seat</b><small>Fitted and ready at pickup.</small></span>
-          <span class="ex-pr">EGP 250 /day</span>
-        </label>
-      </div>
-
       <div class="bg-pane-block bg-pane-trip">
         <h3><i class="fa-solid fa-route"></i> Trip details</h3>
         <div class="bg-fld" data-req="bgPickupLoc"><label for="bgPickupLoc">Pick-up location <span class="req-star" aria-hidden="true">*</span></label><select id="bgPickupLoc" aria-label="Pick-up location"></select><span class="fld-err">Choose a pick-up location.</span></div>
@@ -1864,6 +1832,71 @@ html[data-theme="light"] .bg-tile .thumb{background:linear-gradient(180deg,#efe6
           </select>
         </div>
         <p class="mock-note" id="bgFeeNote" hidden><i class="fa-solid fa-route"></i> <span id="bgFeeNoteText"></span></p>
+      </div>
+
+      <div class="bg-pane-block bg-pane-budget">
+        <h3>What's your budget?</h3>
+        <p class="hint">Drag the slider or pick a preset — the fleet reacts instantly.</p>
+        <div class="bg-slider-row">
+          <div class="bg-fld" data-req="bgAmount">
+            <label for="bgAmount" class="sr-only">Your budget (EGP, total) <span class="req-star" aria-hidden="true">*</span></label>
+            <div class="bg-amount-wrap">
+              <span class="bg-cur">EGP</span>
+              <input type="number" id="bgAmount" min="0" step="100" placeholder="e.g. 8000">
+            </div>
+            <span class="fld-err">Enter a budget above 0.</span>
+          </div>
+          <input type="range" id="bgSlider" class="bg-slider" min="2000" max="40000" step="500" value="0" aria-label="Budget slider">
+          <div class="bg-slider-minmax"><span id="bgSliderMin">EGP 0</span><span id="bgSliderMax">EGP 0</span></div>
+        </div>
+        <div class="bg-presets" id="bgPresetChips">
+          <button type="button" class="chipbtn" data-bg-preset="5000">5,000</button>
+          <button type="button" class="chipbtn" data-bg-preset="10000">10,000</button>
+          <button type="button" class="chipbtn" data-bg-preset="20000">20,000</button>
+          <button type="button" class="chipbtn" data-bg-preset="40000">40,000</button>
+        </div>
+        <div class="bg-gauge">
+          <div class="bg-gauge-track"><div class="bg-gauge-bar" id="bgGaugeBar"></div></div>
+          <div class="bg-gauge-count" id="bgGaugeCount">Set a budget to see what fits</div>
+        </div>
+      </div>
+
+      <div class="bg-pane-block bg-pane-km">
+        <h3>How many KM do you need?</h3>
+        <p class="hint">We'll auto-pick the cheapest KM package for you — no guesswork.</p>
+        <div class="bg-km-row">
+          <input type="range" id="bgKmSlider" class="bg-slider" min="0" max="5000" step="100" value="0" aria-label="KM needed slider">
+          <input type="number" id="bgKmInput" class="bg-km-input" min="0" max="5000" step="100" value="0" aria-label="KM needed (type)">
+        </div>
+        <div class="bg-slider-minmax"><span>0 KM</span><span>Unlimited</span></div>
+        <p class="bg-km-readout" id="bgKmReadout">Need 0 KM · within included allowance — no extra</p>
+      </div>
+
+      <div class="bg-pane-block bg-pane-prot">
+        <h3>Protection plan</h3>
+        <p class="hint">Basic keeps a refundable hold; Full Protection drops it to zero.</p>
+        <div class="sb-prot-toggle" id="bgProtToggle" role="group" aria-label="Protection plan">
+          <button type="button" class="sb-prot-opt on" data-bg-prot-opt="basic" aria-pressed="true">
+            <span class="pt-t">Basic</span><span class="pt-s" id="bgProtBasicNote">Free · refundable hold</span>
+          </button>
+          <button type="button" class="sb-prot-opt" data-bg-prot-opt="full" aria-pressed="false">
+            <span class="pt-t">Full Protection</span><span class="pt-s" id="bgProtFullNote">priced per class /day · Security deposit: ZERO</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-pane-block bg-pane-extras">
+        <h3>Extras</h3>
+        <div class="extra extra-driver extra-compact">
+          <span class="ex-main"><b>Additional driver</b><small>Up to 4 drivers.</small></span>
+          <div id="bgDriverStepper"></div>
+          <span class="ex-pr">EGP 250/day first · +150/day each extra</span>
+        </div>
+        <label class="extra extra-compact">
+          <input type="checkbox" id="bgChildseat">
+          <span class="ex-main"><b>Child seat</b><small>Fitted and ready at pickup.</small></span>
+          <span class="ex-pr">EGP 250 /day</span>
+        </label>
       </div>
     </div>
 
@@ -2706,10 +2739,19 @@ function reserve(){
 var TOOL_IDS = {build:"toolBuild", budget:"toolBudget", planner:"toolPlanner"};
 var activeTool = null;
 var toolLastFocus = null;
+/* set TRUE only by the top tab switcher (click handler) right before it flushes the current
+   tool's DOM into sb and flips the hash — tells bgInit() this open is a lossless tool-switch,
+   not a fresh Book-now/hero-search open, so it may pre-fill from sb. Cleared at the end of
+   bgInit()/sbInit() so a later normal open (e.g. re-opening from the nav) still starts fresh. */
+var switchingTools = false;
 
 function openTool(key){
   var el = document.getElementById(TOOL_IDS[key]);
   if (!el) return;
+  // re-entrant guard: if this tool is already the active one and already open, a repeat
+  // route (e.g. a duplicate hashchange dispatch) must NOT re-run *Init() — that would wipe
+  // a just-carried tab-switch selection the instant it was reflected into the DOM.
+  if (activeTool===key && el.classList.contains("open")) return;
   if (activeTool && activeTool!==key) closeToolEl(document.getElementById(TOOL_IDS[activeTool]), true);
   toolLastFocus = document.activeElement;
   el.hidden = false;
@@ -2719,6 +2761,11 @@ function openTool(key){
   if (key==="build"){ sbInit(); var rb=$("#resvBar"); if(rb){ rb.hidden=false; rb.classList.add("show"); } }
   if (key==="budget") bgInit();
   if (key==="planner") tpInit();
+  // reflect the active tool on BOTH overlays' tab switchers (each has its own copy of the pair)
+  $all("[data-tool-tab]").forEach(function(btn){
+    var on = btn.getAttribute("data-tool-tab")===key;
+    btn.classList.toggle("on", on); btn.setAttribute("aria-selected", on?"true":"false");
+  });
   setTimeout(function(){ var f=el.querySelector("[data-tool-close]"); if(f) f.focus(); },50);
 }
 function closeToolEl(el, skipHash){
@@ -2825,7 +2872,7 @@ function initChoicePopup(){
    smart nudge toward the best-value rental length.
    ============================================================ */
 var sb = { branch:"hurghada", from:"", to:"", carId:null, pickupLoc:"", dropoffLoc:"", type:"all",
-  kmBase:"standard200", kmExtra:"", driverQty:0,
+  kmBase:"standard200", kmExtra:"", driverQty:0, budget:null,
   extras: EXTRAS.reduce(function(o,e){o[e.id]=e.checked;return o;},{}) };
 sb.extras.protection = null; // protection is UNCHOSEN by default — the client must pick Basic or Full (that completes step 3)
 
@@ -2886,6 +2933,15 @@ function sbInit(){
   sbRenderCars();
   sbRenderExtras();
   sbRecalc();
+  switchingTools = false;
+}
+/* flush the live Smart Build DOM into the shared sb selection, right before switching to
+   Budget. sb IS the live store Smart Build's own handlers already write on every change, so
+   this just makes sure the trip fields are current and seeds sb.budget only if still unset
+   (never invents/overwrites a budget the user already set this session). */
+function sbCollectState(){
+  sb.from=$("#sbFrom").value; sb.to=$("#sbTo").value;
+  sb.pickupLoc=$("#sbPickupLoc").value; sb.dropoffLoc=$("#sbDropoffLoc").value;
 }
 function sbRenderCars(){
   var grid=$("#sbCars"); grid.innerHTML="";
@@ -3564,6 +3620,18 @@ function bgPickKmExtra(neededKm, days){
   var unl = kmExtraById("unlimited");
   return {kmExtra:"unlimited", kmCost:unl.cost, kmLabel:"Unlimited KM — "+money(unl.cost)};
 }
+/* split-colour KM track: paint #bgKmSlider's background as a gradient where the portion up to
+   the STANDARD included allowance (200/day × days) is green and the remainder (paid extra KM)
+   is gold. Purely visual — never changes bgState.kmNeeded/kmExtra or any computed total. */
+function bgPaintKmTrack(days){
+  var kmSliderEl=$("#bgKmSlider");
+  if (!kmSliderEl) return;
+  days = Math.max(1, parseInt(days,10) || 1);
+  var included = (kmBaseById("standard200").basePerDay) * days;
+  var maxRange = parseFloat(kmSliderEl.max) || 5000;
+  var splitPct = Math.max(0, Math.min(100, (included/maxRange)*100));
+  kmSliderEl.style.background = "linear-gradient(90deg, var(--nile-2) 0, var(--nile-2) "+splitPct+"%, var(--gold) "+splitPct+"%, var(--gold) 100%)";
+}
 function bgMarkField(fldId, ok){
   var fld = document.querySelector('#toolBudget .bg-fld[data-req="'+fldId+'"]');
   if (!fld) return;
@@ -3662,12 +3730,22 @@ function bgInit(){
     if (pIn) pIn.placeholder="e.g. Cairo International Airport";
     if (dIn) dIn.placeholder="e.g. El Gouna";
   }
+  // a tool-tab switch (switchingTools===true) is the ONLY case where a session sb selection
+  // pre-fills Budget on open — a fresh Book-now/hero-search open always starts from heroTrip
+  // or empty, even though sb may still carry a stale selection from an earlier visit.
+  var fromToolSwitch = switchingTools;
   if (heroTrip){
     // pre-filled from a validated hero search — reflect the SAME trip Smart Build gets
     pSel.value=heroTrip.pickupLoc||""; dSel.value=heroTrip.dropoffLoc||"";
     $("#bgFrom").value=heroTrip.from||""; $("#bgTo").value=heroTrip.to||"";
     $("#bgType").value=heroTrip.type||"all";
     $("#bgBranch").value = heroTrip.pickupLoc ? branchForLocation(heroTrip.pickupLoc) : "all";
+  } else if (fromToolSwitch){
+    // SMART BUILD -> BUDGET: carry the trip + resolved KM package from the shared sb selection.
+    pSel.value=sb.pickupLoc||""; dSel.value=sb.dropoffLoc||"";
+    $("#bgFrom").value=sb.from||""; $("#bgTo").value=sb.to||"";
+    $("#bgType").value=sb.type||"all";
+    $("#bgBranch").value = sb.pickupLoc ? branchForLocation(sb.pickupLoc) : "all";
   } else {
     // Book-now (no trip) — START EMPTY, no invented defaults; placeholders read as examples only.
     pSel.value=""; dSel.value="";
@@ -3675,16 +3753,24 @@ function bgInit(){
     $("#bgAmount").value=""; $("#bgType").value="all"; $("#bgBranch").value="all";
   }
   comboReflect(pSel); comboReflect(dSel);
-  // reset the configurator state to its defaults every time the tool opens
-  bgState.protection=false; bgState.driverQty=0; bgState.childseat=false;
-  bgState.kmNeeded=0; bgState.kmBase="standard200"; bgState.sameLoc=false;
-  $("#bgKmSlider").value=0;
+  // reset the configurator state to its defaults every time the tool opens — unless carrying
+  // a shared selection in from a tool switch, in which case reflect sb's resolved choices
+  if (fromToolSwitch){
+    bgState.protection = sb.extras.protection===true;
+    bgState.driverQty = sb.driverQty||0;
+    bgState.childseat = !!sb.extras.childseat;
+    bgState.kmBase="standard200"; bgState.sameLoc = (!!sb.pickupLoc && sb.pickupLoc===sb.dropoffLoc);
+  } else {
+    bgState.protection=false; bgState.driverQty=0; bgState.childseat=false;
+    bgState.kmNeeded=0; bgState.kmBase="standard200"; bgState.sameLoc=false;
+  }
+  $("#bgKmSlider").value=0; $("#bgKmInput").value=0;
   $all('[data-bg-prot-opt]', $("#bgProtToggle")).forEach(function(b){
-    var isBasic=b.getAttribute("data-bg-prot-opt")==="basic";
+    var isBasic=b.getAttribute("data-bg-prot-opt")===(bgState.protection?"full":"basic");
     b.classList.toggle("on", isBasic); b.setAttribute("aria-pressed", isBasic?"true":"false");
   });
-  $("#bgChildseat").checked=false;
-  $("#bgSameLoc").checked=false; dSel.disabled=false;
+  $("#bgChildseat").checked=bgState.childseat;
+  $("#bgSameLoc").checked=bgState.sameLoc; dSel.disabled=bgState.sameLoc;
   var driverStepperEl=$("#bgDriverStepper");
   driverStepperEl.innerHTML = driverStepperHTML(bgState.driverQty);
   wireDriverStepper(driverStepperEl, function(){ return bgState.driverQty; }, function(v){ bgState.driverQty=v; }, bgRecalc);
@@ -3692,10 +3778,52 @@ function bgInit(){
   $("#toolBudget").classList.remove("bg-tried");
   bgApplySliderRange();
   var slider=$("#bgSlider");
-  if ($("#bgAmount").value){ slider.value = Math.min(Math.max(parseFloat($("#bgAmount").value), parseFloat(slider.min)), parseFloat(slider.max)); }
+  if (fromToolSwitch && sb.budget!=null){
+    slider.value = Math.min(Math.max(sb.budget, parseFloat(slider.min)), parseFloat(slider.max));
+    $("#bgAmount").value = slider.value;
+  } else if (fromToolSwitch && sb.carId){
+    // sensible default: seed near the carried build's grand total (don't invent a budget
+    // when nothing is carried, and never overwrite an sb.budget the user already set)
+    var seedDays = daysBetween($("#bgFrom").value, $("#bgTo").value) || 3;
+    var seedBuild = sbComputeBuild({carId:sb.carId, from:sb.from, to:sb.to, pickupLoc:sb.pickupLoc, dropoffLoc:sb.dropoffLoc,
+      kmBase:"standard200", kmExtra:sb.kmExtra, driverQty:sb.driverQty,
+      extras:{protection:sb.extras.protection, childseat:sb.extras.childseat}});
+    var seedVal = Math.round(seedBuild.grand/500)*500;
+    slider.value = Math.min(Math.max(seedVal, parseFloat(slider.min)), parseFloat(slider.max));
+    $("#bgAmount").value = slider.value;
+    sb.budget = parseFloat(slider.value);
+  } else if ($("#bgAmount").value){ slider.value = Math.min(Math.max(parseFloat($("#bgAmount").value), parseFloat(slider.min)), parseFloat(slider.max)); }
   else { slider.value = slider.min; }
+  // KM carry (Smart Build -> Budget): represent sb's RESOLVED package as the slider POSITION —
+  // the "needed" number itself is unimportant here, it's purely visual.
+  if (fromToolSwitch){
+    var kmDays = daysBetween($("#bgFrom").value, $("#bgTo").value) || 3;
+    var kmSliderEl2=$("#bgKmSlider"), kmMax2=parseFloat(kmSliderEl2.max)||5000;
+    if (sb.kmExtra==="unlimited"){
+      kmSliderEl2.value = kmMax2;
+    } else {
+      var totalKm = kmAllowed("standard200", sb.kmExtra, kmDays);
+      kmSliderEl2.value = Math.min(Math.max(totalKm, 0), kmMax2);
+    }
+    $("#bgKmInput").value = kmSliderEl2.value;
+  }
   var cnt=$("#bgGaugeCount"); if (cnt && !cnt.__bgSetText){ cnt.__bgSetText=function(n){ this.textContent = n+" of "+FLEET.length+" cars fit"; }; }
   bgRecalc();
+  switchingTools = false;
+}
+/* flush the live Budget DOM into the shared sb selection, right before switching to Smart
+   Build (or any time the current Budget values need to be the source of truth for sb). */
+function bgCollectState(){
+  var pickup=$("#bgPickupLoc").value, dropoff=$("#bgDropoffLoc").value;
+  sb.from=$("#bgFrom").value; sb.to=$("#bgTo").value;
+  sb.pickupLoc=pickup; sb.dropoffLoc=dropoff;
+  sb.type=$("#bgType").value;
+  sb.branch = pickup ? branchForLocation(pickup) : $("#bgBranch").value;
+  sb.kmBase="standard200"; sb.kmExtra=bgState.kmExtra;
+  sb.driverQty=bgState.driverQty;
+  sb.extras.protection=bgState.protection; sb.extras.childseat=bgState.childseat;
+  var amt=parseFloat($("#bgAmount").value);
+  sb.budget = (amt && amt>0) ? amt : sb.budget;
 }
 function bgRecalc(){
   bgValidate();
@@ -3734,7 +3862,13 @@ function bgRecalc(){
     km=bgPickKmExtra(bgState.kmNeeded, days);
   }
   bgState.kmExtra=km.kmExtra;
-  $("#bgKmReadout").textContent = atUnlimitedStop ? km.kmLabel : ("Need "+bgState.kmNeeded.toLocaleString("en-US")+" KM · "+km.kmLabel);
+  var kmInputEl=$("#bgKmInput"); if (kmInputEl && document.activeElement!==kmInputEl) kmInputEl.value=kmSliderEl.value;
+  // live "Selected: N KM" readout of the currently-dragged total, ahead of the existing
+  // "included + package = cost" explanation (uses the shared kmAllowed, no forked math)
+  var selectedTotal = atUnlimitedStop ? Infinity : kmAllowed("standard200", bgState.kmExtra, days);
+  var selectedLabel = (selectedTotal===Infinity) ? "Unlimited" : (selectedTotal.toLocaleString("en-US")+" KM");
+  $("#bgKmReadout").textContent = "Selected: "+selectedLabel+" · "+(atUnlimitedStop ? km.kmLabel : ("Need "+bgState.kmNeeded.toLocaleString("en-US")+" KM · "+km.kmLabel));
+  bgPaintKmTrack(days);
 
   var pool = FLEET.filter(function(c){
     return (branch==="all"||c.branches.indexOf(branch)>-1) && (type==="all"||c.type===type);
@@ -4472,6 +4606,15 @@ function wire(){
   // KM-needed slider: live re-render on every drag; the far-end stop reads as "Unlimited" (handled in bgRecalc)
   $("#bgKmSlider").addEventListener("input", function(){
     $("#toolBudget").classList.add("bg-tried");
+    bgRecalc(); // also syncs #bgKmInput from the slider value
+  });
+  // type-in KM companion — same two-way-sync pattern as #bgSlider <-> #bgAmount: typing a
+  // number clamps to the slider's range and drives the slider (which then drives bgRecalc).
+  $("#bgKmInput").addEventListener("input", function(){
+    var slider=$("#bgKmSlider");
+    var v=Math.min(Math.max(parseFloat(this.value)||0, parseFloat(slider.min)), parseFloat(slider.max));
+    slider.value=v;
+    $("#toolBudget").classList.add("bg-tried");
     bgRecalc();
   });
   // Basic/Full protection toggle — mirrors Smart Build's sb-prot-opt pattern, drives bgState.protection
@@ -4507,6 +4650,18 @@ function wire(){
   });
   $("#bgDropoffLoc").addEventListener("change", function(){
     if (this.value!==$("#bgPickupLoc").value){ $("#bgSameLoc").checked=false; this.disabled=false; }
+  });
+
+  // ---- top tab switcher: Smart Build <-> Budget, instant + lossless via the shared sb selection ----
+  $all("[data-tool-tab]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var target=this.getAttribute("data-tool-tab");
+      if (target===activeTool) return;
+      if (activeTool==="budget") bgCollectState();
+      else if (activeTool==="build") sbCollectState();
+      switchingTools = true;
+      location.hash = target;
+    });
   });
 
   // ---- Tool 3: Tour Trip Planner ----
